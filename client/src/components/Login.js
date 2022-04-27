@@ -1,9 +1,11 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
+import { Link as RouterLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 
 import googleIcon from "../images/google.png";
 
@@ -25,6 +27,7 @@ export default function Login() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
       }}
     >
       <Box>
@@ -38,6 +41,19 @@ export default function Login() {
           Login with Google
         </LoginButton>
       </Box>
+      <Link
+        sx={{
+          fontFamily: "default",
+          fontWeight: "bold",
+          fontSize: "13px",
+          marginTop: "30px",
+        }}
+        component={RouterLink}
+        to="/"
+        underline="none"
+      >
+        Back to Home
+      </Link>
     </main>
   );
 }

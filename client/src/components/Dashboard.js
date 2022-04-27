@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 export default function Dashboard() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -27,6 +28,17 @@ export default function Dashboard() {
     })();
   }, []);
 
+  const logout = async () => {
+    try {
+      await axios.get(SERVER_URL + "/auth/google/logout", {
+        withCredentials: true,
+      });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <main>
       <Stack direction="row" spacing={2} alignItems="center">
@@ -37,6 +49,9 @@ export default function Dashboard() {
         <p>
           {user.firstname} {user.lastname}
         </p>
+        <Button onClick={logout} variant="contained" color="error">
+          logout
+        </Button>
       </Stack>
     </main>
   );

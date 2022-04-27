@@ -10,6 +10,8 @@ import Link from "@mui/material/Link";
 import googleIcon from "../images/google.png";
 
 export default function Login() {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
   const LoginButton = styled(Button)(({ theme }) => ({
     textTransform: "none",
     color: "black",
@@ -18,6 +20,10 @@ export default function Login() {
     padding: "10px 87px",
     marginTop: "30px",
   }));
+
+  const login = () => {
+    window.open(SERVER_URL + "/auth/google", "_self");
+  };
 
   return (
     <main
@@ -37,6 +43,7 @@ export default function Login() {
         <LoginButton
           variant="outlined"
           startIcon={<img src={googleIcon} alt="" />}
+          onClick={login}
         >
           Login with Google
         </LoginButton>

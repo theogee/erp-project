@@ -11,7 +11,8 @@ router.get(
 router.get(
   "/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google/failure" }),
-  (req, res) => res.redirect("/auth/google/success")
+  (req, res) =>
+    res.redirect(process.env.CLIENT_OAUTH_CALLBACK_URL + "/dashboard")
 );
 
 router.get("/success", (req, res) => {

@@ -6,12 +6,18 @@ const passport = require("passport");
 
 const sessionConf = require("./conf/session.conf");
 require("./conf/passport.conf");
+const corsConf = require("./conf/cors.conf");
 
 const authRouter = require("./routes/auth.router");
+const userRouter = require("./routes/user.router");
+
+const { isAuth } = require("./middleware");
 
 const app = express();
 
 app.use(morgan("dev"));
+
+app.use(corsConf);
 
 // express-session middleware
 app.use(sessionConf);
@@ -21,8 +27,7 @@ app.use(passport.session());
 
 app.use("/auth/google", authRouter);
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+// protected routes
+app.use("/api/user", isAuth, userRouter);
 
 app.listen(5000, () => console.log("http://localhost:5000"));

@@ -7,6 +7,8 @@ import "./index.css";
 import App from "./App";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Unauthorized from "./components/Unauthorized";
 
 const rootElement = document.getElementById("root");
 
@@ -15,6 +17,8 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>,

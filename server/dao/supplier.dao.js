@@ -2,7 +2,7 @@ const pool = require("./pool");
 
 module.exports = {
   updateSupplier: async (params) => {
-    const { name, address, telp, businessID, supplierID } = params;
+    const { name, address, telp, businessID, supplierID, userID } = params;
 
     let i = 1;
 
@@ -26,30 +26,36 @@ module.exports = {
     let arrParam = [];
 
     if (name) {
-      sqlParam.push(`name = $${i++}`);
+      sqlParam.push(`s.name = $${i++}`);
       arrParam.push(name);
     }
 
     if (address) {
-      sqlParam.push(`address = $${i++}`);
+      sqlParam.push(`s.address = $${i++}`);
       arrParam.push(address);
     }
 
     if (telp) {
-      sqlParam.push(`telp = $${i++}`);
+      sqlParam.push(`s.telp = $${i++}`);
       arrParam.push(telp);
     }
 
     const sql = `
-    UPDATE supplier SET
+    UPDATE supplier s SET
     ${sqlParam.join(", ")}
-    WHERE supplier_id = $${i++} AND business_id = $${i++}
+    FROM business b
+    WHERE s.supplier_id = $${i++} AND s.business_id = $${i++} AND s.business_id = b.business_id AND b.user_id = ${i++}
     `;
 
     console.log(sql);
 
     try {
-      return await pool.query(sql, [...arrParam, supplierID, businessID]);
+      return await pool.query(sql, [
+        ...arrParam,
+        supplierID,
+        businessID,
+        userID,
+      ]);
     } catch (err) {
       throw err;
     }

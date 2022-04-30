@@ -8,6 +8,7 @@ module.exports = {
     const params = {
       ...req.body,
       supplierID: req.params.supplierID,
+      userID: req.user.user_id,
     };
     try {
       const result = await dao.updateSupplier(params);

@@ -3,15 +3,7 @@ const { isMobilePhone } = require("validator");
 
 module.exports = {
   updateSupplier: async (req, res) => {
-    // console.log(req.body);
-    // console.log(req.params);
     const { telp } = req.body;
-
-    const params = {
-      ...req.body,
-      supplierID: req.params.supplierID,
-      userID: req.user.user_id,
-    };
 
     if (telp && !isMobilePhone(telp, "id-ID")) {
       return res.status(400).json({
@@ -20,13 +12,19 @@ module.exports = {
       });
     }
 
+    const params = {
+      ...req.body,
+      supplierID: req.params.supplierID,
+      userID: req.user.user_id,
+    };
+
     try {
       const { rowCount, rows } = await dao.updateSupplier(params);
 
       if (rowCount === 0)
-        return res.status(401).json({
+        return res.status(404).json({
           success: false,
-          msg: "You are not authorized to access the resource",
+          msg: "Resource not found",
         });
 
       res.status(200).json({ success: true, data: rows[0] });

@@ -26,17 +26,17 @@ module.exports = {
     let arrParam = [];
 
     if (name) {
-      sqlParam.push(`s.name = $${i++}`);
+      sqlParam.push(`name = $${i++}`);
       arrParam.push(name);
     }
 
     if (address) {
-      sqlParam.push(`s.address = $${i++}`);
+      sqlParam.push(`address = $${i++}`);
       arrParam.push(address);
     }
 
     if (telp) {
-      sqlParam.push(`s.telp = $${i++}`);
+      sqlParam.push(`telp = $${i++}`);
       arrParam.push(telp);
     }
 
@@ -44,8 +44,8 @@ module.exports = {
     UPDATE supplier s SET
     ${sqlParam.join(", ")}
     FROM business b
-    WHERE s.supplier_id = $${i++} AND s.business_id = $${i++} AND s.business_id = b.business_id AND b.user_id = ${i++}
-    `;
+    WHERE s.supplier_id = $${i++} AND s.business_id = $${i++} AND s.business_id = b.business_id AND b.user_id = $${i++}
+    RETURNING s.*`;
 
     console.log(sql);
 

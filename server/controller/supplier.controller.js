@@ -8,7 +8,7 @@ module.exports = {
     if (telp && !isMobilePhone(telp, "id-ID")) {
       return res.status(400).json({
         success: false,
-        msg: "incorrect phone number format",
+        msg: "Incorrect phone number format",
       });
     }
 
@@ -28,6 +28,25 @@ module.exports = {
         });
 
       res.status(200).json({ success: true, data: rows[0] });
+    } catch (err) {
+      res.status(500).json({ success: false, msg: err });
+    }
+  },
+  deleteSupplier: async (req, res) => {
+    const params = {
+      userID: req.user.user_id,
+      supplierID: req.params.supplierID,
+    };
+
+    try {
+      const { rowCount, rows } = await dao.deleteSupplier(params);
+      if (rowCount === 0) {
+        return res
+          .status(404)
+          .json({ success: false, msg: "Resource not found" });
+      }
+
+      res.status(200).json({ success: true, deletedData: rows[0] });
     } catch (err) {
       res.status(500).json({ success: false, msg: err });
     }

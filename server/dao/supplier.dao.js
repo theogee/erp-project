@@ -60,4 +60,19 @@ module.exports = {
       throw err;
     }
   },
+  deleteSupplier: async (params) => {
+    const { userID, supplierID } = params;
+
+    const sql = `
+    DELETE FROM supplier s
+    USING business b
+    WHERE s.business_id = b.business_id AND b.user_id = $1 AND s.supplier_id = $2
+    RETURNING s.*`;
+
+    try {
+      return await pool.query(sql, [userID, supplierID]);
+    } catch (err) {
+      throw err;
+    }
+  },
 };

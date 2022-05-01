@@ -2,7 +2,7 @@ const pool = require("./pool");
 
 module.exports = {
   updateSupplier: async (params) => {
-    const { name, address, telp, businessID, supplierID, userID } = params;
+    const { name, address, telp, supplierID, userID } = params;
 
     let i = 1;
 
@@ -44,18 +44,13 @@ module.exports = {
     UPDATE supplier s SET
     ${sqlParam.join(", ")}
     FROM business b
-    WHERE s.supplier_id = $${i++} AND s.business_id = $${i++} AND s.business_id = b.business_id AND b.user_id = $${i++}
+    WHERE s.supplier_id = $${i++} AND s.business_id = b.business_id AND b.user_id = $${i++}
     RETURNING s.*`;
 
     console.log(sql);
 
     try {
-      return await pool.query(sql, [
-        ...arrParam,
-        supplierID,
-        businessID,
-        userID,
-      ]);
+      return await pool.query(sql, [...arrParam, supplierID, userID]);
     } catch (err) {
       throw err;
     }

@@ -16,9 +16,11 @@
     "express": "^4.18.0",
     "express-session": "^1.17.2",
     "ioredis": "^5.0.4",
+    "nodemon": "^2.0.16",
     "passport": "^0.5.2",
     "passport-google-oauth20": "^2.0.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"

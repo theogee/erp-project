@@ -1,8 +1,3 @@
--- v0.1.1
--- changed users.user_id type from int to varchar(21)
--- changed primary keys from int to serial
--- changed users.email type from varchar(30) to varchar
-
 create table users (
 	user_id varchar(21) not null primary key,
 	email varchar not null,
@@ -30,6 +25,7 @@ create table material (
 	material_id serial primary key,
 	business_id int not null,
 	measurement_id int not null,
+	name varchar not null,
 	safety_stock_qty int,
 	constraint fk_business
 		foreign key(business_id)

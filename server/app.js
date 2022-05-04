@@ -3,8 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const passport = require("passport");
-const bodyParser = require('body-parser')
-
 
 const sessionConf = require("./conf/session.conf");
 require("./conf/passport.conf");
@@ -19,8 +17,6 @@ const { isAuth } = require("./middleware");
 const app = express();
 
 app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 app.use(corsConf);
 // parse body middleware
 app.use(express.json());

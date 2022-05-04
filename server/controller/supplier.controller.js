@@ -27,7 +27,7 @@ module.exports = {
           msg: "Resource not found",
         });
 
-      res.status(200).json({ success: true, data: rows[0] });
+      res.status(200).json({ success: true, updatedData: rows[0] });
     } catch (err) {
       res.status(500).json({ success: false, msg: err });
     }

@@ -7,10 +7,10 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.getSupplier(req.body.businessID);
 
-      if (rowCount === 0) tmplt.res404("Resource not found", res);
-      tmplt.res200payload(rows, res);
+      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      return tmplt.res200payload(rows, res);
     } catch (err) {
-      tmplt.res500(err, res);
+      return tmplt.res500(err, res);
     }
   },
   getSupplierParams: async (req, res) => {
@@ -19,27 +19,29 @@ module.exports = {
         supplierID: req.params.supplierID,
       });
 
-      if (rowCount === 0) tmplt.res404("Resource not found", res);
-      tmplt.res200payload(rows, res);
+      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      return tmplt.res200payload(rows, res);
     } catch (err) {
-      tmplt.res500(err, res);
+      return tmplt.res500(err, res);
     }
   },
   postSupplier: async (req, res) => {
     try {
+      // Kalo mau kirim ack doang, rows-nya mending di-omit aja ya.
+      // Kecuali ack-nya berupa data yang baru dibuat.
       const { rowCount, rows } = await dao.postSupplier(req.body);
 
-      if (rowCount === 0) tmplt.res404("Resource not found", res);
-      tmplt.res200msg("New entry inserted successfully!", res);
+      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      return tmplt.res200msg("New entry inserted successfully!", res);
     } catch (err) {
-      tmplt.res500(err, res);
+      return tmplt.res500(err, res);
     }
   },
   updateSupplier: async (req, res) => {
     const { telp } = req.body;
 
     if (telp && !isMobilePhone(telp, "id-ID"))
-      tmplt.res400("Incorrect phone number format", res);
+      return tmplt.res400("Incorrect phone number format", res);
 
     const params = {
       ...req.body,
@@ -50,10 +52,10 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.updateSupplier(params);
 
-      if (rowCount === 0) tmplt.res404("Resource not found", res);
-      tmplt.res200payload(rows[0], res);
+      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      return tmplt.res200msg("New entry updated successfully!", res);
     } catch (err) {
-      tmplt.res500(err, res);
+      return tmplt.res500(err, res);
     }
   },
   deleteSupplier: async (req, res) => {
@@ -65,10 +67,10 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.deleteSupplier(params);
 
-      if (rowCount === 0) tmplt.res404("Resource not found", res);
-      tmplt.res200payload(rows[0], res);
+      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      return tmplt.res200msg("Entry deleted successfully!", res);
     } catch (err) {
-      tmplt.res500(err, res);
+      return tmplt.res500(err, res);
     }
   },
 };

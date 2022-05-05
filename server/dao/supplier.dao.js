@@ -1,18 +1,19 @@
 const pool = require("./pool");
 
 module.exports = {
-	getSupplier: async () => {
+	getSupplier: async (businessID) => {
     const sql = `
     SELECT *
-    FROM supplier s`;
+    FROM supplier s
+    WHERE business_id = $1`;
 
     try {
-			return await pool.query(sql);
+			return await pool.query(sql,[businessID]);
 		} catch (err) {
 			throw err;
 		}
   },
-	getSupplierWithQuery: async (params) => {
+	getSupplierParams: async (params) => {
 
     const { supplierID } = params;
 

@@ -14,6 +14,17 @@ module.exports = {
       throw err;
     }
   },
+  getBatchesByID: async (params) => {
+    try {
+      const { batchID } = params;
+
+      const sql = "SELECT * FROM batches WHERE batch_id = $1";
+
+      return await pool.query(sql, [batchID]);
+    } catch (err) {
+      throw err;
+    }
+  },
   postBatches: async (params) => {
     try {
       const sql =

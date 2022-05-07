@@ -15,6 +15,19 @@ module.exports = {
       t.res500(err, res);
     }
   },
+  getBatchesByID: async (req, res) => {
+    try {
+      const { rowCount, rows } = await dao.getBatches({
+        batchID: req.params.batchID,
+      });
+
+      if (rowCount === 0) return t.res404("Resource not found", res);
+
+      t.res200payload(rows, res);
+    } catch (err) {
+      t.res500(err, res);
+    }
+  },
   postBatches: async (req, res) => {
     try {
       // missing availability check

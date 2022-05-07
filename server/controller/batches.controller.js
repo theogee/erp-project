@@ -44,4 +44,20 @@ module.exports = {
       t.res500(err, res);
     }
   },
+  deleteBatches: async (req, res) => {
+    try {
+      const params = {
+        userID: req.user.user_id,
+        batchID: req.params.batchID,
+      };
+
+      const { rowCount, rows } = await dao.deleteBatches(params);
+
+      if (rowCount === 0) return t.res404("Resource not found", res);
+
+      t.res200payload(rows[0], res);
+    } catch (err) {
+      t.res500(err, res);
+    }
+  },
 };

@@ -101,4 +101,19 @@ module.exports = {
       throw err;
     }
   },
+  deleteBatches: async (params) => {
+    try {
+      const { batchID, userID } = params;
+
+      const sql = `
+      DELETE FROM batches bt
+      USING material m, business bs
+      WHERE bt.batch_id = $1 AND bt.material_id = m.material_id AND m.business_id = bs.business_id AND bs.user_id = $2
+      RETURNING bt.*`;
+
+      return await pool.query(sql, [batchID, userID]);
+    } catch (err) {
+      throw err;
+    }
+  },
 };

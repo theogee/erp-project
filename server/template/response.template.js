@@ -5,12 +5,9 @@ module.exports = {
   res200payload: (payload, res) => {
     res.status(200).json({ success: true, data: payload });
   },
-<<<<<<< HEAD
-=======
   res201payload: (payload, res) => {
     res.status(201).json({ success: true, data: payload });
   },
->>>>>>> feature/api/batches
   res400: (msg, res) => {
     res.status(400).json({ success: false, msg: msg });
   },

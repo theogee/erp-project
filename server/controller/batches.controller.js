@@ -17,13 +17,13 @@ module.exports = {
   },
   getBatchesByID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getBatches({
+      const { rowCount, rows } = await dao.getBatchesByID({
         batchID: req.params.batchID,
       });
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 
-      t.res200payload(rows, res);
+      t.res200payload(rows[0], res);
     } catch (err) {
       t.res500(err, res);
     }

@@ -1,16 +1,47 @@
 const dao = require("../dao/batches.dao");
-const tmplt = require("../template/response.template");
+const t = require("../template/response.template");
+
+// omit checking for params availability & format - for now
 
 module.exports = {
   getBatches: async (req, res) => {
     try {
       const { rowCount, rows } = await dao.getBatches(req.body);
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      if (rowCount === 0) return t.res404("Resource not found", res);
 
-      tmplt.res200payload(rows, res);
+      t.res200payload(rows, res);
     } catch (err) {
-      tmplt.res500(err, res);
+      t.res500(err, res);
+    }
+  },
+  postBatches: async (req, res) => {
+    try {
+      // missing availability check
+      // missing format check
+
+      const { rows } = await dao.postBatches(req.body);
+
+      t.res201payload(rows[0], res);
+    } catch (err) {
+      t.res500(err, res);
+    }
+  },
+  updateBatches: async (req, res) => {
+    try {
+      const params = {
+        ...req.body,
+        batchID: req.params.batchID,
+        userID: req.user.user_id,
+      };
+
+      const { rowCount, rows } = await dao.updateBatches(params);
+
+      if (rowCount === 0) return t.res404("Resource not found", res);
+
+      t.res200payload(rows[0], res);
+    } catch (err) {
+      t.res500(err, res);
     }
   },
 };

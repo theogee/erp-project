@@ -11,6 +11,7 @@ const corsConf = require("./conf/cors.conf");
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
 const supplierRouter = require("./routes/supplier.router");
+const batchesRouter = require("./routes/batches.router");
 
 const { isAuth } = require("./middleware");
 
@@ -32,5 +33,6 @@ app.use("/auth/google", authRouter);
 // protected routes
 app.use("/api/user", isAuth, userRouter);
 app.use("/api/supplier", isAuth, supplierRouter);
+app.use("/api/batches", isAuth, batchesRouter);
 
 app.listen(5000, () => console.log("http://localhost:5000"));

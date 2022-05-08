@@ -32,17 +32,12 @@ module.exports = {
       const { rowCount, rows } = await dao.postSupplier(req.body);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
-      return tmplt.res200msg("New entry inserted successfully!", res);
+      return tmplt.res201payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
     }
   },
   updateSupplier: async (req, res) => {
-    const { telp } = req.body;
-
-    if (telp && !isMobilePhone(telp, "id-ID"))
-      return tmplt.res400("Incorrect phone number format", res);
-
     const params = {
       ...req.body,
       supplierID: req.params.supplierID,
@@ -53,7 +48,7 @@ module.exports = {
       const { rowCount, rows } = await dao.updateSupplier(params);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
-      return tmplt.res200msg("New entry updated successfully!", res);
+      return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
     }
@@ -68,7 +63,7 @@ module.exports = {
       const { rowCount, rows } = await dao.deleteSupplier(params);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
-      return tmplt.res200msg("Entry deleted successfully!", res);
+      return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
     }

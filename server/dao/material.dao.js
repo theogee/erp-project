@@ -28,18 +28,18 @@ module.exports = {
     }
   },
   postMaterial: async (params) => {
-    const { materialID, businessID, measurementID, safetyStockQty } = params;
+    const { businessID, measurementID, safetyStockQty } = params;
 
     const sql = `
     INSERT
     INTO material
     (material_id, business_id, measurement_id, safety_stock_qty)
     VALUES
-    ($1, $2, $3, $4)`;
+    (default, $1, $2, $3)
+    RETURNING *`;
 
     try {
       return await pool.query(sql, [
-        materialID,
         businessID,
         measurementID,
         safetyStockQty,
@@ -65,9 +65,10 @@ module.exports = {
     }
 
     const sql = `
-    UPDATE material
+    UPDATE material m
     SET ${sqlParam.join(", ")}
-    WHERE material_id = $${i++} AND business_id = $${i++}`;
+    WHERE material_id = $${i++} AND business_id = $${i++}
+    RETURNING m.*`;
 
     try {
       return await pool.query(sql, [...arrParam, materialID, businessID]);
@@ -79,8 +80,9 @@ module.exports = {
     const { materialID, businessID } = params;
 
     const sql = `
-    DELETE FROM material
-    WHERE business_id = $1 AND material_id = $2`;
+    DELETE FROM material m
+    WHERE business_id = $1 AND material_id = $2
+    RETURNING m.*`;
 
     try {
       return await pool.query(sql, [businessID, materialID]);

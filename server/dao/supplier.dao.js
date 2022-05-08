@@ -1,19 +1,18 @@
 const pool = require("./pool");
 
 module.exports = {
-	getSupplier: async () => {
+  getSupplier: async () => {
     const sql = `
     SELECT *
     FROM supplier s`;
 
     try {
-			return await pool.query(sql);
-		} catch (err) {
-			throw err;
-		}
+      return await pool.query(sql);
+    } catch (err) {
+      throw err;
+    }
   },
-	getSupplierWithQuery: async (params) => {
-
+  getSupplierWithQuery: async (params) => {
     const { supplierID } = params;
 
     const sql = `
@@ -27,19 +26,17 @@ module.exports = {
       throw err;
     }
   },
-	postSupplier: async (params) => {
-
+  postSupplier: async (params) => {
     const { supplierID, businessID, name, address, telp } = params;
 
     const sql = `
     INSERT
     INTO supplier
-    (supplier_id, business_id, name, address, telp)
     VALUES
-    ($1, $2, $3, $4, $5)`;
+    (default, $1, $2, $3, $4)`;
 
     try {
-      return await pool.query(sql, [supplierID, businessID, name, address, telp]);
+      return await pool.query(sql, [businessID, name, address, telp]);
     } catch (err) {
       throw err;
     }
@@ -114,4 +111,3 @@ module.exports = {
     }
   },
 };
-

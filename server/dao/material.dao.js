@@ -28,14 +28,14 @@ module.exports = {
     }
   },
   postMaterial: async (params) => {
-    const { businessID, measurementID, safetyStockQty } = params;
+    const { businessID, measurementID, safetyStockQty, name } = params;
 
     const sql = `
     INSERT
     INTO material
-    (material_id, business_id, measurement_id, safety_stock_qty)
+    (material_id, business_id, measurement_id, safety_stock_qty, name)
     VALUES
-    (default, $1, $2, $3)
+    (default, $1, $2, $3, $4)
     RETURNING *`;
 
     try {
@@ -43,13 +43,14 @@ module.exports = {
         businessID,
         measurementID,
         safetyStockQty,
+        name
       ]);
     } catch (err) {
       throw err;
     }
   },
   updateMaterial: async (params) => {
-    const { materialID, businessID, measurementID, safetyStockQty } = params;
+    const { materialID, businessID, measurementID, safetyStockQty, name } = params;
     let sqlParam = [];
     let arrParam = [];
     let i = 1;
@@ -62,6 +63,11 @@ module.exports = {
     if (safetyStockQty) {
       sqlParam.push(`safety_stock_qty = $${i++}`);
       arrParam.push(safetyStockQty);
+    }
+
+    if (name) {
+      sqlParam.push(`name = $${i++}`);
+      arrParam.push(name);
     }
 
     const sql = `

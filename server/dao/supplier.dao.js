@@ -14,9 +14,8 @@ module.exports = {
 		}
   },
 	getSupplierParams: async (params) => {
-
     const { supplierID } = params;
-
+    
     const sql = `
     SELECT *
     FROM supplier s
@@ -28,19 +27,17 @@ module.exports = {
       throw err;
     }
   },
-	postSupplier: async (params) => {
-
+  postSupplier: async (params) => {
     const { supplierID, businessID, name, address, telp } = params;
 
     const sql = `
     INSERT
     INTO supplier
-    (supplier_id, business_id, name, address, telp)
     VALUES
-    ($1, $2, $3, $4, $5)`;
+    (default, $1, $2, $3, $4)`;
 
     try {
-      return await pool.query(sql, [supplierID, businessID, name, address, telp]);
+      return await pool.query(sql, [businessID, name, address, telp]);
     } catch (err) {
       throw err;
     }
@@ -115,4 +112,3 @@ module.exports = {
     }
   },
 };
-

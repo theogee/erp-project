@@ -34,7 +34,8 @@ module.exports = {
     INSERT
     INTO supplier
     VALUES
-    (default, $1, $2, $3, $4)`;
+    (default, $1, $2, $3, $4)
+    RETURNING *`;
 
     try {
       return await pool.query(sql, [businessID, name, address, telp]);

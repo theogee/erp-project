@@ -1,11 +1,11 @@
-const dao = require("../dao/supplier.dao");
+const dao = require("../dao/material.dao");
 const tmplt = require("../template/response.template");
 const { isMobilePhone } = require("validator");
 
 module.exports = {
-  getSupplier: async (req, res) => {
+  getMaterial: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getSupplier(req.body.businessID);
+      const { rowCount, rows } = await dao.getMaterial(req.body.businessID);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
       return tmplt.res200payload(rows, res);
@@ -13,10 +13,10 @@ module.exports = {
       return tmplt.res500(err, res);
     }
   },
-  getSupplierParams: async (req, res) => {
+  getMaterialParams: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getSupplierParams({
-        supplierID: req.params.supplierID,
+      const { rowCount, rows } = await dao.getMaterialParams({
+        materialID: req.params.materialID,
       });
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
@@ -25,11 +25,11 @@ module.exports = {
       return tmplt.res500(err, res);
     }
   },
-  postSupplier: async (req, res) => {
+  postMaterial: async (req, res) => {
     try {
       // Kalo mau kirim ack doang, rows-nya mending di-omit aja ya.
       // Kecuali ack-nya berupa data yang baru dibuat.
-      const { rowCount, rows } = await dao.postSupplier(req.body);
+      const { rowCount, rows } = await dao.postMaterial(req.body);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
       return tmplt.res200msg("New entry inserted successfully!", res);
@@ -37,20 +37,20 @@ module.exports = {
       return tmplt.res500(err, res);
     }
   },
-  updateSupplier: async (req, res) => {
+  updateMaterial: async (req, res) => {
     const { telp } = req.body;
 
+    // Ini diperluin gak sih? WKWKWK
     if (telp && !isMobilePhone(telp, "id-ID"))
       return tmplt.res400("Incorrect phone number format", res);
 
     const params = {
       ...req.body,
-      supplierID: req.params.supplierID,
-      userID: req.user.user_id,
+      materialID: req.params.materialID,
     };
 
     try {
-      const { rowCount, rows } = await dao.updateSupplier(params);
+      const { rowCount, rows } = await dao.updateMaterial(params);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
       return tmplt.res200msg("New entry updated successfully!", res);
@@ -58,14 +58,14 @@ module.exports = {
       return tmplt.res500(err, res);
     }
   },
-  deleteSupplier: async (req, res) => {
+  deleteMaterial: async (req, res) => {
     const params = {
-      userID: req.user.user_id,
-      supplierID: req.params.supplierID,
+      materialID: req.params.materialID,
+      businessID: req.body.businessID,
     };
 
     try {
-      const { rowCount, rows } = await dao.deleteSupplier(params);
+      const { rowCount, rows } = await dao.deleteMaterial(params);
 
       if (rowCount === 0) return tmplt.res404("Resource not found", res);
       return tmplt.res200msg("Entry deleted successfully!", res);

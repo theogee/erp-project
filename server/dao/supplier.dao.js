@@ -1,6 +1,48 @@
 const pool = require("./pool");
 
 module.exports = {
+	getSupplier: async (businessID) => {
+    const sql = `
+    SELECT *
+    FROM supplier s
+    WHERE business_id = $1`;
+
+    try {
+			return await pool.query(sql,[businessID]);
+		} catch (err) {
+			throw err;
+		}
+  },
+	getSupplierParams: async (params) => {
+    const { supplierID } = params;
+    
+    const sql = `
+    SELECT *
+    FROM supplier s
+    WHERE s.supplier_id = $1`;
+
+    try {
+      return await pool.query(sql, [supplierID]);
+    } catch (err) {
+      throw err;
+    }
+  },
+  postSupplier: async (params) => {
+    const { supplierID, businessID, name, address, telp } = params;
+
+    const sql = `
+    INSERT
+    INTO supplier
+    VALUES
+    (default, $1, $2, $3, $4)
+    RETURNING *`;
+
+    try {
+      return await pool.query(sql, [businessID, name, address, telp]);
+    } catch (err) {
+      throw err;
+    }
+  },
   updateSupplier: async (params) => {
     const { name, address, telp, supplierID, userID } = params;
 

@@ -4,13 +4,14 @@ import styled from "@emotion/styled";
 
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 
 import MainLinks from "./MainLinks";
 import GreyLinks from "./GreyLinks";
 
 const StyledStack = styled(Stack)`
   background-color: white;
-  width: 260px;
+  min-width: 260px;
   padding: 24px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 `;
@@ -28,12 +29,12 @@ export default function SideNav(props) {
             alt={props.firstname + " " + props.lastname}
             src={props.profile_picture}
           />
-          <div css={{ marginLeft: 8 }}>
+          <Box sx={{ marginLeft: "8px" }}>
             <p css={{ fontWeight: 500, fontSize: 14 }}>
               {props.firstname + " " + props.lastname}
             </p>
             <p css={{ fontSize: 12 }}>{props.email}</p>
-          </div>
+          </Box>
         </Stack>
         <MainLinks />
         <GreyLinks />

@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 
 import { SideNav } from "./SideNav";
 
@@ -21,6 +22,7 @@ export default function Dashboard() {
         });
 
         setUser(data);
+        console.log(data);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -32,7 +34,9 @@ export default function Dashboard() {
     <main>
       <Stack direction="row">
         <SideNav {...user} />
-        <Outlet />
+        <Box sx={{ padding: "40px 53px" }}>
+          <Outlet context={user} />
+        </Box>
       </Stack>
     </main>
   );

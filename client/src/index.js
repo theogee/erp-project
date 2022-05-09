@@ -8,8 +8,7 @@ import App from "./App";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 
-import Dashboard from "./components/Dashboard/Dashboard";
-import Home from "./components/Dashboard/Home";
+import { Dashboard, Home } from "./components/Dashboard/";
 
 import Unauthorized from "./components/Unauthorized";
 

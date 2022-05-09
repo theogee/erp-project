@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Stack from "@mui/material/Stack";
 
-import SideNav from "./SideNav";
+import { SideNav } from "./SideNav";
 
 export default function Dashboard() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;

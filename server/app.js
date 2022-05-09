@@ -10,6 +10,7 @@ const corsConf = require("./conf/cors.conf");
 
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
+const businessRouter = require("./routes/business.router");
 const supplierRouter = require("./routes/supplier.router");
 const materialRouter = require("./routes/material.router");
 const batchesRouter = require("./routes/batches.router");
@@ -33,6 +34,7 @@ app.use("/auth/google", authRouter);
 
 // protected routes
 app.use("/api/user", isAuth, userRouter);
+app.use("/api/business", isAuth, businessRouter);
 app.use("/api/supplier", isAuth, supplierRouter);
 app.use("/api/material", isAuth, materialRouter);
 app.use("/api/batches", isAuth, batchesRouter);

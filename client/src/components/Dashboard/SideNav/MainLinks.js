@@ -14,7 +14,7 @@ const StyledMainLink = styled(Link)`
 
 export default function MainLinks() {
   const links = [
-    { to: "/dashboard", name: "home" },
+    { to: "/dashboard", name: "home", end: true },
     { to: "/dashboard/business", name: "business" },
   ];
 
@@ -23,7 +23,7 @@ export default function MainLinks() {
       key={link.name}
       component={NavLink}
       to={link.to}
-      end
+      end={link.end}
       underline="none"
       style={({ isActive }) => ({
         backgroundColor: isActive ? "black" : "white",

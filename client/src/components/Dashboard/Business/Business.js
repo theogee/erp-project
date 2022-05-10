@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 
 import NoBusinessCard from "./NoBusinessCard";
 
-export default function Business() {
+export default function Business(props) {
   return (
     <Box component="section">
       <h1

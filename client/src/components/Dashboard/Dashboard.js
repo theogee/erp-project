@@ -22,7 +22,6 @@ export default function Dashboard() {
         });
 
         setUser(data);
-        console.log(data);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);

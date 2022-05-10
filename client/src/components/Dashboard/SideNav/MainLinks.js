@@ -13,13 +13,17 @@ const StyledMainLink = styled(Link)`
 `;
 
 export default function MainLinks() {
-  const links = [{ to: "/dashboard", name: "home" }];
+  const links = [
+    { to: "/dashboard", name: "home" },
+    { to: "/dashboard/business", name: "business" },
+  ];
 
   return links.map((link) => (
     <StyledMainLink
       key={link.name}
       component={NavLink}
       to={link.to}
+      end
       underline="none"
       style={({ isActive }) => ({
         backgroundColor: isActive ? "black" : "white",

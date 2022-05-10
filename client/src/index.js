@@ -8,7 +8,7 @@ import App from "./App";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 
-import { Dashboard, Home } from "./components/Dashboard/";
+import { Dashboard, Home, Business } from "./components/Dashboard/";
 
 import Unauthorized from "./components/Unauthorized";
 
@@ -21,6 +21,7 @@ ReactDOM.render(
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<Home />} />
+        <Route path="business" element={<Business />} />
       </Route>
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<NotFound />} />

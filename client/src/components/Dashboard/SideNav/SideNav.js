@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import Stack from "@mui/material/Stack";

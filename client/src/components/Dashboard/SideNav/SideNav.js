@@ -27,6 +27,7 @@ export default function SideNav(props) {
           <Avatar
             alt={props.firstname + " " + props.lastname}
             src={props.profile_picture}
+            referrerPolicy="no-referrer"
           />
           <Box sx={{ marginLeft: "8px" }}>
             <p css={{ fontWeight: 500, fontSize: 14 }}>

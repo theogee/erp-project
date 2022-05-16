@@ -12,15 +12,15 @@ const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
 const businessRouter = require("./routes/business.router");
 
-
 const { isAuth } = require("./middleware");
 
 const app = express();
 
 app.use(morgan("dev"));
-
 app.use(corsConf);
-
+// parse body middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 // express-session middleware
 app.use(sessionConf);
 
@@ -33,6 +33,8 @@ app.use("/auth/google", authRouter);
 // protected routes
 app.use("/api/user", isAuth, userRouter);
 app.use("/api/business", isAuth, businessRouter);
-
+app.use("/api/supplier", isAuth, supplierRouter);
+app.use("/api/material", isAuth, materialRouter);
+app.use("/api/batches", isAuth, batchesRouter);
 
 app.listen(5000, () => console.log("http://localhost:5000"));

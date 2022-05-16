@@ -18,7 +18,8 @@
     "ioredis": "^5.0.4",
     "passport": "^0.5.2",
     "passport-google-oauth20": "^2.0.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0"

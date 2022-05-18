@@ -27,7 +27,7 @@ export default function Dashboard() {
         else console.log(err);
       }
     })();
-  });
+  }, []);
 
   return (
     <Stack component="main" direction="row">

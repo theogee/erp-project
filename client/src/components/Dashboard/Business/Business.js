@@ -1,9 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 
+import businessData from "../../../test_data/business.data";
+
 import Box from "@mui/material/Box";
 
 import NoBusinessCard from "./NoBusinessCard";
+import AddBusinessCard from "./AddBusinessCard";
+
+import { BusinessCards } from "./BusinessCards";
 
 export default function Business() {
   return (
@@ -17,7 +22,8 @@ export default function Business() {
       >
         Your Business
       </h1>
-      <NoBusinessCard />
+      <BusinessCards businessData={businessData} />
+      {businessData.length === 0 ? <NoBusinessCard /> : <AddBusinessCard />}
     </Box>
   );
 }

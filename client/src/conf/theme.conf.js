@@ -26,5 +26,16 @@ export default createTheme({
         },
       ],
     },
+    MuiPaper: {
+      variants: [
+        {
+          props: { variant: "topBorderGreen" },
+          style: {
+            border: "1px solid rgba(0, 0, 0, 0.12)",
+            borderTop: "5px solid #4af48e",
+          },
+        },
+      ],
+    },
   },
 });

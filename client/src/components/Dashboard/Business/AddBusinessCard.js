@@ -5,26 +5,26 @@ import { useNavigate } from "react-router-dom";
 
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
-export default function NoBusinessCard() {
+export default function AddBusinessCard() {
   const navigate = useNavigate();
+
   return (
     <Paper
+      component={Stack}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
       variant="topBorderGreen"
-      sx={{
-        padding: "41px 96px",
-        textAlign: "center",
-        width: "821px",
-        height: "203px",
-      }}
+      sx={{ padding: "10px 15px", marginTop: "93px" }}
     >
-      <p css={{ marginBottom: "35px", fontFamily: "Roboto, sans-serif" }}>
-        You currently doesn't have any business registered. Add your business
-        and start your success journey.
+      <p css={{ fontSize: "12px" }}>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
       </p>
       <Button
-        sx={{ padding: "12px 31px" }}
         variant="containedGreen"
+        sx={{ fontSize: "13px" }}
         disableElevation
         onClick={() => navigate("/dashboard/business/create")}
       >

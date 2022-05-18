@@ -27,16 +27,20 @@ export default function Dashboard() {
         else console.log(err);
       }
     })();
-  }, []);
+  });
 
   return (
-    <main>
-      <Stack direction="row">
-        <SideNav {...user} />
-        <Box sx={{ padding: "40px 53px" }}>
-          <Outlet context={user} />
-        </Box>
-      </Stack>
-    </main>
+    <Stack component="main" direction="row">
+      <SideNav {...user} />
+      <Box
+        sx={{
+          padding: "40px 53px",
+          maxWidth: "100%",
+          height: "100vh",
+        }}
+      >
+        <Outlet context={user} />
+      </Box>
+    </Stack>
   );
 }

@@ -31,7 +31,7 @@ export default function AddBusiness() {
         component="form"
         autoComplete="off"
         variant="outlined"
-        sx={{ width: "457px", height: "263px", padding: "21px 24px" }}
+        sx={{ width: "457px", height: "230px", padding: "21px 24px" }}
       >
         <Stack justifyContent="space-between" sx={{ height: "100%" }}>
           <TextField
@@ -44,6 +44,7 @@ export default function AddBusiness() {
             required
             fullWidth
             onChange={onChangeBusinessName}
+            size="small"
           />
           <TextField
             id="outlined-basic"
@@ -53,6 +54,7 @@ export default function AddBusiness() {
             required
             fullWidth
             onChange={onChangeBusinessAddress}
+            size="small"
           />
           <Button
             variant="containedGreen"

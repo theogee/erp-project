@@ -15,6 +15,6 @@ module.exports = {
     res.status(404).json({ success: false, msg: msg });
   },
   res500: (err, res) => {
-    res.status(500).json({ success: false, msg: err});
+    res.status(500).json({ success: false, msg: err });
   },
 };

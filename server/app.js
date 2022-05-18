@@ -11,6 +11,9 @@ const corsConf = require("./conf/cors.conf");
 const authRouter = require("./routes/auth.router");
 const userRouter = require("./routes/user.router");
 const businessRouter = require("./routes/business.router");
+const supplierRouter = require("./routes/supplier.router");
+const materialRouter = require("./routes/material.router");
+const batchesRouter = require("./routes/batches.router");
 
 const { isAuth } = require("./middleware");
 

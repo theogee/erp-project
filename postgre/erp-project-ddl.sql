@@ -121,4 +121,7 @@ create table order_product (
 			references product(product_id)
 );
 
+alter table order_product add primary key(order_id, product_id);
+alter table product_material add primary key(product_id, material_id);
+
 

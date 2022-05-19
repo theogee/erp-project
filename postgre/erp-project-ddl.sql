@@ -80,6 +80,7 @@ create table product_material (
 	material_id int not null,
 	measurement_id int not null,
 	qty real not null,
+	primary key (product_id, material_id),
 	constraint fk_product
 		foreign key(product_id)
 			references product(product_id),
@@ -113,6 +114,7 @@ create table order_product (
 	order_id int not null,
 	product_id int not null,
 	qty int not null,
+	primary key (order_id, product_id),
 	constraint fk_order
 		foreign key(order_id)
 			references "order"(order_id),
@@ -120,8 +122,3 @@ create table order_product (
 		foreign key(product_id)
 			references product(product_id)
 );
-
-alter table order_product add primary key(order_id, product_id);
-alter table product_material add primary key(product_id, material_id);
-
-

@@ -110,15 +110,3 @@ create table "order" (
 			references business(business_id)
 );
 
-create table order_product (
-	order_id int not null,
-	product_id int not null,
-	qty int not null,
-	primary key (order_id, product_id),
-	constraint fk_order
-		foreign key(order_id)
-			references "order"(order_id),
-	constraint fk_product
-		foreign key(product_id)
-			references product(product_id)
-);

@@ -122,5 +122,3 @@ create table order_product (
 		foreign key(product_id)
 			references product(product_id)
 );
-
-

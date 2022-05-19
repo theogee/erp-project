@@ -1,13 +1,12 @@
 const dao = require("../dao/business.dao");
 const tmplt = require("../template/response.template");
-const { isMobilePhone } = require("validator");
-
 
 module.exports = {
   getBusiness: async (req, res) => {
     try {
       const { rowCount, rows } = await dao.getBusiness(req.user.user_id);
-      if (rowCount === 0) return tmplt.res404("Business cannot be retrieved", res);
+      if (rowCount === 0)
+        return tmplt.res404("Business cannot be retrieved", res);
       return tmplt.res200payload(rows, res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -18,9 +17,10 @@ module.exports = {
       const { rowCount, rows } = await dao.postBusiness({
         userID: req.user.user_id,
         name: req.body.name,
-        address: req.body.address
+        address: req.body.address,
       });
-      if (rowCount === 0) return tmplt.res404("Business cannot be created", res);
+      if (rowCount === 0)
+        return tmplt.res404("Business cannot be created", res);
       return tmplt.res201payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -34,7 +34,8 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.deleteBusiness(params);
 
-      if (rowCount === 0) return tmplt.res404("Business cannot be deleted", res);
+      if (rowCount === 0)
+        return tmplt.res404("Business cannot be deleted", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -48,9 +49,11 @@ module.exports = {
     };
 
     try {
+      console.log(params);
       const { rowCount, rows } = await dao.updateBusiness(params);
 
-      if (rowCount === 0) return tmplt.res404("Business cannot be updated", res);
+      if (rowCount === 0)
+        return tmplt.res404("Business cannot be updated", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);

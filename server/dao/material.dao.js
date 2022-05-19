@@ -43,14 +43,15 @@ module.exports = {
         businessID,
         measurementID,
         safetyStockQty,
-        name
+        name,
       ]);
     } catch (err) {
       throw err;
     }
   },
   updateMaterial: async (params) => {
-    const { materialID, businessID, measurementID, safetyStockQty, name } = params;
+    const { materialID, measurementID, safetyStockQty, name, userID } = params;
+
     let sqlParam = [];
     let arrParam = [];
     let i = 1;
@@ -73,27 +74,29 @@ module.exports = {
     const sql = `
     UPDATE material m
     SET ${sqlParam.join(", ")}
-    WHERE material_id = $${i++} AND business_id = $${i++}
+    FROM business b
+    WHERE m.material_id = $${i++} AND m.business_id = b.business_id AND b.user_id = $${i++}
     RETURNING m.*`;
 
     try {
-      return await pool.query(sql, [...arrParam, materialID, businessID]);
+      return await pool.query(sql, [...arrParam, materialID, userID]);
     } catch (err) {
       throw err;
     }
   },
   deleteMaterial: async (params) => {
-    const { materialID, businessID } = params;
+    const { materialID, userID } = params;
 
     const sql = `
     DELETE FROM material m
-    WHERE business_id = $1 AND material_id = $2
+    USING business b
+    WHERE m.material_id = $1 AND m.business_id = b.business_id AND b.user_id = $2
     RETURNING m.*`;
 
     try {
-      return await pool.query(sql, [businessID, materialID]);
+      return await pool.query(sql, [materialID, userID]);
     } catch (err) {
       throw err;
     }
-  }
+  },
 };

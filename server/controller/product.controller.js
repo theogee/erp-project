@@ -17,7 +17,6 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.getProductParams({
         productID: req.params.productID,
-        businessID: req.body.businessID
       });
 
       if (rowCount === 0) return t.res404("Resource not found", res);
@@ -29,7 +28,6 @@ module.exports = {
   },
   postProduct: async (req, res) => {
     try {
-
       const { rows } = await dao.postProduct(req.body);
 
       t.res201payload(rows[0], res);
@@ -42,7 +40,7 @@ module.exports = {
       const params = {
         ...req.body,
         productID: req.params.productID,
-        businessID: req.body.businessID,
+        userID: req.user.user_id,
       };
 
       const { rowCount, rows } = await dao.updateProduct(params);
@@ -58,7 +56,7 @@ module.exports = {
     try {
       const params = {
         productID: req.params.productID,
-        businessID: req.body.businessID,
+        userID: req.user.user_id,
       };
 
       const { rowCount, rows } = await dao.deleteProduct(params);

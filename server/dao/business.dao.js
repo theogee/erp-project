@@ -18,20 +18,19 @@ module.exports = {
     const { userID, businessID } = params;
 
     const sql = `
-    DELETE FROM business b
-    USING users u
-    WHERE b.user_id = u.user_id AND b.business_id = $1
-    RETURNING s.*`;
+    DELETE FROM business
+    WHERE user_id = $1 AND business_id = $2
+    RETURNING *`;
 
     try {
-      return await pool.query(sql, [businessID, userID]);
+      return await pool.query(sql, [userID, businessID]);
     } catch (err) {
       throw err;
     }
   },
 
   postBusiness: async (params) => {
-    const { businessID, userID, name, address } = params;
+    const { userID, name, address } = params;
 
     const sql = `
     INSERT
@@ -82,11 +81,10 @@ module.exports = {
     }
 
     const sql = `
-    UPDATE business b SET
+    UPDATE business SET
     ${sqlParam.join(", ")}
-    FROM users u
-    WHERE b.business_id = $${i++} AND b.user_id = u.user_id AND b.user_id = $${i++}
-    RETURNING s.*`;
+    WHERE business_id = $${i++} AND user_id = $${i++}
+    RETURNING *`;
 
     console.log(sql);
 

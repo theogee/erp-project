@@ -14,6 +14,7 @@ const businessRouter = require("./routes/business.router");
 const supplierRouter = require("./routes/supplier.router");
 const materialRouter = require("./routes/material.router");
 const batchesRouter = require("./routes/batches.router");
+const orderRouter = require("./routes/order.router");
 
 const { isAuth } = require("./middleware");
 
@@ -38,5 +39,6 @@ app.use("/api/business", isAuth, businessRouter);
 app.use("/api/supplier", isAuth, supplierRouter);
 app.use("/api/material", isAuth, materialRouter);
 app.use("/api/batches", isAuth, batchesRouter);
+app.use("/api/order", isAuth, orderRouter);
 
 app.listen(5000, () => console.log("http://localhost:5000"));

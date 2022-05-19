@@ -100,3 +100,25 @@ create table product_batches (
 	status varchar not null
 );
 
+create table "order" (
+	order_id serial primary key,
+	business_id int not null,
+	order_date date not null,
+	constraint fk_business
+		foreign key(business_id)
+			references business(business_id)
+);
+
+create table order_product (
+	order_id int not null,
+	product_id int not null,
+	qty int not null,
+	constraint fk_order
+		foreign key(order_id)
+			references "order"(order_id),
+	constraint fk_product
+		foreign key(product_id)
+			references product(product_id)
+);
+
+

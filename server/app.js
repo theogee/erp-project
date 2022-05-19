@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // express-session middleware
 app.use(sessionConf);
+
 // passportJS middleware
 app.use(passport.initialize());
 app.use(passport.session());

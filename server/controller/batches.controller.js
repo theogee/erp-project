@@ -8,7 +8,7 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.getBatches(req.body);
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      if (rowCount === 0) return t.res404("Batches cannot be retrieved", res);
 
       t.res200payload(rows, res);
     } catch (err) {
@@ -21,7 +21,7 @@ module.exports = {
         batchID: req.params.batchID,
       });
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      if (rowCount === 0) return t.res404("Batch cannot be retrieved", res);
 
       t.res200payload(rows[0], res);
     } catch (err) {
@@ -33,8 +33,8 @@ module.exports = {
       // missing availability check
       // missing format check
 
-      const { rows } = await dao.postBatches(req.body);
-
+      const { rows, rowCount } = await dao.postBatches(req.body);
+      if (rowCount === 0) return t.res404("Batch cannot be created", res);
       t.res201payload(rows[0], res);
     } catch (err) {
       t.res500(err, res);
@@ -49,9 +49,7 @@ module.exports = {
       };
 
       const { rowCount, rows } = await dao.updateBatches(params);
-
-      if (rowCount === 0) return t.res404("Resource not found", res);
-
+      if (rowCount === 0) return t.res404("Batch cannot be updated", res);
       t.res200payload(rows[0], res);
     } catch (err) {
       t.res500(err, res);
@@ -65,9 +63,7 @@ module.exports = {
       };
 
       const { rowCount, rows } = await dao.deleteBatches(params);
-
-      if (rowCount === 0) return t.res404("Resource not found", res);
-
+      if (rowCount === 0) return t.res404("Batch cannot be deleted", res);
       t.res200payload(rows[0], res);
     } catch (err) {
       t.res500(err, res);

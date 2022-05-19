@@ -7,8 +7,8 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.getMaterial(req.body.businessID);
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
-      return tmplt.res200payload(rows[0], res);
+      if (rowCount === 0) return tmplt.res404("Materials cannot be retrieved", res);
+      return tmplt.res200payload(rows, res);
     } catch (err) {
       return tmplt.res500(err, res);
     }
@@ -19,7 +19,7 @@ module.exports = {
         materialID: req.params.materialID,
       });
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      if (rowCount === 0) return tmplt.res404("Material cannot be retrieved", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -29,7 +29,7 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.postMaterial(req.body);
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      if (rowCount === 0) return tmplt.res404("Material cannot be created", res);
       return tmplt.res201payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -44,7 +44,7 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.updateMaterial(params);
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      if (rowCount === 0) return tmplt.res404("Material cannot be updated", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);
@@ -59,7 +59,7 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.deleteMaterial(params);
 
-      if (rowCount === 0) return tmplt.res404("Resource not found", res);
+      if (rowCount === 0) return tmplt.res404("Material cannot be deleted", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);

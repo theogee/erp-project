@@ -2,11 +2,19 @@
 
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 
 export default function BusinessCard(props) {
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(`/b/${props.business_id}/dashboard/inventory`);
+  };
+
   return (
     <Button
       component={Paper}
@@ -23,6 +31,7 @@ export default function BusinessCard(props) {
         },
       }}
       disableElevation
+      onClick={handleOnClick}
     >
       <Avatar
         alt={props.name}

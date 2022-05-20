@@ -13,7 +13,17 @@ module.exports = {
       throw err;
     }
   },
+  getBusinessByID: async (params) => {
+    try {
+      const { businessID } = params;
 
+      const sql = "SELECT * FROM business WHERE business_id = $1";
+
+      return await pool.query(sql, [businessID]);
+    } catch (err) {
+      throw err;
+    }
+  },
   deleteBusiness: async (params) => {
     const { userID, businessID } = params;
 

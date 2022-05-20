@@ -12,13 +12,8 @@ const StyledMainLink = styled(Link)`
   border-radius: 4px;
 `;
 
-export default function MainLinks() {
-  const links = [
-    { to: "/dashboard", name: "home", end: true },
-    { to: "/dashboard/business", name: "business" },
-  ];
-
-  return links.map((link) => (
+export default function MainLinks(props) {
+  return props.links.map((link) => (
     <StyledMainLink
       key={link.name}
       component={NavLink}

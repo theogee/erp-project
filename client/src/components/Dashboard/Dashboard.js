@@ -5,7 +5,7 @@ import axios from "axios";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
-import { SideNav } from "./SideNav";
+import { SideNav } from "../SideNav/";
 
 export default function Dashboard() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -29,14 +29,24 @@ export default function Dashboard() {
     })();
   }, []);
 
+  const links = [
+    { to: "/dashboard", name: "home", end: true },
+    { to: "/dashboard/business", name: "business" },
+  ];
+
   return (
     <Stack component="main" direction="row">
-      <SideNav {...user} />
+      <SideNav
+        avatarTitle={user.firstname + " " + user.lastname}
+        avatarSubtitle={user.email}
+        links={links}
+      />
       <Box
         sx={{
           padding: "40px 53px",
           maxWidth: "100%",
           height: "100vh",
+          flexGrow: "100",
         }}
       >
         <Outlet context={user} />

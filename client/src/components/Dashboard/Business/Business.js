@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import { default as React, useState, useEffect } from "react";
 
-import businessData from "../../../test_data/business.data";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 import Box from "@mui/material/Box";
 
@@ -11,6 +13,29 @@ import AddBusinessCard from "./AddBusinessCard";
 import { BusinessCards } from "./BusinessCards";
 
 export default function Business() {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+  const navigate = useNavigate();
+
+  const [businessData, setBusinessData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(SERVER_URL + "/api/business", {
+          withCredentials: true,
+        });
+
+        console.log(data.data);
+
+        setBusinessData(data.data);
+      } catch (err) {
+        if (err.response.status === 401) navigate("/unauthorized");
+        else console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <Box component="section">
       <h1

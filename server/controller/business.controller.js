@@ -12,6 +12,20 @@ module.exports = {
       return tmplt.res500(err, res);
     }
   },
+  getBusinessByID: async (req, res) => {
+    try {
+      const { rowCount, rows } = await dao.getBusinessByID({
+        businessID: req.params.businessID,
+      });
+
+      if (rowCount === 0)
+        return tmplt.res404("Business cannot be retrieved", res);
+
+      tmplt.res200payload(rows[0], res);
+    } catch (err) {
+      tmplt.res500(err, res);
+    }
+  },
   postBusiness: async (req, res) => {
     try {
       const { rowCount, rows } = await dao.postBusiness({

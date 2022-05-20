@@ -25,18 +25,16 @@ export default function SideNav(props) {
           sx={{ marginBottom: "24px" }}
         >
           <Avatar
-            alt={props.firstname + " " + props.lastname}
+            alt={props.avatarTitle}
             src={props.profile_picture}
             referrerPolicy="no-referrer"
           />
           <Box sx={{ marginLeft: "8px" }}>
-            <p css={{ fontWeight: 500, fontSize: 14 }}>
-              {props.firstname + " " + props.lastname}
-            </p>
-            <p css={{ fontSize: 12 }}>{props.email}</p>
+            <p css={{ fontWeight: 500, fontSize: 14 }}>{props.avatarTitle}</p>
+            <p css={{ fontSize: 12 }}>{props.avatarSubtitle}</p>
           </Box>
         </Stack>
-        <MainLinks />
+        <MainLinks links={props.links} />
         <GreyLinks />
       </StyledStack>
     </nav>

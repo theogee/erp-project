@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 import { SideNav } from "../SideNav";
+import { warehouse } from "./Product";
 
 export default function ERPDashboard() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -42,7 +43,9 @@ export default function ERPDashboard() {
     })();
   }, []);
 
-  const links = [{ to: "inventory", name: "inventory", end: true }];
+  const links = [
+    { to: "inventory", name: "inventory", end: true },
+    { to: "product", name: "product", end: true}];
 
   return (
     <Stack component="main" direction="row">
@@ -59,7 +62,7 @@ export default function ERPDashboard() {
           flexGrow: "100",
         }}
       >
-        <Outlet context={business} />
+        <Outlet context={{user, businessID}} />
       </Box>
     </Stack>
   );

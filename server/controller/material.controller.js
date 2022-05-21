@@ -5,7 +5,7 @@ const { isMobilePhone } = require("validator");
 module.exports = {
   getMaterial: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getMaterial(req.body.businessID);
+      const { rowCount, rows } = await dao.getMaterial(req.query.businessID);
 
       if (rowCount === 0)
         return tmplt.res404("Materials cannot be retrieved", res);

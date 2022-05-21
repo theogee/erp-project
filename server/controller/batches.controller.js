@@ -6,7 +6,7 @@ const t = require("../template/response.template");
 module.exports = {
   getBatches: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getBatches(req.body);
+      const { rowCount, rows } = await dao.getBatches(req.query);
 
       if (rowCount === 0) return t.res404("Batches cannot be retrieved", res);
 

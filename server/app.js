@@ -41,10 +41,7 @@ app.use("/api/business", isAuth, businessRouter);
 app.use("/api/supplier", isAuth, supplierRouter);
 app.use("/api/material", isAuth, materialRouter);
 app.use("/api/batches", isAuth, batchesRouter);
-<<<<<<< HEAD
 app.use("/api/order", isAuth, orderRouter);
-=======
 app.use("/api/product", isAuth, productRouter);
->>>>>>> 7dea779b65506d626e5f8b22b1f2f02497d7837d
 
 app.listen(5000, () => console.log("http://localhost:5000"));

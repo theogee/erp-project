@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
 module.exports = {
-	getProductMaterial: async (params) => {
+  getProductMaterial: async (params) => {
     const { productID, orderID } = params;
 
     const sql = `
@@ -10,10 +10,10 @@ module.exports = {
     WHERE product_id = $1 AND order_id = $2`;
 
     try {
-			return await pool.query(sql,[productID, orderID]);
-		} catch (err) {
-			throw err;
-		}
+      return await pool.query(sql, [productID, orderID]);
+    } catch (err) {
+      throw err;
+    }
   },
   postProductMaterial: async (params) => {
     const { productID, orderID, qty } = params;
@@ -68,6 +68,65 @@ module.exports = {
 
     try {
       return await pool.query(sql, [productID, orderID]);
+    } catch (err) {
+      throw err;
+    }
+  },
+  getAllProductByOrderID: async (params) => {
+    const { orderID } = params;
+
+    const sql = `
+    SELECT *
+    FROM order_product
+    WHERE order_id = $1`;
+
+    try {
+      return await pool.query(sql, [orderID]);
+    } catch (err) {
+      throw err;
+    }
+  },
+  postAllProductByOrderID: async (params) => {
+    try {
+      const { orderID, orderItems } = params;
+
+      const values = orderItems.map(
+        (item) => `(${orderID}, ${item.productID}, ${item.qty})`
+      );
+
+      const sql = `
+      INSERT INTO order_product
+      VALUES
+      ${values.join(",")}`;
+
+      return await pool.query(sql);
+    } catch (err) {
+      throw err;
+    }
+  },
+  updateProductByOrderID: async (params) => {
+    try {
+      const { orderID, orderItem } = params;
+
+      const sql =
+        "UPDATE order_product SET qty = $1 WHERE order_id = $2 AND product_id = $3";
+
+      return await pool.query(sql, [
+        orderItem.qty,
+        orderID,
+        orderItem.productID,
+      ]);
+    } catch (err) {
+      throw err;
+    }
+  },
+  deleteProductByOrderID: async (params) => {
+    try {
+      const { orderID } = params;
+
+      const sql = "DELETE FROM order_product WHERE order_id = $1";
+
+      return await pool.query(sql, [orderID]);
     } catch (err) {
       throw err;
     }

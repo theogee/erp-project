@@ -16,6 +16,7 @@ export default function NoBusinessCard() {
         textAlign: "center",
         width: "821px",
         height: "203px",
+        marginTop: "42px",
       }}
     >
       <p css={{ marginBottom: "35px", fontFamily: "Roboto, sans-serif" }}>

@@ -36,6 +36,7 @@ export default function ERPDashboard() {
 
         setUser(userData);
       } catch (err) {
+        console.log(err);
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
       }

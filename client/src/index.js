@@ -19,7 +19,12 @@ import {
   AddBusiness,
 } from "./components/Dashboard/";
 
-import { ERPDashboard, Inventory } from "./components/ERPDashboard/";
+import {
+  ERPDashboard,
+  Inventory,
+  Materials,
+  Products,
+} from "./components/ERPDashboard/";
 
 import Unauthorized from "./components/Unauthorized";
 
@@ -32,11 +37,17 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<Home />} />
           <Route path="business" element={<Business />} />
           <Route path="business/create" element={<AddBusiness />} />
+          <Route index element={<Home />} />
         </Route>
         <Route path="/b/:businessID/dashboard" element={<ERPDashboard />}>
+          <Route path="inventory/materials" element={<Materials />} />
+          <Route path="inventory/products" element={<Products />} />
+          <Route
+            path="production"
+            element={<h1>This is Production page!</h1>}
+          />
           <Route path="inventory" element={<Inventory />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />

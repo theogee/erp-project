@@ -8,6 +8,9 @@ export default createTheme({
     signatureGreen: {
       main: "#4AF48E",
     },
+    white: {
+      main: "#FFFFFF",
+    },
   },
   components: {
     MuiButton: {

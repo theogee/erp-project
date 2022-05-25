@@ -68,7 +68,6 @@ export default function ERPDashboard() {
       <Box
         sx={{
           padding: "40px 53px",
-          maxWidth: "100%",
           flexGrow: "100",
         }}
       >

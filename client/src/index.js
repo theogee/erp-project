@@ -22,8 +22,8 @@ import {
 import {
   ERPDashboard,
   Inventory,
-  Materials,
-  Products,
+  InventoryMaterials,
+  InventoryProducts,
 } from "./components/ERPDashboard/";
 
 import Unauthorized from "./components/Unauthorized";
@@ -42,8 +42,8 @@ ReactDOM.render(
           <Route index element={<Home />} />
         </Route>
         <Route path="/b/:businessID/dashboard" element={<ERPDashboard />}>
-          <Route path="inventory/materials" element={<Materials />} />
-          <Route path="inventory/products" element={<Products />} />
+          <Route path="inventory/materials" element={<InventoryMaterials />} />
+          <Route path="inventory/products" element={<InventoryProducts />} />
           <Route
             path="production"
             element={<h1>This is Production page!</h1>}

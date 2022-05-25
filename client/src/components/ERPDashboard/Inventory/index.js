@@ -1,3 +1,3 @@
 export { default as Inventory } from "./Inventory";
-export { default as Materials } from "./Materials";
-export { default as Products } from "./Products";
+export { default as InventoryMaterials } from "./InventoryMaterials";
+export { default as InventoryProducts } from "./InventoryProducts";

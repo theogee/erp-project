@@ -1,2 +1,2 @@
 export { default as ERPDashboard } from "./ERPDashboard";
-export { Inventory, Materials, Products } from "./Inventory";
+export { Inventory, InventoryMaterials, InventoryProducts } from "./Inventory";

@@ -41,7 +41,7 @@ export default function Warehouse() {
     <Stack>
       <h1>PRODUCT</h1>
       <br />
-      { showTable===false ? <ProductTable stateChanger={setShowTable} context={{ user, businessID, showTable }}></ProductTable> : <NewProduct context={{ user, businessID, showTable }}></NewProduct>  }
+      <Outlet context={{ user, businessID, showTable }} />
     </Stack>
   );
 }

@@ -175,6 +175,7 @@ export default function ProductTable() {
 
   const [products, setProduct] = useState([]);
   const [currency, setCurrency] = useState("EUR");
+  const [materials, setMaterial] = useState([]);
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
@@ -183,16 +184,21 @@ export default function ProductTable() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
+        const { data: productData } = await axios.get(
           SERVER_URL + `/api/product?businessID=${businessID}`,
           {
             withCredentials: true,
           }
         );
+        setProduct(productData.data);
 
-        console.log(data.data);
-
-        setProduct(data.data);
+        const { data: materialData } = await axios.get(
+          SERVER_URL + `/api/material?businessID=${businessID}`,
+          {
+            withCredentials: true,
+          }
+        );
+        setMaterial(materialData.data);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -217,6 +223,17 @@ export default function ProductTable() {
       >
         <Grid item>
           <h2>Add New Product</h2>
+        </Grid>
+        <Grid item>
+          <Button
+            //variant="containedGreen"
+            variant="outlined"
+            sx={{ padding: "10px 15px" }}
+            size="small"
+            onClick={() => navigate("..")}
+          >
+            Cancel
+          </Button>
         </Grid>
       </Grid>
       <Grid
@@ -280,7 +297,7 @@ export default function ProductTable() {
               fullWidth
               helperText="Please select your material"
               label="Material"
-              options={top100Films.map((option) => option.title)}
+              options={materials.map((material) => material.name)}
               //sx={{ width: "50%" }}
               renderInput={(params) => (
                 <TextField
@@ -372,13 +389,13 @@ export default function ProductTable() {
         </Table>
       </TableContainer>
       <Button
-          variant="containedGreen"
-          sx={{ padding: "10px 15px" }}
-          size="small"
-          fullWidth
-        >
-          Create product
-        </Button>
+        variant="containedGreen"
+        sx={{ padding: "10px 15px" }}
+        size="small"
+        fullWidth
+      >
+        Create product
+      </Button>
     </Stack>
   );
 }

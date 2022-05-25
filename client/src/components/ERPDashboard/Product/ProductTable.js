@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 
 import Stack from "@mui/material/Stack";
@@ -12,8 +12,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-
-import { useOutletContext } from "react-router-dom";
 
 export default function ProductTable() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -66,7 +64,7 @@ export default function ProductTable() {
             variant="containedGreen"
             sx={{ padding: "10px 15px" }}
             size="small"
-            onClick={() => stateChanger(false)}
+            onClick={() => navigate("add")}
           >
             Add New Product
           </Button>

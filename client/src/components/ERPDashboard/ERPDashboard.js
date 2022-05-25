@@ -18,6 +18,7 @@ export default function ERPDashboard() {
   const [business, setBusiness] = useState({});
   const [user, setUser] = useState({});
 
+
   useEffect(() => {
     (async () => {
       try {
@@ -43,7 +44,9 @@ export default function ERPDashboard() {
     })();
   }, []);
 
-  const links = [{ to: "inventory", name: "inventory", end: true }];
+  const links = [
+    { to: "inventory", name: "inventory", end: true },
+    { to: "product", name: "product", end: true}];
 
   return (
     <Stack component="main" direction="row">
@@ -60,7 +63,7 @@ export default function ERPDashboard() {
           flexGrow: "100",
         }}
       >
-        <Outlet context={business} />
+        <Outlet context={{user, businessID}} />
       </Box>
     </Stack>
   );

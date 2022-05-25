@@ -69,7 +69,6 @@ export default function ERPDashboard() {
         sx={{
           padding: "40px 53px",
           maxWidth: "100%",
-          height: "100vh",
           flexGrow: "100",
         }}
       >

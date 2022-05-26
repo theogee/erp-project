@@ -8,6 +8,11 @@ export default createTheme({
     signatureGreen: {
       main: "#4AF48E",
     },
+    status: {
+      yellow: "#F4CF4A",
+      red: "#F44A4A",
+      grey: "#C6C6C6",
+    },
     white: {
       main: "#FFFFFF",
     },

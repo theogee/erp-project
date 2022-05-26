@@ -67,8 +67,11 @@ export default function ERPDashboard() {
       />
       <Box
         sx={{
-          padding: "40px 53px",
           flexGrow: "100",
+          "& > *": {
+            padding: "40px 53px",
+            minHeight: "100vh",
+          },
         }}
       >
         <Outlet context={{ user, businessID }} />

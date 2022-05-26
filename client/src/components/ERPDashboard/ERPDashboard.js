@@ -56,6 +56,10 @@ export default function ERPDashboard() {
       to: "production",
       name: "Production",
     },
+    {
+      to: "pos",
+      name: "Point of Sales",
+    },
   ];
 
   return (

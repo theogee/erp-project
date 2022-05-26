@@ -222,7 +222,7 @@ export default function ProductTable() {
         sx={{ backgroundColor: "black" }}
       >
         <Grid item>
-          <h2>Add New Product</h2>
+          <h2>Edit Product</h2>
         </Grid>
         <Grid item>
           <Button

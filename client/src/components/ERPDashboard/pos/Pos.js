@@ -1,30 +1,36 @@
 import { React, useState, useEffect } from "react";
-import { Outlet, useNavigate, useOutletContext } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { useOutletContext } from "react-router-dom";
 import {
+  Paper,
   Stack,
+  Grid,
+  Button,
+  Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
-  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Divider,
+  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
-  Typography,
-  DialogActions,
+  DialogActions
 } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
 
-export default function ProductTable() {
+export default function Pos() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const { user, businessID } = useOutletContext();
 
@@ -40,6 +46,14 @@ export default function ProductTable() {
   const handleModalOpen = () => {
     setModal(true);
   };
+
+  const handleFinishTransaction = () => {
+    handleModalClose();
+  };
+
+  const date = new Date();
+  const today =
+    date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
 
   useEffect(() => {
     (async () => {
@@ -62,41 +76,72 @@ export default function ProductTable() {
   }, []);
 
   return (
-    <Stack
-      direction="column"
-      justifyContent="space-evenly"
-      alignItems="center"
-      spacing={2}
-    >
+    <Stack>
+      <h1>Point of Sales</h1>
+      <br />
       <Grid
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        flexGrow="100"
-        sx={{ backgroundColor: "black" }}
       >
         <Grid item>
-          <h2>Product List</h2>
+          <TextField
+            label="Client Name"
+            id="outlined-size-small"
+            placeholder="Insert client name"
+            md={4}
+          />
         </Grid>
         <Grid item>
-          <Button
-            variant="containedGreen"
-            sx={{ padding: "10px 15px" }}
-            size="small"
-            onClick={() => navigate("add")}
-          >
-            Add New Product
-          </Button>
+          <TextField
+            label="Date"
+            id="outlined-size-small"
+            defaultValue={today}
+            md={4}
+          />
         </Grid>
       </Grid>
+      <br />
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {products.map((product) => (
+          <Grid item md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h4" component="div">
+                  {product.name}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Rp.{product.price},-
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">
+                  <RemoveIcon />
+                </Button>
+                <Typography>0</Typography>
+                <Button size="small">
+                  <AddIcon />
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <br />
+      <Divider />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Product Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Production Process</TableCell>
+              <TableCell align="right">Quantity</TableCell>
+              <TableCell align="right">Total Price</TableCell>
               <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
@@ -109,16 +154,11 @@ export default function ProductTable() {
                 <TableCell component="th" scope="row">
                   {product.name}
                 </TableCell>
+                <TableCell align="right">
+                  <Typography>0</Typography>
+                </TableCell>
                 <TableCell align="right">{product.price}</TableCell>
                 <TableCell align="right">
-                  <Button size="small">
-                    <FileOpenIcon onClick={handleModalOpen} />
-                  </Button>
-                </TableCell>
-                <TableCell align="right">
-                  <Button size="small">
-                    <ModeEditIcon />
-                  </Button>
                   <Button size="small">
                     <DeleteIcon />
                   </Button>
@@ -128,16 +168,26 @@ export default function ProductTable() {
           </TableBody>
         </Table>
       </TableContainer>
+      <br />
+      <Button
+        variant="containedGreen"
+        sx={{ padding: "10px 15px" }}
+        size="small"
+        fullWidth
+        onClick={handleModalOpen}
+      >
+        Quote the order
+      </Button>
       <Dialog onClose={handleModalClose} open={modal}>
-        <DialogTitle variant="h4">Production Process</DialogTitle>
+        <DialogTitle variant="h3">Bill of Receipt</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Typography variant="h4">Product Name</Typography>
-            <Typography>Production process text</Typography>
+            Client name - Date
           </DialogContentText>
+          <Typography variant="h4">Rp.xxx.xxx,-</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleModalClose}>Close</Button>
+          <Button onClick={handleFinishTransaction}>Finish transaction</Button>
         </DialogActions>
       </Dialog>
     </Stack>

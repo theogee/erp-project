@@ -46,7 +46,8 @@ export default function ERPDashboard() {
 
   const links = [
     { to: "inventory", name: "inventory", end: true },
-    { to: "product", name: "product", end: true}];
+    { to: "product", name: "product", end: true},
+    { to: "pos", name: "pos", end: true}];
 
   return (
     <Stack component="main" direction="row">

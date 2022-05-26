@@ -17,7 +17,10 @@ const StyledStack = styled(Stack)`
 
 export default function SideNav(props) {
   return (
-    <nav className="sidebar">
+    <Box
+      component="nav"
+      sx={{ position: "sticky", top: "0", alignSelf: "flex-start" }}
+    >
       <StyledStack sx={{ height: "100vh" }}>
         <Stack
           direction="row"
@@ -37,6 +40,6 @@ export default function SideNav(props) {
         <MainLinks links={props.links} />
         <GreyLinks />
       </StyledStack>
-    </nav>
+    </Box>
   );
 }

@@ -26,8 +26,6 @@ export default function Business() {
           withCredentials: true,
         });
 
-        console.log(data.data);
-
         setBusinessData(data.data);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");

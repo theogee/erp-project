@@ -12,7 +12,7 @@ export default function BusinessCard(props) {
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    navigate(`/b/${props.business_id}/dashboard/inventory`);
+    navigate(`/b/${props.business_id}/dashboard/inventory/materials`);
   };
 
   return (

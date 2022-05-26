@@ -31,6 +31,7 @@ export default function GreyLinks() {
   };
 
   const greyLinks = [
+    { to: "/dashboard", name: "Home" },
     { to: "/dashboard/settings", name: "Settings" },
     { to: "/", name: "Logout", onClick: logout },
   ];

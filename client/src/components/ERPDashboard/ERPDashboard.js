@@ -18,7 +18,6 @@ export default function ERPDashboard() {
   const [business, setBusiness] = useState({});
   const [user, setUser] = useState({});
 
-
   useEffect(() => {
     (async () => {
       try {
@@ -45,9 +44,23 @@ export default function ERPDashboard() {
   }, []);
 
   const links = [
-    { to: "inventory", name: "inventory", end: true },
-    { to: "product", name: "product", end: true},
-    { to: "pos", name: "pos", end: true}];
+    {
+      to: "inventory",
+      name: "Inventory",
+      subLinks: [
+        { to: "inventory/materials", name: "Materials" },
+        { to: "inventory/products", name: "Products" },
+      ],
+    },
+    {
+      to: "production",
+      name: "Production",
+    },
+    {
+      to: "pos",
+      name: "Point of Sales",
+    },
+  ];
 
   return (
     <Stack component="main" direction="row">
@@ -59,12 +72,10 @@ export default function ERPDashboard() {
       <Box
         sx={{
           padding: "40px 53px",
-          maxWidth: "100%",
-          height: "100vh",
           flexGrow: "100",
         }}
       >
-        <Outlet context={{user, businessID}} />
+        <Outlet context={{ user, businessID }} />
       </Box>
     </Stack>
   );

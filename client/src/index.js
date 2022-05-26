@@ -57,7 +57,7 @@ ReactDOM.render(
           <Route path="production" element={<Product />}>
             <Route index element={<ProductTable />}></Route>
             <Route path="add" element={<NewProduct />} />
-            <Route path="edit" element={<EditProduct />} />
+            <Route path="edit/:productID" element={<EditProduct />} />
           </Route>
           <Route path="pos" element={<Pos />} />
           <Route path="supplier" element={<Supplier />}>

@@ -33,13 +33,15 @@ export default function ProductTable() {
   const [products, setProduct] = useState([]);
   const [modal, setModal] = useState(false);
 
-  const handleModalClose = () => {
-    setModal(false);
+  const [productOnPopUp, setProductOnPopUp] = useState({});
+
+  const handleModal = () => {
+    setModal(!modal);
   };
 
-  const handleModalOpen = () => {
-    setModal(true);
-  };
+  const handleEdit = (id) => {
+    navigate(`edit/${id}`);
+  }
 
   useEffect(() => {
     (async () => {
@@ -112,12 +114,19 @@ export default function ProductTable() {
                 <TableCell align="right">{product.price}</TableCell>
                 <TableCell align="right">
                   <Button size="small">
-                    <FileOpenIcon onClick={handleModalOpen} />
+                    <FileOpenIcon
+                      onClick={() => {
+                        setProductOnPopUp(product);
+                        handleModal();
+                      }}
+                    />
                   </Button>
                 </TableCell>
                 <TableCell align="right">
                   <Button size="small">
-                    <ModeEditIcon />
+                  <ModeEditIcon 
+                      onClick={ () => {handleEdit(product.product_id)}}
+                    />
                   </Button>
                   <Button size="small">
                     <DeleteIcon />
@@ -128,16 +137,16 @@ export default function ProductTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog onClose={handleModalClose} open={modal}>
+      <Dialog onClose={handleModal} open={modal}>
         <DialogTitle variant="h4">Production Process</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Typography variant="h4">Product Name</Typography>
-            <Typography>Production process text</Typography>
+            <Typography variant="h4">{productOnPopUp.name}</Typography>
+            <Typography>{productOnPopUp.production_process}</Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleModalClose}>Close</Button>
+          <Button onClick={handleModal}>Close</Button>
         </DialogActions>
       </Dialog>
     </Stack>

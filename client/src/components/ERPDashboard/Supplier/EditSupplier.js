@@ -13,28 +13,38 @@ export default function EditProduct({ id }) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const { user, businessID } = useOutletContext();
 
-  const [supplier, setSupplier] = useState();
+  const [supplier, setSupplier] = useState({});
 
   const navigate = useNavigate();
   const params = useParams();
 
-  useEffect(() => {
-      (async () => {
-        try {
-          const { data } = await axios.get(
-            SERVER_URL + `/api/supplier/${params.supplierID}`,
-            {
-              withCredentials: true,
-            }
-          );
-  
-          setSupplier(data.data);
+  const handleChangeSupplierName = (e) => {
+    setSupplier((oldSupplier) => ({ ...oldSupplier, name: e.target.value }));
+  };
 
-          console.log(data.data);
-        } catch (err) {
-          if (err.response.status === 401) navigate("/unauthorized");
-          else console.log(err);
-        }
+  const handleChangeSupplierTelp = (e) => {
+    setSupplier((oldSupplier) => ({ ...oldSupplier, telp: e.target.value }));
+  };
+
+  const handleChangeSupplierAddress = (e) => {
+    setSupplier((oldSupplier) => ({ ...oldSupplier, address: e.target.value }));
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(
+          SERVER_URL + `/api/supplier/${params.supplierID}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setSupplier(data.data[0]);
+      } catch (err) {
+        if (err.response.status === 401) navigate("/unauthorized");
+        else console.log(err);
+      }
     })();
   }, []);
 
@@ -77,13 +87,17 @@ export default function EditProduct({ id }) {
         <TextField
           label="Supplier Name"
           id="outlined-size-small"
-          placeholder={supplier[0].name}
+          value={supplier.name}
+          focused
+          onChange={handleChangeSupplierName}
           md={8}
         />
         <TextField
           label="Phone"
           id="outlined-size-small"
-          //placeholder={supplier.telp}
+          value={supplier.telp}
+          onChange={handleChangeSupplierTelp}
+          focused
           md={4}
         />
       </Grid>
@@ -93,7 +107,9 @@ export default function EditProduct({ id }) {
         label="Address"
         multiline
         rows={6}
-        //placeholder={supplier.address}
+        value={supplier.address}
+        onChange={handleChangeSupplierAddress}
+        focused
       />
       <Button
         variant="containedGreen"

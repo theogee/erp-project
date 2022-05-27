@@ -6,8 +6,11 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 import { GeeTable } from "../../../GeeComponents";
+
+import InspectedMaterial from "./InspectedMaterial";
 
 export default function InventoryMaterials() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -16,7 +19,7 @@ export default function InventoryMaterials() {
   const params = useParams();
 
   const [tableData, setTableData] = React.useState([]);
-  const [inspectedMaterialID, setInspectedMaterialID] = React.useState();
+  const [inspectedMaterialID, setInspectedMaterialID] = React.useState(2);
 
   useEffect(() => {
     (async () => {
@@ -45,13 +48,27 @@ export default function InventoryMaterials() {
   ];
 
   return (
-    <Box component="main" sx={{ backgroundColor: "#F3F3F3" }}>
-      <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>Materials</h1>
-      <GeeTable
-        tableData={tableData}
-        headCells={headCells}
-        onChecked={setInspectedMaterialID}
-      />
-    </Box>
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      component="main"
+      sx={{ backgroundColor: "#F3F3F3" }}
+    >
+      <Box>
+        <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>Materials</h1>
+        <GeeTable
+          tableData={tableData}
+          headCells={headCells}
+          onChecked={setInspectedMaterialID}
+          minWidth="504px"
+        />
+      </Box>
+      <Box sx={{ width: "600px" }}>
+        <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
+          Inspecting Materials...
+        </h1>
+        <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
+      </Box>
+    </Stack>
   );
 }

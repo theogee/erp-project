@@ -3,9 +3,10 @@ const pool = require("./pool");
 module.exports = {
   getMaterial: async (businessID) => {
     const sql = `
-    SELECT *
-    FROM material
-    WHERE business_id = $1`;
+    SELECT mt.*, ms.name AS measurement_name, SUM(b.current_qty) AS cummulative_qty 
+    FROM material mt, measurement ms, batches b 
+    WHERE mt.measurement_id = ms.measurement_id AND mt.material_id = b.material_id AND mt.business_id = $1
+    GROUP BY mt.material_id, ms.name`;
 
     try {
       return await pool.query(sql, [businessID]);

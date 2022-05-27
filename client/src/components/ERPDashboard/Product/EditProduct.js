@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import Stack from "@mui/material/Stack";
@@ -19,6 +19,25 @@ import MenuItem from "@mui/material/MenuItem";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 import { useOutletContext } from "react-router-dom";
+
+const currencies = [
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
 
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
@@ -148,49 +167,67 @@ const top100Films = [
   { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
 
-const currencies = [
-  {
-    value: "USD",
-    label: "$",
-  },
-  {
-    value: "EUR",
-    label: "€",
-  },
-  {
-    value: "BTC",
-    label: "฿",
-  },
-  {
-    value: "JPY",
-    label: "¥",
-  },
-];
-
 export default function ProductTable() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   const { user, businessID } = useOutletContext();
 
-  const navigate = useNavigate();
+  const currencies = [
+    {
+      value: "USD",
+      label: "$",
+    },
+    {
+      value: "EUR",
+      label: "€",
+    },
+    {
+      value: "BTC",
+      label: "฿",
+    },
+    {
+      value: "JPY",
+      label: "¥",
+    },
+  ];
 
-  const [products, setProduct] = useState([]);
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const [products, setProducts] = useState();
+  const [materials, setMaterials] = useState([]);
+  const [production, setProduction] = useState({});
   const [currency, setCurrency] = useState("EUR");
-  const [materials, setMaterial] = useState([]);
 
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
 
+  const handleChangeProductName = (e) => {
+    setProduction((oldProduct) => ({ ...oldProduct, name: e.target.value }));
+  };
+
+  const handleChangeProductPrice = (e) => {
+    setProduction((oldProduct) => ({ ...oldProduct, price: e.target.value }));
+  };
+
+  const handleChangeProductProcess = (e) => {
+    setProduction((oldProduct) => ({
+      ...oldProduct,
+      production_process: e.target.value,
+    }));
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        const { data: productData } = await axios.get(
+        const { data: productsData } = await axios.get(
           SERVER_URL + `/api/product?businessID=${businessID}`,
           {
             withCredentials: true,
           }
         );
-        setProduct(productData.data);
+        console.log(productsData);
+        setProducts(productsData.data);
 
         const { data: materialData } = await axios.get(
           SERVER_URL + `/api/material?businessID=${businessID}`,
@@ -198,7 +235,16 @@ export default function ProductTable() {
             withCredentials: true,
           }
         );
-        setMaterial(materialData.data);
+        setMaterials(materialData.data);
+
+        const { data: productionData } = await axios.get(
+          SERVER_URL + `/api/product/${params.productID}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(productionData.data[0]);
+        setProduction(productionData.data[0]);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -245,13 +291,17 @@ export default function ProductTable() {
         <TextField
           label="Product Name"
           id="outlined-size-small"
-          placeholder="Insert product name"
+          value={production.name}
+          onChange={handleChangeProductName}
+          focused
           md={8}
         />
         <TextField
           label="Price"
           id="outlined-size-small"
-          placeholder="Insert product price"
+          value={production.price}
+          onChange={handleChangeProductPrice}
+          focused
           md={4}
         />
       </Grid>
@@ -261,7 +311,9 @@ export default function ProductTable() {
         label="Production Process"
         multiline
         rows={6}
-        placeholder="Insert production process"
+        value={production.production_process}
+        onChange={handleChangeProductProcess}
+        focused
       />
       <Grid container>
         <Grid
@@ -372,7 +424,7 @@ export default function ProductTable() {
           <TableBody>
             {products.map((product) => (
               <TableRow
-                key={product.name}
+                key={product.product_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">

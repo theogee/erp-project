@@ -30,15 +30,17 @@ export default function ProductTable() {
 
   const navigate = useNavigate();
 
-  const [products, setProduct] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [modal, setModal] = useState(false);
 
-  const [productOnPopUp, setProductOnPopUp] = useState({});
-
-  const handleModal = () => {
-    setModal(!modal);
+  const handleModalClose = () => {
+    setModal(false);
   };
 
+  const handleModalOpen = () => {
+    setModal(true);
+  };
+  
   const handleEdit = (id) => {
     navigate(`edit/${id}`);
   }
@@ -47,7 +49,7 @@ export default function ProductTable() {
     (async () => {
       try {
         const { data } = await axios.get(
-          SERVER_URL + `/api/product?businessID=${businessID}`,
+          SERVER_URL + `/api/supplier?businessID=${businessID}`,
           {
             withCredentials: true,
           }
@@ -55,7 +57,7 @@ export default function ProductTable() {
 
         console.log(data.data);
 
-        setProduct(data.data);
+        setSuppliers(data.data);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -79,7 +81,7 @@ export default function ProductTable() {
         sx={{ backgroundColor: "black" }}
       >
         <Grid item>
-          <h2>Product List</h2>
+          <h2>Supplier List</h2>
         </Grid>
         <Grid item>
           <Button
@@ -88,7 +90,7 @@ export default function ProductTable() {
             size="small"
             onClick={() => navigate("add")}
           >
-            Add New Product
+            Add New Supplier
           </Button>
         </Grid>
       </Grid>
@@ -96,36 +98,31 @@ export default function ProductTable() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Production Process</TableCell>
+              <TableCell>Supplier Name</TableCell>
+              <TableCell align="right">Address</TableCell>
+              <TableCell align="right">Phone</TableCell>
               <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {suppliers.map((supplier) => (
               <TableRow
-                key={product.name}
+                key={supplier.supplier_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {product.name}
+                  {supplier.name}
                 </TableCell>
-                <TableCell align="right">{product.price}</TableCell>
+                <TableCell align="right">{supplier.address}</TableCell>
                 <TableCell align="right">
-                  <Button size="small">
-                    <FileOpenIcon
-                      onClick={() => {
-                        setProductOnPopUp(product);
-                        handleModal();
-                      }}
-                    />
-                  </Button>
+                  <Typography>
+                    {supplier.telp}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
                   <Button size="small">
-                  <ModeEditIcon 
-                      onClick={ () => {handleEdit(product.product_id)}}
+                    <ModeEditIcon 
+                      onClick={ () => {handleEdit(supplier.supplier_id)}}
                     />
                   </Button>
                   <Button size="small">
@@ -137,16 +134,16 @@ export default function ProductTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog onClose={handleModal} open={modal}>
+      <Dialog onClose={handleModalClose} open={modal}>
         <DialogTitle variant="h4">Production Process</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Typography variant="h4">{productOnPopUp.name}</Typography>
-            <Typography>{productOnPopUp.production_process}</Typography>
+            <Typography variant="h4">Product Name</Typography>
+            <Typography>Production process text</Typography>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleModal}>Close</Button>
+          <Button onClick={handleModalClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </Stack>

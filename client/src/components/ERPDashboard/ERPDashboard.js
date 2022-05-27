@@ -55,11 +55,18 @@ export default function ERPDashboard() {
     {
       to: "production",
       name: "Production",
+      subLinks: [
+        { to: "production/jobs", name: "Queued Jobs" },
+      ]
     },
     {
       to: "pos",
       name: "Point of Sales",
     },
+    {
+      to: "supplier",
+      name: "Supplier",
+    }
   ];
 
   return (

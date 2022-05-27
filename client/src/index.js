@@ -28,7 +28,11 @@ import {
   ProductTable,
   NewProduct,
   EditProduct,
-  Pos
+  Pos,
+  Supplier,
+  SupplierTable,
+  NewSupplier,
+  EditSupplier
 } from "./components/ERPDashboard/";
 
 import Unauthorized from "./components/Unauthorized";
@@ -53,9 +57,14 @@ ReactDOM.render(
           <Route path="production" element={<Product />}>
             <Route index element={<ProductTable />}></Route>
             <Route path="add" element={<NewProduct />} />
-            <Route path="edit" element={<EditProduct />} />
+            <Route path="edit/:productID" element={<EditProduct />} />
           </Route>
           <Route path="pos" element={<Pos />} />
+          <Route path="supplier" element={<Supplier />}>
+            <Route index element={<SupplierTable />}></Route>
+            <Route path="add" element={<NewSupplier />} />
+            <Route path="edit/:supplierID" element={<EditSupplier />} />
+          </Route>
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />

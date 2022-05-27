@@ -3,18 +3,35 @@ import React from "react";
 
 import axios from "axios";
 
-import { useNavigate, useState } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
+
+const StyledBox = styled(Box)`
+  font-size: 13px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 15px 30px;
+  box-shadow: 0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1),
+    0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
+    0px 0px 1.27568px rgba(0, 0, 0, 0.08);
+  & > p {
+    margin: 5px 0;
+    font-weight: 500;
+  }
+`;
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
   const [inspectedMaterial, setInspectedMaterial] = React.useState({});
   const [inspectedBatches, setInspectedBatches] = React.useState([]);
+  const [inspectedBatch, setInspectedBatch] = React.useState({});
+  const [supplier, setSupplier] = React.useState({});
 
   const navigate = useNavigate();
 
@@ -45,12 +62,31 @@ export default function InspectedMaterial(props) {
         });
 
         setInspectedBatches(batchesData.data);
+        setInspectedBatch(batchesData.data[0]);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
       }
     })();
   }, [inspectedMaterialID]);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const { data: supplierData } = await axios.get(
+          SERVER_URL + `/api/supplier/${inspectedBatch.supplier_id}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setSupplier(supplierData.data[0]);
+      } catch (err) {
+        if (err.response.status === 401) navigate("/unauthorized");
+        else console.log(err);
+      }
+    })();
+  }, [inspectedBatch]);
 
   const formatDate = (dateData) => {
     const date = new Date(dateData);
@@ -73,8 +109,8 @@ export default function InspectedMaterial(props) {
   const headCells = [
     { label: "NO", map: "definedIndex", width: "35px" },
     { label: "PUR. DATE", map: "purchase_date", width: "70px" },
-    { label: "EX. DATE", map: "expiry_date", width: "70px" },
-    { label: "QTY", map: "current_qty", width: "60px" },
+    { label: "EX. DATE", map: "expiry_date", width: "80px" },
+    { label: "QTY", map: "current_qty", width: "50px" },
     {
       label: "MEAS.",
       forceValue: inspectedMaterial.measurement_name,
@@ -86,20 +122,7 @@ export default function InspectedMaterial(props) {
 
   return (
     <Box>
-      <Box
-        sx={{
-          fontSize: "13px",
-          backgroundColor: "#FFFFFF",
-          borderRadius: "5px",
-          padding: "15px 30px",
-          boxShadow:
-            "0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1), 0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12), 0px 0px 1.27568px rgba(0, 0, 0, 0.08);",
-          "& > p": {
-            margin: "5px 0",
-            fontWeight: "500",
-          },
-        }}
-      >
+      <StyledBox>
         <p>Name: {inspectedMaterial.name}</p>
         <p>
           Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
@@ -115,13 +138,34 @@ export default function InspectedMaterial(props) {
             safetyStockQty={inspectedMaterial.safety_stock_qty}
           />
         </Stack>
-      </Box>
+      </StyledBox>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable
         tableData={inspectedBatches}
         headCells={headCells}
         minWidth="100%"
+        checkedID="batch_id"
+        onChecked={(batchID) =>
+          setInspectedBatch(
+            inspectedBatches.find((batch) => batch.batch_id === batchID)
+          )
+        }
       />
+      <StyledBox sx={{ marginTop: "34px" }}>
+        <p>Supplier: {supplier.name}</p>
+        <p>
+          Purchase Qty: {inspectedBatch.purchase_qty}{" "}
+          {inspectedMaterial.measurement_name}
+        </p>
+        <p>
+          Current Qty: {inspectedBatch.current_qty}{" "}
+          {inspectedMaterial.measurement_name}
+        </p>
+        <p>Price/Unit: {inspectedBatch.price_per_unit}</p>
+        <p>Purchase Price: {inspectedBatch.purchase_price}</p>
+        <p>Purchase Date: {inspectedBatch.purchase_date}</p>
+        <p>Expiry Date: {inspectedBatch.expiry_date}</p>
+      </StyledBox>
     </Box>
   );
 }

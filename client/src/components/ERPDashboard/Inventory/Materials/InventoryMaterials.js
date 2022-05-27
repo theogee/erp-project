@@ -59,6 +59,7 @@ export default function InventoryMaterials() {
         <GeeTable
           tableData={tableData}
           headCells={headCells}
+          checkedID="material_id"
           onChecked={setInspectedMaterialID}
           minWidth="504px"
         />

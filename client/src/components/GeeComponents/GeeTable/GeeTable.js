@@ -10,7 +10,9 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import InfoIcon from "@mui/icons-material/Info";
+import AddIcon from "@mui/icons-material/Add";
 
 import CustomCheckbox from "./CustomCheckbox";
 import GeeCircleStatus from "../GeeCircleStatus";
@@ -104,8 +106,15 @@ export default function GeeTable(props) {
    *  Theo Gee ~ Author of Gee Components
    *
    */
-  const { tableData, headCells, onChecked, checkedID, minWidth, maxWidth } =
-    props;
+  const {
+    tableData,
+    headCells,
+    onChecked,
+    checkedID,
+    tableButton,
+    minWidth,
+    maxWidth,
+  } = props;
 
   const [page, setPage] = React.useState(0);
   const [selected, setSelected] = React.useState(0);
@@ -174,8 +183,15 @@ export default function GeeTable(props) {
               </StyledTableRow>
             ))}
           <StyledTableRow>
+            {tableButton && (
+              <StyledTableCell colSpan={3}>
+                <Button variant="GeeTableButton" startIcon={<AddIcon />}>
+                  {tableButton.label}
+                </Button>
+              </StyledTableCell>
+            )}
             <StyledTableCell
-              colSpan={12}
+              colSpan={9}
               sx={{ padding: 0, backgroundColor: "#F4F7FCBF" }}
             >
               <TablePagination

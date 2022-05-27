@@ -36,6 +36,20 @@ export default createTheme({
             },
           },
         },
+        {
+          props: { variant: "GeeTableButton" },
+          style: {
+            fontSize: "10px",
+            padding: "3px 7px",
+            backgroundColor: "#2264E5",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#2264E5",
+            },
+          },
+        },
       ],
     },
     MuiPaper: {

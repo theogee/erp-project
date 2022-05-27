@@ -10,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import CircleIcon from "@mui/icons-material/Circle";
 import InfoIcon from "@mui/icons-material/Info";
 
 import CustomCheckbox from "./CustomCheckbox";
@@ -96,7 +95,8 @@ export default function GeeTable(props) {
    *  Theo Gee ~ Author of Gee Components
    *
    */
-  const { tableData, headCells, onChecked, minWidth, maxWidth } = props;
+  const { tableData, headCells, onChecked, checkedID, minWidth, maxWidth } =
+    props;
 
   const [page, setPage] = React.useState(0);
   const [selected, setSelected] = React.useState(0);
@@ -153,7 +153,7 @@ export default function GeeTable(props) {
                     selected={selected}
                     onChange={(newState) => {
                       setSelected(newState);
-                      onChecked(data.material_id);
+                      onChecked(data[checkedID]);
                     }}
                   />
                 </StyledTableCell>

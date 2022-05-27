@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 import { GeeTable } from "../../../GeeComponents";
 
@@ -62,6 +63,7 @@ export default function InventoryMaterials() {
           checkedID="material_id"
           onChecked={setInspectedMaterialID}
           minWidth="504px"
+          tableButton={{ label: "Add material", onClick: () => {} }}
         />
       </Box>
       <Box sx={{ width: "600px" }}>

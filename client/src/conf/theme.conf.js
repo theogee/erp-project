@@ -8,6 +8,15 @@ export default createTheme({
     signatureGreen: {
       main: "#4AF48E",
     },
+    yellow: {
+      main: "#F4CF4A",
+    },
+    red: {
+      main: "#F44A4A",
+    },
+    grey: {
+      main: "#C6C6C6",
+    },
     white: {
       main: "#FFFFFF",
     },

@@ -20,7 +20,7 @@ export default function InventoryMaterials() {
   const params = useParams();
 
   const [tableData, setTableData] = React.useState([]);
-  const [inspectedMaterialID, setInspectedMaterialID] = React.useState(2);
+  const [inspectedMaterialID, setInspectedMaterialID] = React.useState(0);
 
   useEffect(() => {
     (async () => {
@@ -33,6 +33,7 @@ export default function InventoryMaterials() {
         );
 
         setTableData(data.data);
+        setInspectedMaterialID(data.data[0].material_id);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);

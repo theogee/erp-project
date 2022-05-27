@@ -113,7 +113,7 @@ export default function InspectedMaterial(props) {
     { label: "QTY", map: "current_qty", width: "50px" },
     {
       label: "MEAS.",
-      forceValue: inspectedMaterial.measurement_name,
+      forcedValue: inspectedMaterial.measurement_name,
       width: "70px",
     },
     { label: "PRICE/UNIT", map: "price_per_unit", width: "60px" },

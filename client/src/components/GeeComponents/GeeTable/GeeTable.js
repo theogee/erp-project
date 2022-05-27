@@ -56,7 +56,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const determineValue = (cell, data, i) => {
-  if (cell.forceValue) return cell.forceValue;
+  if (cell.forcedValue) return cell.forcedValue;
 
   if (cell.map === "definedIndex") return i + 1;
   else if (cell.map === "definedStatus") {
@@ -77,7 +77,7 @@ export default function GeeTable(props) {
    *  The Gee table is made by Theo Gee with love and tears.
    *  Countless hours have been spent to develope this flexible table.
    *  To use, you'll need to pass tableData and headCells props to the component.
-   *  The headCell will define the header column. [,{label, map, width}].
+   *  The headCell will define the header column. [,{label, map, width, forcedValue}].
    *    - label define the name of the column
    *    - map define the mapping between each table cells with the tableData property.
    *      there are 2 exception map values: definedIndex and definedStatus
@@ -86,6 +86,15 @@ export default function GeeTable(props) {
    *        - grey: safety_stock_qty doesn't exist
    *        - red: cummulative_qty === safety_stock_qty
    *        - green: else
+   *    - forcedValue is used when there's no mapping between headCells and table data but you get the value from somewhere else.
+   *      I wonder how one would find an implementation of this...
+   *
+   *  Optional props: onChecked & checkedID, minWidht & maxWidht. Can be set if needed.
+   *
+   *  Configure onChecked & checkedID to allow GeeTable to change the state on the parent components to the corresponding data ID of the row.
+   *  Thus, you can know what's being checked 😎!
+   *
+   *  minWidht & maxWidht for styling purposes.
    *
    *  Please take a look at existing example of GeeTable implementation and follow it if you don't want to ecounter any erros 😬
    *

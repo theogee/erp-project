@@ -14,6 +14,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import InfoIcon from "@mui/icons-material/Info";
 
 import CustomCheckbox from "./CustomCheckbox";
+import GeeCircleStatus from "../GeeCircleStatus";
 
 const StyledTableContainer = styled(TableContainer)`
   background-color: #f4f7fc;
@@ -21,8 +22,7 @@ const StyledTableContainer = styled(TableContainer)`
     0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
     0px 0px 1.27568px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  min-width: 404px;
-  max-width: 40%;
+
   overflow-x: hidden;
 `;
 
@@ -57,17 +57,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const determineValue = (cell, data, i) => {
+  if (cell.forceValue) return cell.forceValue;
+
   if (cell.map === "definedIndex") return i + 1;
   else if (cell.map === "definedStatus") {
-    let color;
-    if (!data.safety_stock_qty) color = "grey";
-    else {
-      if (data.cummulative_qty === data.safety_stock_qty) color = "red";
-      else if (data.cummulative_qty <= data.safety_stock_qty * 2)
-        color = "yellow";
-      else color = "signatureGreen";
-    }
-    return <CircleIcon color={color} fontSize="10" />;
+    return (
+      <GeeCircleStatus
+        cummulativeQty={data.cummulative_qty}
+        safetyStockQty={data.safety_stock_qty}
+      />
+    );
   } else return data[cell.map];
 };
 
@@ -97,7 +96,7 @@ export default function GeeTable(props) {
    *  Theo Gee ~ Author of Gee Components
    *
    */
-  const { tableData, headCells } = props;
+  const { tableData, headCells, onChecked, minWidth, maxWidth } = props;
 
   const [page, setPage] = React.useState(0);
   const [selected, setSelected] = React.useState(0);
@@ -107,7 +106,13 @@ export default function GeeTable(props) {
   };
 
   return (
-    <StyledTableContainer component={Box}>
+    <StyledTableContainer
+      component={Box}
+      sx={{
+        minWidth: minWidth || "504px",
+        maxWidth: maxWidth || "40%",
+      }}
+    >
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -146,7 +151,10 @@ export default function GeeTable(props) {
                   <CustomCheckbox
                     value={i}
                     selected={selected}
-                    onChange={setSelected}
+                    onChange={(newState) => {
+                      setSelected(newState);
+                      onChecked(data.material_id);
+                    }}
                   />
                 </StyledTableCell>
                 {headCells.map((cell) => (
@@ -157,7 +165,10 @@ export default function GeeTable(props) {
               </StyledTableRow>
             ))}
           <StyledTableRow>
-            <StyledTableCell colSpan={12} sx={{ padding: 0 }}>
+            <StyledTableCell
+              colSpan={12}
+              sx={{ padding: 0, backgroundColor: "#F4F7FCBF" }}
+            >
               <TablePagination
                 component="div"
                 count={tableData.length}

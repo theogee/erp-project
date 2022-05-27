@@ -18,9 +18,9 @@ module.exports = {
     const { materialID } = params;
 
     const sql = `
-    SELECT *
-    FROM material
-    WHERE material_id = $1`;
+    SELECT mt.*, ms.name AS measurement_name
+    FROM material mt, measurement ms
+    WHERE mt.measurement_id = ms.measurement_id AND material_id = $1`;
 
     try {
       return await pool.query(sql, [materialID]);

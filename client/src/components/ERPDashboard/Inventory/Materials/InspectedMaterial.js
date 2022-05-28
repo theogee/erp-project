@@ -122,17 +122,21 @@ export default function InspectedMaterial(props) {
         <p>
           Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
         </p>
-        <p>
-          Safety Stock: {inspectedMaterial.safety_stock_qty}{" "}
-          {inspectedMaterial.measurement_name}
-        </p>
-        <Stack component="p" direction="row" alignItems="center">
-          <p css={{ marginRight: "10px" }}>Status:</p>
-          <GeeCircleStatus
-            cummulativeQty={inspectedMaterial.cummulative_qty}
-            safetyStockQty={inspectedMaterial.safety_stock_qty}
-          />
-        </Stack>
+        {inspectedMaterial.safety_stock_qty && (
+          <>
+            <p>
+              Safety Stock: {inspectedMaterial.safety_stock_qty}{" "}
+              {inspectedMaterial.measurement_name}
+            </p>
+            <Stack component="p" direction="row" alignItems="center">
+              <p css={{ marginRight: "10px" }}>Status:</p>
+              <GeeCircleStatus
+                cummulativeQty={inspectedMaterial.cummulative_qty}
+                safetyStockQty={inspectedMaterial.safety_stock_qty}
+              />
+            </Stack>
+          </>
+        )}
       </StyledPaper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable

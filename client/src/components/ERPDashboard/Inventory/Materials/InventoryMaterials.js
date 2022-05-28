@@ -23,18 +23,22 @@ export default function InventoryMaterials() {
   const [inspectedMaterialID, setInspectedMaterialID] = React.useState(0);
   const [isAdding, setIsAdding] = React.useState(false);
 
+  const getMaterials = async () => {
+    const { data } = await axios.get(
+      SERVER_URL + `/api/material?businessID=${params.businessID}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    setTableData(data.data);
+    setInspectedMaterialID(data.data[0].material_id);
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(
-          SERVER_URL + `/api/material?businessID=${params.businessID}`,
-          {
-            withCredentials: true,
-          }
-        );
-
-        setTableData(data.data);
-        setInspectedMaterialID(data.data[0].material_id);
+        getMaterials();
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -76,7 +80,12 @@ export default function InventoryMaterials() {
           {isAdding ? "Adding Material..." : "Inspecting Material..."}
         </h1>
         {isAdding ? (
-          <AddMaterial />
+          <AddMaterial
+            closeView={() => {
+              setIsAdding(false);
+              getMaterials();
+            }}
+          />
         ) : (
           <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
         )}

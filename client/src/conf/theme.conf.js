@@ -86,5 +86,16 @@ export default createTheme({
         },
       ],
     },
+    MuiAlert: {
+      variants: [
+        {
+          props: { variant: "darkSuccess" },
+          style: {
+            backgroundColor: "rgb(12, 19, 13)",
+            color: "#4af48e",
+          },
+        },
+      ],
+    },
   },
 });

@@ -172,6 +172,7 @@ export default function GeeTable(props) {
                     onChange={(newState) => {
                       setSelected(newState);
                       onChecked(data[checkedID]);
+                      tableButton.onClick(false);
                     }}
                   />
                 </StyledTableCell>
@@ -185,7 +186,11 @@ export default function GeeTable(props) {
           <StyledTableRow>
             {tableButton && (
               <StyledTableCell colSpan={3}>
-                <Button variant="GeeTableButton" startIcon={<AddIcon />}>
+                <Button
+                  variant="GeeTableButton"
+                  startIcon={<AddIcon />}
+                  onClick={() => tableButton.onClick(true)}
+                >
                   {tableButton.label}
                 </Button>
               </StyledTableCell>

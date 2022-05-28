@@ -7,11 +7,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 
 import { GeeTable } from "../../../GeeComponents";
 
 import InspectedMaterial from "./InspectedMaterial";
+import AddMaterial from "./AddMaterial";
 
 export default function InventoryMaterials() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -21,6 +21,7 @@ export default function InventoryMaterials() {
 
   const [tableData, setTableData] = React.useState([]);
   const [inspectedMaterialID, setInspectedMaterialID] = React.useState(0);
+  const [isAdding, setIsAdding] = React.useState(false);
 
   useEffect(() => {
     (async () => {
@@ -64,14 +65,21 @@ export default function InventoryMaterials() {
           checkedID="material_id"
           onChecked={setInspectedMaterialID}
           minWidth="504px"
-          tableButton={{ label: "Add material", onClick: () => {} }}
+          tableButton={{
+            label: "Add material",
+            onClick: (newState) => setIsAdding(newState),
+          }}
         />
       </Box>
       <Box sx={{ width: "600px" }}>
         <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-          Inspecting Materials...
+          {isAdding ? "Adding Material..." : "Inspecting Material..."}
         </h1>
-        <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
+        {isAdding ? (
+          <AddMaterial />
+        ) : (
+          <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
+        )}
       </Box>
     </Stack>
   );

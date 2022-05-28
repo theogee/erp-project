@@ -37,6 +37,18 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "containedBlue" },
+          style: {
+            backgroundColor: "#0048D9",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#0048D9",
+            },
+          },
+        },
+        {
           props: { variant: "GeeTableButton" },
           style: {
             fontSize: "10px",
@@ -59,6 +71,17 @@ export default createTheme({
           style: {
             border: "1px solid rgba(0, 0, 0, 0.12)",
             borderTop: "5px solid #4af48e",
+          },
+        },
+        {
+          props: { variant: "customPaper" },
+          style: {
+            backgroundColor: "#ffffff",
+            borderRadius: "5px",
+            padding: "15px 30px",
+            boxShadow: `0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1),
+            0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
+            0px 0px 1.27568px rgba(0, 0, 0, 0.08)`,
           },
         },
       ],

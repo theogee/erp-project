@@ -13,16 +13,66 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 
+const regex = /^[0-9]*\.?[0-9]*$/;
+
+const materialReducer = (prevMaterial, action) => {
+  switch (action.type) {
+    case "onchange-material-name":
+      return { ...prevMaterial, name: action.payload.name };
+    case "onchange-material-measurementName":
+      return {
+        ...prevMaterial,
+        measurementName: action.payload.measurementName,
+      };
+    case "onchange-material-safetyStockQty":
+      if (action.payload.safetyStockQty.match(regex))
+        return {
+          ...prevMaterial,
+          safetyStockQty: action.payload.safetyStockQty,
+        };
+      break;
+    default:
+      break;
+  }
+  return prevMaterial;
+};
+
+const firstBatchReducer = (prevFirstBatch, action) => {
+  switch (action.type) {
+    case "onchange-firstBatch-qty":
+      if (action.payload.qty.match(regex))
+        return { ...prevFirstBatch, qty: action.payload.qty };
+      break;
+    case "onchange-firstBatch-purchasePrice":
+      if (action.payload.purchasePrice.match(regex))
+        return {
+          ...prevFirstBatch,
+          purchasePrice: action.payload.purchasePrice,
+        };
+      break;
+    case "onchange-firstBatch-purchaseDate":
+      return { ...prevFirstBatch, purchaseDate: action.payload.purchaseDate };
+    case "onchange-firstBatch-expiryDate":
+      return { ...prevFirstBatch, expiryDate: action.payload.expiryDate };
+    default:
+      break;
+  }
+  return prevFirstBatch;
+};
+
 export default function AddMaterial() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
   const navigate = useNavigate();
 
   const [measurement, setMeasurement] = React.useState([]);
-  const [material, setMaterial] = React.useState({});
-  const [firstBatch, setFirstBatch] = React.useState({});
-
   const [isSafetyStockEnabled, setIsSafetyStockEnabled] = React.useState(true);
+
+  const [material, materialDispatch] = React.useReducer(materialReducer, {});
+  const [firstBatch, firstBatchDispatch] = React.useReducer(
+    firstBatchReducer,
+    {}
+  );
 
   React.useEffect(() => {
     (async () => {
@@ -38,55 +88,6 @@ export default function AddMaterial() {
     })();
   }, []);
 
-  const regex = /^[0-9]*\.?[0-9]*$/;
-
-  const onChangeMaterialName = (e) => {
-    setMaterial((material) => ({ ...material, name: e.target.value }));
-  };
-
-  const onChangeFirstBatchQty = (e) => {
-    if (e.target.value.match(regex))
-      setFirstBatch((firstBatch) => ({ ...firstBatch, qty: e.target.value }));
-  };
-
-  const onChangeMaterialMeasurement = (e) => {
-    console.log(e.target.value);
-    setMaterial((material) => ({
-      ...material,
-      measurementName: e.target.value,
-    }));
-  };
-
-  const onChangeFirstBatchPurchasePrice = (e) => {
-    if (e.target.value.match(regex))
-      setFirstBatch((firstBatch) => ({
-        ...firstBatch,
-        purchasePrice: e.target.value,
-      }));
-  };
-
-  const onChangeFirstBatchPurchaseDate = (e) => {
-    setFirstBatch((firstBatch) => ({
-      ...firstBatch,
-      purchaseDate: e.target.value,
-    }));
-  };
-
-  const onChangeFirstBatchExpiryDate = (e) => {
-    setFirstBatch((firstBatch) => ({
-      ...firstBatch,
-      expiryDate: e.target.value,
-    }));
-  };
-
-  const onChangeMaterialSafetyStockQty = (e) => {
-    if (e.target.value.match(regex))
-      setMaterial((material) => ({
-        ...material,
-        safetyStockQty: e.target.value,
-      }));
-  };
-
   return (
     <Paper variant="customPaper">
       <TextField
@@ -96,7 +97,12 @@ export default function AddMaterial() {
         color="black"
         required
         fullWidth
-        onChange={onChangeMaterialName}
+        onChange={(e) => {
+          materialDispatch({
+            type: "onchange-material-name",
+            payload: { name: e.target.value },
+          });
+        }}
         size="small"
         sx={{ margin: "15px 0 30px 0" }}
       />
@@ -107,14 +113,24 @@ export default function AddMaterial() {
           variant="outlined"
           color="black"
           required
-          onChange={onChangeFirstBatchQty}
+          onChange={(e) =>
+            firstBatchDispatch({
+              type: "onchange-firstBatch-qty",
+              payload: { qty: e.target.value },
+            })
+          }
           sx={{ flexGrow: 50 }}
           size="small"
         />
         <TextField
           select
           value={material.measurementName}
-          onChange={onChangeMaterialMeasurement}
+          onChange={(e) =>
+            materialDispatch({
+              type: "onchange-material-measurementName",
+              payload: { measurementName: e.target.value },
+            })
+          }
           label="Measurement"
           sx={{ flexGrow: 40 }}
           size="small"
@@ -133,7 +149,12 @@ export default function AddMaterial() {
         color="black"
         required
         fullWidth
-        onChange={onChangeFirstBatchPurchasePrice}
+        onChange={(e) =>
+          firstBatchDispatch({
+            type: "onchange-firstBatch-purchasePrice",
+            payload: { purchasePrice: e.target.value },
+          })
+        }
         size="small"
         sx={{ marginBottom: "30px" }}
         InputProps={{
@@ -147,7 +168,12 @@ export default function AddMaterial() {
         color="black"
         required
         fullWidth
-        onChange={onChangeFirstBatchPurchaseDate}
+        onChange={(e) =>
+          firstBatchDispatch({
+            type: "onchange-firstBatch-purchaseDate",
+            payload: { purchaseDate: e.target.value },
+          })
+        }
         size="small"
         sx={{ marginBottom: "30px" }}
         type="date"
@@ -160,7 +186,12 @@ export default function AddMaterial() {
         color="black"
         required
         fullWidth
-        onChange={onChangeFirstBatchExpiryDate}
+        onChange={(e) =>
+          firstBatchDispatch({
+            type: "onchange-firstBatch-expiryDate",
+            payload: { expiryDate: e.target.value },
+          })
+        }
         size="small"
         sx={{ marginBottom: "20px" }}
         type="date"
@@ -182,7 +213,12 @@ export default function AddMaterial() {
           variant="outlined"
           color="black"
           required={isSafetyStockEnabled}
-          onChange={onChangeMaterialSafetyStockQty}
+          onChange={(e) =>
+            materialDispatch({
+              type: "onchange-material-safetyStockQty",
+              payload: { safetyStockQty: e.target.value },
+            })
+          }
           sx={{ flexGrow: 50 }}
           size="small"
           disabled={!isSafetyStockEnabled}

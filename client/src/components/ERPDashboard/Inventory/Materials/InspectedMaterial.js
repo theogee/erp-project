@@ -8,17 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
 
-const StyledBox = styled(Box)`
+const StyledPaper = styled(Paper)`
   font-size: 13px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  padding: 15px 30px;
-  box-shadow: 0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1),
-    0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
-    0px 0px 1.27568px rgba(0, 0, 0, 0.08);
   & > p {
     margin: 5px 0;
     font-weight: 500;
@@ -122,23 +117,27 @@ export default function InspectedMaterial(props) {
 
   return (
     <Box>
-      <StyledBox>
+      <StyledPaper variant="customPaper">
         <p>Name: {inspectedMaterial.name}</p>
         <p>
           Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
         </p>
-        <p>
-          Safety Stock: {inspectedMaterial.safety_stock_qty}{" "}
-          {inspectedMaterial.measurement_name}
-        </p>
-        <Stack component="p" direction="row" alignItems="center">
-          <p css={{ marginRight: "10px" }}>Status:</p>
-          <GeeCircleStatus
-            cummulativeQty={inspectedMaterial.cummulative_qty}
-            safetyStockQty={inspectedMaterial.safety_stock_qty}
-          />
-        </Stack>
-      </StyledBox>
+        {inspectedMaterial.safety_stock_qty && (
+          <>
+            <p>
+              Safety Stock: {inspectedMaterial.safety_stock_qty}{" "}
+              {inspectedMaterial.measurement_name}
+            </p>
+            <Stack component="p" direction="row" alignItems="center">
+              <p css={{ marginRight: "10px" }}>Status:</p>
+              <GeeCircleStatus
+                cummulativeQty={inspectedMaterial.cummulative_qty}
+                safetyStockQty={inspectedMaterial.safety_stock_qty}
+              />
+            </Stack>
+          </>
+        )}
+      </StyledPaper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable
         tableData={inspectedBatches}
@@ -151,7 +150,7 @@ export default function InspectedMaterial(props) {
           )
         }
       />
-      <StyledBox sx={{ marginTop: "34px" }}>
+      <StyledPaper sx={{ marginTop: "34px" }} variant="customPaper">
         <p>Supplier: {supplier.name}</p>
         <p>
           Purchase Qty: {inspectedBatch.purchase_qty}{" "}
@@ -165,7 +164,7 @@ export default function InspectedMaterial(props) {
         <p>Purchase Price: {inspectedBatch.purchase_price}</p>
         <p>Purchase Date: {inspectedBatch.purchase_date}</p>
         <p>Expiry Date: {inspectedBatch.expiry_date}</p>
-      </StyledBox>
+      </StyledPaper>
     </Box>
   );
 }

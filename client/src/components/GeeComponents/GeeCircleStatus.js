@@ -6,7 +6,8 @@ export default function GeeCircleStatus(props) {
   const { cummulativeQty, safetyStockQty } = props;
 
   const determineColor = (cummulativeQty, safetyStockQty) => {
-    if (cummulativeQty === safetyStockQty) return "red";
+    if (!safetyStockQty) return "grey";
+    else if (cummulativeQty === safetyStockQty) return "red";
     else if (cummulativeQty <= safetyStockQty * 2) return "yellow";
     else return "signatureGreen";
   };

@@ -183,39 +183,45 @@ export default function GeeTable(props) {
                 ))}
               </StyledTableRow>
             ))}
-          <StyledTableRow>
-            {tableButton && (
-              <StyledTableCell colSpan={3}>
-                <Button
-                  variant="GeeTableButton"
-                  startIcon={<AddIcon />}
-                  onClick={() => tableButton.onClick(true)}
-                >
-                  {tableButton.label}
-                </Button>
-              </StyledTableCell>
-            )}
-            <StyledTableCell
-              colSpan={9}
-              sx={{ padding: 0, backgroundColor: "#F4F7FCBF" }}
-            >
-              <TablePagination
-                component="div"
-                count={tableData.length}
-                rowsPerPage={ROWS_PER_PAGE}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPageOptions={[]}
-                sx={{
-                  ".MuiTablePagination-toolbar": {
-                    minHeight: "40px",
-                  },
-                }}
-              />
-            </StyledTableCell>
-          </StyledTableRow>
         </TableBody>
       </Table>
+      <Stack
+        direction="row"
+        sx={{ borderTop: "1px solid rgba(224, 224, 224, 1)" }}
+      >
+        {tableButton && (
+          <StyledTableCell sx={{ flexGrow: 50 }}>
+            <Button
+              variant="GeeTableButton"
+              startIcon={<AddIcon />}
+              onClick={() => tableButton.onClick(true)}
+            >
+              {tableButton.label}
+            </Button>
+          </StyledTableCell>
+        )}
+        <StyledTableCell
+          sx={{
+            padding: 0,
+            backgroundColor: "#F4F7FCBF",
+            flexGrow: tableButton ? 50 : 100,
+          }}
+        >
+          <TablePagination
+            component="div"
+            count={tableData.length}
+            rowsPerPage={ROWS_PER_PAGE}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPageOptions={[]}
+            sx={{
+              ".MuiTablePagination-toolbar": {
+                minHeight: "40px",
+              },
+            }}
+          />
+        </StyledTableCell>
+      </Stack>
     </StyledTableContainer>
   );
 }

@@ -6,17 +6,13 @@ import axios from "axios";
 import { useNavigate, useState } from "react-router-dom";
 
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 
-import { GeeCircleStatus, GeeTable } from "../../GeeComponents";
+import { GeeTable } from "../../GeeComponents";
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-  const [inspectedMaterial, setInspectedMaterial] = React.useState({});
-  const [inspectedBatches, setInspectedBatches] = React.useState([]);
   const [inspectedProduct, setInspectedProduct] = React.useState({});
-  const [tableMaterialData, setTableMaterialData] = React.useState([]);
   const [productMaterial, setProductMaterial] = React.useState([]);
   const [productBatches, setProductBatches] = React.useState([]);
 
@@ -71,7 +67,7 @@ export default function InspectedMaterial(props) {
         productBatchesData.data.forEach((data) => {
           data.expiry_date = formatDate(data.expiry_date);
           data.production_date =  formatDate(data.production_date);
-        })
+        });
         setProductBatches(productBatchesData.data);
         //console.log(productMaterial);
       } catch (err) {
@@ -90,13 +86,6 @@ export default function InspectedMaterial(props) {
 
   const formatPrice = (priceData) => {
     return "IDR " + priceData.toLocaleString("id-ID");
-  };
-
-  const calcTotalQty = () => {
-    return inspectedBatches.reduce(
-      (prev, current) => prev + current.current_qty,
-      0
-    );
   };
 
   const headBatches = [
@@ -142,7 +131,7 @@ export default function InspectedMaterial(props) {
         headCells={headMaterial}
         minWidth="100%"
       />
-      <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
+      <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Batches</h2>
       <GeeTable
         tableData={productBatches}
         headCells={headBatches}

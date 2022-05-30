@@ -13,18 +13,29 @@ module.exports = {
       throw err;
     }
   },
-  getProductBatchesParams: async (params) => {
+  getProductBatchesByBusinessID: async (params) => {
     try {
-      const { productBatchID } = params;
+      const { businessID } = params;
 
-      const sql = "SELECT * FROM product_batches WHERE product_batch_id = $1";
+      const sql = `select pb.*, pr.name from product_batches pb, product pr
+      where pb.product_id = pr.product_id AND pr.business_id = $1`;
 
-      return await pool.query(sql, [productBatchID]);
+      return await pool.query(sql, [businessID]);
     } catch (err) {
       throw err;
     }
   },
+  getProductBatchesByProductBatchID: async (id) => {
+    try {
 
+      const sql = `select pb.*, pr.name from product_batches pb, product pr
+      where pb.product_id = pr.product_id AND pb.product_batch_id = $1`;
+
+      return await pool.query(sql, [id]);
+    } catch (err) {
+      throw err;
+    }
+  },
   deleteProductBatch: async (params) => {
     const { productBatchID, businessID } = params;
 

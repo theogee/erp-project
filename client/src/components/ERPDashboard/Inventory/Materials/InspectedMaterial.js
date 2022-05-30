@@ -5,20 +5,11 @@ import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
-
-const StyledPaper = styled(Paper)`
-  font-size: 13px;
-  & > p {
-    margin: 5px 0;
-    font-weight: 500;
-  }
-`;
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -117,7 +108,7 @@ export default function InspectedMaterial(props) {
 
   return (
     <Box>
-      <StyledPaper variant="customPaper">
+      <Paper variant="customPaper" code="inspect">
         <p>Name: {inspectedMaterial.name}</p>
         <p>
           Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
@@ -137,7 +128,7 @@ export default function InspectedMaterial(props) {
             </Stack>
           </>
         )}
-      </StyledPaper>
+      </Paper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable
         tableData={inspectedBatches}
@@ -150,7 +141,7 @@ export default function InspectedMaterial(props) {
           )
         }
       />
-      <StyledPaper sx={{ marginTop: "34px" }} variant="customPaper">
+      <Paper sx={{ marginTop: "34px" }} variant="customPaper" code="inspect">
         <p>Supplier: {supplier.name}</p>
         <p>
           Purchase Qty: {inspectedBatch.purchase_qty}{" "}
@@ -164,7 +155,7 @@ export default function InspectedMaterial(props) {
         <p>Purchase Price: {inspectedBatch.purchase_price}</p>
         <p>Purchase Date: {inspectedBatch.purchase_date}</p>
         <p>Expiry Date: {inspectedBatch.expiry_date}</p>
-      </StyledPaper>
+      </Paper>
     </Box>
   );
 }

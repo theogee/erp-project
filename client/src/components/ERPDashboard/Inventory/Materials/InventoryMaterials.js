@@ -5,13 +5,20 @@ import axios from "axios";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-
 import { GeeTable } from "../../../GeeComponents";
 
 import InspectedMaterial from "./InspectedMaterial";
 import AddMaterial from "./AddMaterial";
+
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+
+function TransitionLeft(props) {
+  return <Slide {...props} direction="right" />;
+}
 
 export default function InventoryMaterials() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -22,6 +29,7 @@ export default function InventoryMaterials() {
   const [tableData, setTableData] = React.useState([]);
   const [inspectedMaterialID, setInspectedMaterialID] = React.useState(0);
   const [isAdding, setIsAdding] = React.useState(false);
+  const [snackBar, setSnackBar] = React.useState({});
 
   const getMaterials = async () => {
     const { data } = await axios.get(
@@ -82,6 +90,7 @@ export default function InventoryMaterials() {
         {isAdding ? (
           <AddMaterial
             closeView={() => {
+              setSnackBar(snackBar);
               setIsAdding(false);
               getMaterials();
             }}
@@ -90,6 +99,21 @@ export default function InventoryMaterials() {
           <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
         )}
       </Box>
+      <Snackbar
+        open={snackBar.isOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackBar({ isOpen: false })}
+        TransitionComponent={TransitionLeft}
+      >
+        <Alert
+          onClose={() => setSnackBar({ isOpen: false })}
+          severity={snackBar.severity}
+          variant={snackBar.variant}
+          sx={{ width: "100%" }}
+        >
+          {snackBar.msg}
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }

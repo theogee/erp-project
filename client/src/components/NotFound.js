@@ -1,10 +1,13 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 export default function NotFound() {
   return (
     <main>
-      Sorry... It's hard to break it to you, but the resource you're looking for
-      doesn't exist.
+      <h1>Oops... You're not supposed to be here.</h1>
+      <br />
+      <Link to="/">Go back</Link>
     </main>
   );
 }

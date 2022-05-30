@@ -38,6 +38,7 @@ export default function ERPDashboard() {
       } catch (err) {
         console.log(err);
         if (err.response.status === 401) navigate("/unauthorized");
+        else if (err.response.status === 404) navigate("/404");
         else console.log(err);
       }
     })();
@@ -55,9 +56,7 @@ export default function ERPDashboard() {
     {
       to: "production",
       name: "Production",
-      subLinks: [
-        { to: "production/jobs", name: "Queued Jobs" },
-      ]
+      subLinks: [{ to: "production/jobs", name: "Queued Jobs" }],
     },
     {
       to: "pos",
@@ -66,7 +65,7 @@ export default function ERPDashboard() {
     {
       to: "supplier",
       name: "Supplier",
-    }
+    },
   ];
 
   return (

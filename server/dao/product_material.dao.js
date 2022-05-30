@@ -1,20 +1,20 @@
 const pool = require("./pool");
 
 module.exports = {
-	getProductMaterial: async (params) => {
-    const { productID, materialID } = params;
+  getProductMaterial: async (params) => {
+    const { productID } = params;
 
     const sql = `
-    SELECT *
-    FROM product_material
-    WHERE product_id = $1 AND material_id = $2`;
+    SELECT pm.*, ma.name, me.name as measurement_name
+    FROM product_material pm, material ma, measurement me
+    WHERE pm.material_id = ma.material_id AND me.measurement_id = ma.measurement_id AND product_id = $1`;
 
     try {
-			return await pool.query(sql,[productID, materialID]);
-		} catch (err) {
-			throw err;
-		}
-  },
+      return await pool.query(sql, [productID]);
+    } catch (err) {
+      throw err;
+    }
+  } /*
   postProductMaterial: async (params) => {
     const { productID, materialID, measurementID, qty } = params;
 
@@ -76,5 +76,5 @@ module.exports = {
     } catch (err) {
       throw err;
     }
-  },
+  },*/,
 };

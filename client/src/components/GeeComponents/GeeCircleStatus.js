@@ -3,16 +3,23 @@ import React from "react";
 import CircleIcon from "@mui/icons-material/Circle";
 
 export default function GeeCircleStatus(props) {
-  const { cummulativeQty, safetyStockQty } = props;
+  const { type, status, cummulativeQty, safetyStockQty } = props;
 
-  const determineColor = (cummulativeQty, safetyStockQty) => {
+  let color;
+
+  const determineColorStock = (cummulativeQty, safetyStockQty) => {
     if (!safetyStockQty) return "grey";
     else if (cummulativeQty === safetyStockQty) return "red";
     else if (cummulativeQty <= safetyStockQty * 2) return "yellow";
     else return "signatureGreen";
   };
 
-  const color = determineColor(cummulativeQty, safetyStockQty);
+  const determineColorStatus = (status) => {
+    if(status==="yellow") return "yellow"
+    else return "signatureGreen"; 
+  }
+  if(type==="status") color = determineColorStatus(status)
+  else color = determineColorStock(cummulativeQty, safetyStockQty);
 
   return <CircleIcon color={color} fontSize="10" />;
 }

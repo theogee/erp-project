@@ -19,7 +19,7 @@ export default function Product() {
   const params = useParams();
 
   const [tableData, setTableData] = React.useState([]);
-  const [inspectedProductID, setInspectedProductID] = React.useState();
+  const [inspectedProductID, setInspectedProductID] = React.useState(0);
 
   const headCells = [
     { label: "NO", map: "definedIndex", width: "35px" },
@@ -40,6 +40,7 @@ export default function Product() {
         console.log(data.data);
 
         setTableData(data.data);
+        setInspectedProductID(data.data[0].product_id)
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);

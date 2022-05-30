@@ -105,7 +105,7 @@ export default function InspectedMaterial(props) {
     { label: "QTY", map: "qty", width: "60px" },
     { label: "PRODUCTION DATE", map: "production_date", width: "60px" },
     { label: "EXPIRY DATE", map: "expiry_date", width: "70px" },
-    { label: "STATUS", map: "status", width: "70px" },
+    { label: "STATUS", map: "definedStatus", width: "70px", type: "status" },
   ];
 
   const headMaterial = [

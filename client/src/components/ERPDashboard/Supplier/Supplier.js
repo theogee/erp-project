@@ -103,7 +103,7 @@ export default function Supplier() {
         TransitionComponent={TransitionLeft}
       >
         <Alert
-          onClose={() => setSnackBar(false)}
+          onClose={() => setSnackBar({ isOpen: false })}
           severity={snackBar.severity}
           variant={snackBar.variant}
           sx={{ width: "100%" }}

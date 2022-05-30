@@ -30,7 +30,6 @@ export default function InventoryMaterials() {
   const [inspectedMaterialID, setInspectedMaterialID] = React.useState(0);
   const [isAdding, setIsAdding] = React.useState(false);
   const [snackBar, setSnackBar] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const getMaterials = async () => {
     const { data } = await axios.get(
@@ -107,7 +106,7 @@ export default function InventoryMaterials() {
         TransitionComponent={TransitionLeft}
       >
         <Alert
-          onClose={() => setSnackBar(false)}
+          onClose={() => setSnackBar({ isOpen: false })}
           severity={snackBar.severity}
           variant={snackBar.variant}
           sx={{ width: "100%" }}

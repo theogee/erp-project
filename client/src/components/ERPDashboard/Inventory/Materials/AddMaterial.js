@@ -14,13 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import Slide from "@mui/material/Slide";
-
-function TransitionLeft(props) {
-  return <Slide {...props} direction="right" />;
-}
 
 const regex = /^[0-9]*\.?[0-9]*$/;
 
@@ -142,7 +135,6 @@ export default function AddMaterial(props) {
   const [measurement, setMeasurement] = React.useState([]);
   const [supplier, setSupplier] = React.useState([]);
   const [isSafetyStockEnabled, setIsSafetyStockEnabled] = React.useState(true);
-  const [isOpenSnackbar, setIsOpenSnackbar] = React.useState(false);
 
   const [material, materialDispatch] = React.useReducer(materialReducer, {
     name: "",
@@ -204,9 +196,6 @@ export default function AddMaterial(props) {
     })();
   }, []);
 
-  const handleOpenSnackbar = () => setIsOpenSnackbar(true);
-  const handleCloseSnackbar = () => setIsOpenSnackbar(false);
-
   const getMaterialPayload = () => {
     const payload = {
       businessID: params.businessID,
@@ -254,17 +243,7 @@ export default function AddMaterial(props) {
       }
     }
 
-    for (const property in errorMsg) {
-      if (errorMsg[property]) {
-        errorMaterialDispatch({
-          type: `error-${property}`,
-          payload: {
-            error: true,
-            msg: errorMsg[property],
-          },
-        });
-      }
-    }
+    return errorMsg;
   };
 
   const validateFirstBatch = (payload) => {
@@ -302,25 +281,15 @@ export default function AddMaterial(props) {
       errorMsg.supplier = "Supplier can't be empty.";
     }
 
-    for (const property in errorMsg) {
-      if (errorMsg[property]) {
-        errorFirstBatchDispatch({
-          type: `error-${property}`,
-          payload: {
-            error: true,
-            msg: errorMsg[property],
-          },
-        });
-      }
-    }
+    return errorMsg;
   };
 
-  const checkError = (errorStates) => {
-    errorStates.forEach((errorState) => {
-      for (const input in errorState) {
-        if (errorState[input].error) return true;
+  const checkError = (validationReports) => {
+    for (const report of validationReports) {
+      for (const prop in report) {
+        if (report[prop]) return true;
       }
-    });
+    }
 
     return false;
   };
@@ -343,6 +312,22 @@ export default function AddMaterial(props) {
     if (!data.success) throw new Error("Something went wrong.");
   };
 
+  const showError = (reports, dispatchers) => {
+    for (let i = 0; i < reports.length; i++) {
+      for (const prop in reports[i]) {
+        if (reports[i][prop]) {
+          dispatchers[i]({
+            type: `error-${prop}`,
+            payload: {
+              error: true,
+              msg: reports[i][prop],
+            },
+          });
+        }
+      }
+    }
+  };
+
   const addMaterial = async () => {
     // check input -> if error show error
     // send request -> if error show error
@@ -350,12 +335,22 @@ export default function AddMaterial(props) {
     const materialPayload = getMaterialPayload();
     const firstBatchPayload = getFirstBatchPayload();
 
-    validateMaterial(materialPayload);
-    validateFirstBatch(firstBatchPayload);
+    const materialValidationReport = validateMaterial(materialPayload);
+    const firstBatchValidationReport = validateFirstBatch(firstBatchPayload);
 
-    const error = checkError([errorMaterial, errorFirstBatch]);
+    const error = checkError([
+      materialValidationReport,
+      firstBatchValidationReport,
+    ]);
 
-    if (error) return;
+    if (error) {
+      // update UI to show error on inputs
+      showError(
+        [materialValidationReport, firstBatchValidationReport],
+        [errorMaterialDispatch, errorFirstBatchDispatch]
+      );
+      return;
+    }
 
     // send network request
     try {
@@ -363,8 +358,13 @@ export default function AddMaterial(props) {
       await sendFirstBatch({ ...firstBatchPayload, materialID });
 
       // 100% success
-      setIsOpenSnackbar(true);
-      props.closeView();
+
+      props.closeView({
+        isOpen: true,
+        severity: "success",
+        variant: "darkSuccess",
+        msg: "New material added!",
+      });
     } catch (err) {
       console.log(err);
     }
@@ -604,21 +604,6 @@ export default function AddMaterial(props) {
       >
         Add material
       </Button>
-      <Snackbar
-        open={isOpenSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        TransitionComponent={TransitionLeft}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="success"
-          variant="darkSuccess"
-          sx={{ width: "100%" }}
-        >
-          New material added!
-        </Alert>
-      </Snackbar>
     </Paper>
   );
 }

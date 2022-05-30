@@ -84,6 +84,16 @@ export default createTheme({
             0px 0px 1.27568px rgba(0, 0, 0, 0.08)`,
           },
         },
+        {
+          props: { variant: "customPaper", code: "inspect" },
+          style: {
+            fontSize: "13px",
+            "& > p": {
+              margin: "5px 0",
+              fontWeight: "500",
+            },
+          },
+        },
       ],
     },
     MuiAlert: {

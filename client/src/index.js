@@ -30,6 +30,7 @@ import {
   EditProduct,
   Pos,
   Supplier,
+  EditSupplier,
 } from "./components/ERPDashboard/";
 
 import Unauthorized from "./components/Unauthorized";
@@ -58,6 +59,7 @@ ReactDOM.render(
           </Route>
           <Route path="pos" element={<Pos />} />
           <Route path="supplier" element={<Supplier />} />
+          <Route path="supplier/:supplierID/edit" element={<EditSupplier />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />

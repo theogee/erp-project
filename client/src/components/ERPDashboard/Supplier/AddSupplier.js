@@ -16,8 +16,6 @@ import {
 } from "../../lib/form";
 
 export default function AddSupplier(props) {
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
   const params = useParams();
 
   const [supplier, supplierDispatch] = React.useReducer(

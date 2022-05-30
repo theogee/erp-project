@@ -5,8 +5,6 @@ import axios from "axios";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import { isAlphanumeric, isDecimal } from "validator";
-
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";

@@ -57,10 +57,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const determineValue = (cell, data, i) => {
+const determineValue = (cell, data, i, page) => {
+  const prevIndex = 10 * page;
+
   if (cell.forcedValue) return cell.forcedValue;
 
-  if (cell.map === "definedIndex") return i + 1;
+  if (cell.map === "definedIndex") return i + 1 + prevIndex;
   else if (cell.map === "definedStatus") {
     return (
       <GeeCircleStatus
@@ -180,7 +182,7 @@ export default function GeeTable(props) {
                 </StyledTableCell>
                 {headCells.map((cell) => (
                   <StyledTableCell>
-                    {determineValue(cell, data, i)}
+                    {determineValue(cell, data, i, page)}
                   </StyledTableCell>
                 ))}
               </StyledTableRow>

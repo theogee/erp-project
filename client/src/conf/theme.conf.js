@@ -49,6 +49,30 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "containedYellow" },
+          style: {
+            backgroundColor: "#FFF2CC",
+            color: "#ed6c02",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#FFF2CC",
+            },
+          },
+        },
+        {
+          props: { variant: "containedBlack" },
+          style: {
+            backgroundColor: "#000000",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#000000",
+            },
+          },
+        },
+        {
           props: { variant: "GeeTableButton" },
           style: {
             fontSize: "10px",
@@ -92,6 +116,18 @@ export default createTheme({
               margin: "5px 0",
               fontWeight: "500",
             },
+          },
+        },
+        {
+          props: { variant: "elevatedButton" },
+          style: {
+            backgroundColor: "#ffffff",
+            borderRadius: "5px",
+            minWidth: "30px",
+            minHeight: "30px",
+            boxShadow: `0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1),
+            0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
+            0px 0px 1.27568px rgba(0, 0, 0, 0.08)`,
           },
         },
       ],

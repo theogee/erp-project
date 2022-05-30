@@ -93,7 +93,10 @@ export default function Supplier() {
             }}
           />
         ) : (
-          <InspectedSupplier inspectedSupplierID={inspectedSupplierID} />
+          <InspectedSupplier
+            inspectedSupplierID={inspectedSupplierID}
+            refresh={() => getSuppliers()}
+          />
         )}
       </Box>
       <Snackbar

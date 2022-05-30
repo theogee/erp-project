@@ -64,8 +64,10 @@ const determineValue = (cell, data, i) => {
   else if (cell.map === "definedStatus") {
     return (
       <GeeCircleStatus
+        type={cell.type}
         cummulativeQty={data.cummulative_qty}
         safetyStockQty={data.safety_stock_qty}
+        status={data.status}
       />
     );
   } else return data[cell.map];

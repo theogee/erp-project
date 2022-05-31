@@ -15,11 +15,20 @@ module.exports = {
       t.res500(err, res);
     }
   },
-  getProductBatchesParams: async (req, res) => {
+  getProductBatchesByBusinessID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductBatchesParams({
-        productID: req.params.productBatchID,
-      });
+      const { rowCount, rows } = await dao.getProductBatchesByBusinessID(req.query);
+
+      if (rowCount === 0) return t.res404("Resource not found", res);
+
+      t.res200payload(rows, res);
+    } catch (err) {
+      t.res500(err, res);
+    }
+  },
+  getProductBatchesByProductBatchID: async (req, res) => {
+    try {
+      const { rowCount, rows } = await dao.getProductBatchesByProductBatchID(req.params.productBatchID);
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 

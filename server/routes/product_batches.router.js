@@ -4,8 +4,12 @@ const productBatchesController = require("../controller/product_batches.controll
 
 router.get("/p/:productID", productBatchesController.getProductBatches);
 router.get(
-  "/pb/:productBatchID",
-  productBatchesController.getProductBatchesParams
+  "/",
+  productBatchesController.getProductBatchesByBusinessID
+);
+router.get(
+  "/:productBatchID",
+  productBatchesController.getProductBatchesByProductBatchID
 );
 router.post("/", productBatchesController.postProductBatch);
 router.put("/:productBatchID", productBatchesController.updateProductBatch);

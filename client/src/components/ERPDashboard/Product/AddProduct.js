@@ -77,27 +77,28 @@ export default function AddMaterial(props) {
   );
 
   const addMaterialToProduct = () => {
-      const productMaterialPayload = getProductMaterialPayload(
-          productMaterial,
-          "",          
+    const productMaterialPayload = getProductMaterialPayload(
+      productMaterial,
+      ""
+    );
+
+    const productMaterialValidationReport = validateProductMaterial(
+      productMaterialPayload
+    );
+
+    const error = utils.checkError([productMaterialValidationReport]);
+
+    if (error) {
+      utils.showError(
+        [productMaterialValidationReport],
+        [errorProductMaterialDispatch]
       );
-
-      const productMaterialValidationReport = validateProductMaterial(productMaterialPayload);
-        console.log(productMaterialValidationReport)
-      const error = utils.checkError([
-          productMaterialValidationReport
-      ]);
-
-      if (error) {
-          utils.showError(
-              [productMaterialValidationReport],
-              [errorProductMaterialDispatch]
-          );
-          return;
-      };
+      return;
+    }
 
     if (productMaterials.length === 0)
       setCheckedMaterialID(productMaterial.material.id);
+
     setProductMaterials((prevProductMaterials) => {
       return [
         ...prevProductMaterials,
@@ -125,9 +126,8 @@ export default function AddMaterial(props) {
   };
 
   const removeMaterialFromTable = () => {
-      console.log(checkedMaterialID)
-    setProductMaterials((prevProductMaterial) => {
-      return prevProductMaterial.filter((pm) => pm.id !== checkedMaterialID);
+    setProductMaterials((prevProductMaterials) => {
+      return prevProductMaterials.filter((pm) => pm.id !== checkedMaterialID);
     });
   };
 
@@ -157,8 +157,6 @@ export default function AddMaterial(props) {
 
         setProduct(productData.data);
         setMaterial(materialData.data);
-        console.log(productData);
-        console.log(materialData);
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -299,14 +297,13 @@ export default function AddMaterial(props) {
           productMaterialDispatch({
             type: "onchange-productMaterial-measurement",
             payload: {
-              id: child.props.dataMeasurementID,
-              name: child.props.dataMeasurement,
+              id: child.props.measurement_id,
+              name: child.props.measurement_name,
             },
           });
           if (errorProductMaterial.material.error) {
             utils.resetError("error-material", errorProductMaterialDispatch);
           }
-          console.log(productMaterial);
         }}
         label="Material"
         error={errorProductMaterial.material.error}
@@ -319,8 +316,8 @@ export default function AddMaterial(props) {
             id={option.material_id}
             key={option.material_id}
             value={option.name}
-            dataMeasurement={option.measurement_name}
-            dataMeasurementID={option.measurement_id}
+            measurement_name={option.measurement_name}
+            measurement_id={option.measurement_id}
           >
             {option.name}
           </MenuItem>

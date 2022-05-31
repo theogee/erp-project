@@ -75,7 +75,10 @@ export default function InventoryMaterials() {
           tableData={tableData}
           headCells={headCells}
           checkedID="material_id"
-          onChecked={setInspectedMaterialID}
+          onChecked={(checkedID) => {
+            setInspectedMaterialID(checkedID);
+            setIsAdding(false);
+          }}
           minWidth="504px"
           tableButton={{
             label: "Add material",

@@ -176,7 +176,6 @@ export default function GeeTable(props) {
                     onChange={(newState) => {
                       setSelected(newState);
                       onChecked(data[checkedID]);
-                      tableButton.onClick(false);
                     }}
                   />
                 </StyledTableCell>

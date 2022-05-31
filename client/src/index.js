@@ -27,7 +27,8 @@ import {
   Product,
   Pos,
   Supplier,
-  QueuedJob
+  QueuedJob,
+  EditSupplier,
 } from "./components/ERPDashboard/";
 
 import Unauthorized from "./components/Unauthorized";
@@ -53,6 +54,7 @@ ReactDOM.render(
           <Route path="production/jobs" element={<QueuedJob />} />
           <Route path="pos" element={<Pos />} />
           <Route path="supplier" element={<Supplier />} />
+          <Route path="supplier/:supplierID/edit" element={<EditSupplier />} />
         </Route>
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<NotFound />} />

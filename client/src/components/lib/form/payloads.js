@@ -34,3 +34,12 @@ export const getBatchPayload = (batch) => {
     expiryDate: batch.expiryDate,
   };
 };
+
+export const getProductMaterialPayload = (productMaterial, product_id) => {
+  return{
+    productID: product_id,
+    materialID: productMaterial.material.id,
+    measurementID: productMaterial.measurement.id,
+    qty: productMaterial.qty,
+  }
+}

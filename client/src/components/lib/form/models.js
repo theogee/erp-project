@@ -36,3 +36,16 @@ export const batchModel = {
     supplier: { error: false, msg: "" },
   },
 };
+
+export const productMaterialModel = {
+  inputs: {
+    material: {id: "", name: ""},
+    qty: "",
+    measurement: {id: "", name: ""}, 
+  },
+  errors: {
+    material: { error: false, msg: "" },
+    qty: { error: false, msg: "" },
+    measurement: { error: false, msg: "" },
+  }
+}

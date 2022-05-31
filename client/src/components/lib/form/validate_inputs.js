@@ -92,3 +92,23 @@ export const validateBatch = (payload) => {
 
   return errorMsg;
 };
+
+export const validateProductMaterial = (payload) => {
+  const errorMsg = {
+    material: "",
+    qty: "",
+  }
+
+  if (!payload.materialID) {
+    errorMsg.material = "Material can't be empty.";
+  }
+
+  if (payload.qty) {
+    if (!isDecimal(payload.qty))
+      errorMsg.qty = "Qty can only consist 0-9, and dots.";
+  } else {
+    errorMsg.qty = "Qty can't be empty.";
+  }
+
+  return errorMsg;
+}

@@ -164,3 +164,47 @@ export const batchReducer = {
     return prevErrorFirstBatch;
   },
 };
+
+export const productMaterialReducer = {
+  inputs: (prevProductMaterial, action) => {
+    switch (action.type) {
+      case "onchange-productMaterial-material":
+        return {
+          ...prevProductMaterial,
+          material: { id: action.payload.id, name: action.payload.name },
+        };
+      case "onchange-productMaterial-qty":
+        if (action.payload.qty.match(REGEX_NUMBER_DOTS))
+          return {
+            ...prevProductMaterial,
+            qty: action.payload.qty,
+          };
+        break;
+      case "onchange-productMaterial-measurement":
+        return {
+          ...prevProductMaterial,
+          measurement: { id: action.payload.id, name: action.payload.name },
+        };
+      default:
+        break;
+    }
+    return prevProductMaterial;
+  },
+  errors: (prevErrorProductMaterial, action) => {
+    switch (action.type) {
+      case "error-material":
+        return {
+          ...prevErrorProductMaterial,
+          material: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-qty":
+        return {
+          ...prevErrorProductMaterial,
+          qty: { error: action.payload.error, msg: action.payload.msg },
+        };
+      default:
+        break;
+    }
+    return prevErrorProductMaterial;
+  },
+};

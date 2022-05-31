@@ -47,8 +47,7 @@ app.use("/api/batches", isAuth, batchesRouter);
 app.use("/api/order", isAuth, orderRouter);
 app.use("/api/product", isAuth, productRouter);
 app.use("/api/product_material", isAuth, productMaterialRouter);
-app.use("/api/measurement", isAuth, productBatchesRouter);
+app.use("/api/measurement", isAuth, measurementRouter);
 app.use("/api/product_batches", isAuth, productBatchesRouter);
-
 
 app.listen(5000, () => console.log("http://localhost:5000"));

@@ -59,7 +59,7 @@ export default function InventoryMaterials() {
     { label: "NAME", map: "name" },
     { label: "QTY", map: "cummulative_qty", width: "60px" },
     { label: "MEAS.", map: "measurement_name", width: "60px" },
-    { label: "STATUS", map: "definedStatus", width: "70px" },
+    { label: "STATUS", map: "definedStatus", width: "70px", type: "stock" },
   ];
 
   return (
@@ -99,7 +99,10 @@ export default function InventoryMaterials() {
             }}
           />
         ) : (
-          <InspectedMaterial inspectedMaterialID={inspectedMaterialID} />
+          <InspectedMaterial
+            inspectedMaterialID={inspectedMaterialID}
+            refresh={getMaterials}
+          />
         )}
       </Box>
       <Snackbar

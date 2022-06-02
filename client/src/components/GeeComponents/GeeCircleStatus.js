@@ -15,11 +15,12 @@ export default function GeeCircleStatus(props) {
   };
 
   const determineColorStatus = (status) => {
-    if(status==="yellow") return "yellow"
-    else return "signatureGreen"; 
-  }
-  if(type==="status") color = determineColorStatus(status)
-  else color = determineColorStock(cummulativeQty, safetyStockQty);
+    if (status === "yellow") return "yellow";
+    else return "signatureGreen";
+  };
+  if (type === "status") color = determineColorStatus(status);
+  else if (type === "stock")
+    color = determineColorStock(cummulativeQty, safetyStockQty);
 
   return <CircleIcon color={color} fontSize="10" />;
 }

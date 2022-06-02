@@ -2,6 +2,16 @@ import axios from "axios";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
+export const sendBusiness = async (payload) => {
+  const { data } = await axios.post(SERVER_URL + "/api/business", payload, {
+    withCredentials: true,
+  });
+
+  if (!data.success) throw new Error("Something went wrong.");
+
+  return data.success;
+};
+
 export const sendSupplier = async (payload) => {
   const { data } = await axios.post(SERVER_URL + "/api/supplier", payload, {
     withCredentials: true,
@@ -33,11 +43,15 @@ export const sendBatch = async (payload) => {
 };
 
 export const sendProductMaterial = async (payload) => {
-  const { data } = await axios.post(SERVER_URL + "/api/product_material", payload, {
-    withCredentials: true,
-  });
+  const { data } = await axios.post(
+    SERVER_URL + "/api/product_material",
+    payload,
+    {
+      withCredentials: true,
+    }
+  );
 
   if (!data.success) throw new Error("Something went wrong.");
 
   return data.success;
-}
+};

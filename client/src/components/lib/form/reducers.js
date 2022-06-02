@@ -1,6 +1,37 @@
 const REGEX_NUMBER_ONLY = /^[0-9]*$/;
 const REGEX_NUMBER_DOTS = /^[0-9]*\.?[0-9]*$/;
 
+export const businessReducer = {
+  inputs: (prevBusiness, action) => {
+    switch (action.type) {
+      case "onchange-business-name":
+        return { ...prevBusiness, name: action.payload.name };
+      case "onchange-business-address":
+        return { ...prevBusiness, address: action.payload.address };
+      default:
+        break;
+    }
+    return prevBusiness;
+  },
+  errors: (prevErrorBusiness, action) => {
+    switch (action.type) {
+      case "error-name":
+        return {
+          ...prevErrorBusiness,
+          name: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-address":
+        return {
+          ...prevErrorBusiness,
+          address: { error: action.payload.error, msg: action.payload.msg },
+        };
+      default:
+        break;
+    }
+    return prevErrorBusiness;
+  },
+};
+
 export const supplierReducer = {
   inputs: (prevSupplier, action) => {
     switch (action.type) {

@@ -1,5 +1,27 @@
 import { isAlphanumeric, isMobilePhone, isDecimal } from "validator";
 
+export const validateBusiness = (payload) => {
+  const errorMsg = { name: "", address: "" };
+
+  if (payload.name) {
+    if (!isAlphanumeric(payload.name, "en-US", { ignore: " /.,&()" }))
+      errorMsg.name =
+        "Business name can only consist of a-z, 0-9, spaces, and /.,&().";
+  } else {
+    errorMsg.name = "Business name can't be empty.";
+  }
+
+  if (payload.address) {
+    if (!isAlphanumeric(payload.address, "en-US", { ignore: " /.,&()" }))
+      errorMsg.address =
+        "Address can only consist of a-z, 0-9, spaces, and /.,&().";
+  } else {
+    errorMsg.address = "Address can't be empty.";
+  }
+
+  return errorMsg;
+};
+
 export const validateSupplier = (payload) => {
   const errorMsg = { name: "", address: "", telp: "" };
 
@@ -97,7 +119,7 @@ export const validateProductMaterial = (payload) => {
   const errorMsg = {
     material: "",
     qty: "",
-  }
+  };
 
   if (!payload.materialID) {
     errorMsg.material = "Material can't be empty.";
@@ -111,4 +133,4 @@ export const validateProductMaterial = (payload) => {
   }
 
   return errorMsg;
-}
+};

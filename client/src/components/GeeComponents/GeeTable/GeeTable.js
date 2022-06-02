@@ -122,10 +122,19 @@ export default function GeeTable(props) {
 
   const [page, setPage] = React.useState(0);
   const [selected, setSelected] = React.useState(0);
+  const renderCount = React.useRef(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    // fix for when changin table page the checked becomes the 1st row
+    setSelected(0);
   };
+
+  React.useEffect(() => {
+    // fix for when tableData change, checked becomes the 1st row
+    setSelected(0);
+    renderCount.current = 0;
+  }, [tableData]);
 
   return (
     <StyledTableContainer
@@ -161,31 +170,33 @@ export default function GeeTable(props) {
         <TableBody>
           {tableData
             .slice(page * ROWS_PER_PAGE, page * ROWS_PER_PAGE + ROWS_PER_PAGE)
-            .map((data, i) => (
-              <StyledTableRow
-                key={data.name}
-                id={i === selected ? "selected" : ""}
-              >
-                <StyledTableCell
-                  sx={{ width: "30px", padding: 0 }}
-                  align="center"
+            .map((data, i) => {
+              return (
+                <StyledTableRow
+                  key={data.name}
+                  id={i === selected ? "selected" : ""}
                 >
-                  <CustomCheckbox
-                    value={i}
-                    selected={selected}
-                    onChange={(newState) => {
-                      setSelected(newState);
-                      onChecked(data[checkedID]);
-                    }}
-                  />
-                </StyledTableCell>
-                {headCells.map((cell) => (
-                  <StyledTableCell>
-                    {determineValue(cell, data, i, page)}
+                  <StyledTableCell
+                    sx={{ width: "30px", padding: 0 }}
+                    align="center"
+                  >
+                    <CustomCheckbox
+                      value={i}
+                      selected={selected}
+                      onChange={(newState) => {
+                        setSelected(newState);
+                        onChecked(data[checkedID]);
+                      }}
+                    />
                   </StyledTableCell>
-                ))}
-              </StyledTableRow>
-            ))}
+                  {headCells.map((cell) => (
+                    <StyledTableCell>
+                      {determineValue(cell, data, i, page)}
+                    </StyledTableCell>
+                  ))}
+                </StyledTableRow>
+              );
+            })}
         </TableBody>
       </Table>
       <Stack

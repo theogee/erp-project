@@ -1,3 +1,11 @@
+export const businessModel = {
+  inputs: { name: "", address: "" },
+  errors: {
+    name: { error: false, msg: "" },
+    address: { error: false, msg: "" },
+  },
+};
+
 export const supplierModel = {
   inputs: { name: "", address: "", telp: "" },
   errors: {
@@ -39,13 +47,13 @@ export const batchModel = {
 
 export const productMaterialModel = {
   inputs: {
-    material: {id: "", name: ""},
+    material: { id: "", name: "" },
     qty: "",
-    measurement: {id: "", name: ""}, 
+    measurement: { id: "", name: "" },
   },
   errors: {
     material: { error: false, msg: "" },
     qty: { error: false, msg: "" },
     measurement: { error: false, msg: "" },
-  }
-}
+  },
+};

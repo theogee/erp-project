@@ -1,3 +1,10 @@
+export const getBusinessPayload = (business) => {
+  return {
+    name: business.name,
+    address: business.address,
+  };
+};
+
 export const getSupplierPayload = (supplier, businessID) => {
   return {
     businessID: businessID,
@@ -36,10 +43,10 @@ export const getBatchPayload = (batch) => {
 };
 
 export const getProductMaterialPayload = (productMaterial, product_id) => {
-  return{
+  return {
     productID: product_id,
     materialID: productMaterial.material.id,
     measurementID: productMaterial.measurement.id,
     qty: productMaterial.qty,
-  }
-}
+  };
+};

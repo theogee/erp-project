@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { default as React, useState } from "react";
+import { default as React, useReducer } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -7,14 +9,47 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
+import {
+  businessReducer,
+  businessModel,
+  getBusinessPayload,
+  validateBusiness,
+  utils,
+  sendBusiness,
+} from "../../lib/form";
+
 export default function AddBusiness() {
-  const [businessName, setBusinessName] = useState("");
-  const [businessAddress, setBusinessAddress] = useState("");
+  const navigate = useNavigate();
 
-  const onChangeBusinessName = (e) => setBusinessName(e.target.value);
-  const onChangeBusinessAddress = (e) => setBusinessAddress(e.target.value);
+  const [business, businessDispatch] = useReducer(
+    businessReducer.inputs,
+    businessModel.inputs
+  );
 
-  const onClickTest = () => console.log(businessName, businessAddress);
+  const [errorBusiness, errorBusinessDispatch] = useReducer(
+    businessReducer.errors,
+    businessModel.errors
+  );
+
+  const addBusiness = async () => {
+    const businessPayload = getBusinessPayload(business);
+
+    const businessValidationReport = validateBusiness(businessPayload);
+
+    const error = utils.checkError([businessValidationReport]);
+
+    if (error) {
+      utils.showError([businessValidationReport], [errorBusinessDispatch]);
+      return;
+    }
+
+    try {
+      await sendBusiness(businessPayload);
+      navigate("/dashboard/business");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Box component="section">
@@ -37,29 +72,49 @@ export default function AddBusiness() {
           <TextField
             id="outlined-basic"
             label="Your business name"
+            value={business.name}
             variant="outlined"
             color="black"
-            // helperText={businessName === "hello" ? "Incorrect format." : ""}
-            // error={businessName === "hello"}
             required
             fullWidth
-            onChange={onChangeBusinessName}
+            onChange={(e) => {
+              businessDispatch({
+                type: "onchange-business-name",
+                payload: { name: e.target.value },
+              });
+              if (errorBusiness.name.error) {
+                utils.resetError("error-name", errorBusinessDispatch);
+              }
+            }}
+            error={errorBusiness.name.error}
+            helperText={errorBusiness.name.msg}
             size="small"
           />
           <TextField
             id="outlined-basic"
             label="Your business address"
+            value={business.address}
             variant="outlined"
             color="black"
             required
             fullWidth
-            onChange={onChangeBusinessAddress}
+            onChange={(e) => {
+              businessDispatch({
+                type: "onchange-business-address",
+                payload: { address: e.target.value },
+              });
+              if (errorBusiness.address.error) {
+                utils.resetError("error-address", errorBusinessDispatch);
+              }
+            }}
+            error={errorBusiness.address.error}
+            helperText={errorBusiness.address.msg}
             size="small"
           />
           <Button
             variant="containedGreen"
             sx={{ padding: "10px 155px" }}
-            onClick={onClickTest}
+            onClick={addBusiness}
           >
             Add Business
           </Button>

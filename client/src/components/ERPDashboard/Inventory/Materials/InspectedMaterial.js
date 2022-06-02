@@ -8,8 +8,13 @@ import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
+
+import { AlertDialog, ErrorDialog } from "../../../lib/Dialog";
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -18,6 +23,8 @@ export default function InspectedMaterial(props) {
   const [inspectedBatches, setInspectedBatches] = React.useState([]);
   const [inspectedBatch, setInspectedBatch] = React.useState({});
   const [supplier, setSupplier] = React.useState({});
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = React.useState(false);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -106,9 +113,30 @@ export default function InspectedMaterial(props) {
     { label: "PUR. PRICE", map: "purchase_price", width: "90px" },
   ];
 
+  const deleteMaterial = async () => {
+    try {
+      // first, delete all batches from that material
+      await axios.delete(
+        SERVER_URL + `/api/batches?materialID=${inspectedMaterialID}`,
+        {
+          withCredentials: true,
+        }
+      );
+      // second, delete the material itself
+      await axios.delete(SERVER_URL + `/api/material/${inspectedMaterialID}`, {
+        withCredentials: true,
+      });
+
+      props.refresh();
+    } catch (err) {
+      // there exist product which depends on the materialID
+      if (err.response.data.msg.code === "23503") setIsErrorDialogOpen(true);
+    }
+  };
+
   return (
     <Box>
-      <Paper variant="customPaper" code="inspect">
+      <Paper variant="customPaper" code="inspect" sx={{ position: "relative" }}>
         <p>Name: {inspectedMaterial.name}</p>
         <p>
           Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
@@ -122,12 +150,38 @@ export default function InspectedMaterial(props) {
             <Stack component="p" direction="row" alignItems="center">
               <p css={{ marginRight: "10px" }}>Status:</p>
               <GeeCircleStatus
+                type="stock"
                 cummulativeQty={inspectedMaterial.cummulative_qty}
                 safetyStockQty={inspectedMaterial.safety_stock_qty}
               />
             </Stack>
           </>
         )}
+        <Stack
+          direction="row"
+          sx={{
+            width: "90px",
+            position: "absolute",
+            right: "10px",
+            top: "10px",
+          }}
+          justifyContent="space-between"
+        >
+          <Paper variant="elevatedButton" component={Button}>
+            <ModeEditRoundedIcon
+              color="primary"
+              sx={{ fontSize: "20px" }}
+              onClick={() => navigate(`${inspectedMaterialID}/edit`)}
+            />
+          </Paper>
+          <Paper
+            variant="elevatedButton"
+            component={Button}
+            onClick={() => setIsAlertDialogOpen(true)}
+          >
+            <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
+          </Paper>
+        </Stack>
       </Paper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable
@@ -156,6 +210,19 @@ export default function InspectedMaterial(props) {
         <p>Purchase Date: {inspectedBatch.purchase_date}</p>
         <p>Expiry Date: {inspectedBatch.expiry_date}</p>
       </Paper>
+      <AlertDialog
+        isOpen={isAlertDialogOpen}
+        title="Delete the selected material data?"
+        text="You will not be able to recover this data!"
+        onDelete={deleteMaterial}
+        onCancel={() => setIsAlertDialogOpen(false)}
+      />
+      <ErrorDialog
+        isOpen={isErrorDialogOpen}
+        title="Can not delete material data."
+        text="There exist one or more product data which rely on this material data. Remove this material from products which use it and try again."
+        onCancel={() => setIsErrorDialogOpen(false)}
+      />
     </Box>
   );
 }

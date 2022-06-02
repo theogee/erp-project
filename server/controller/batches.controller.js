@@ -69,4 +69,21 @@ module.exports = {
       t.res500(err, res);
     }
   },
+  deleteBatchesByMaterialID: async (req, res) => {
+    try {
+      const params = {
+        userID: req.user.user_id,
+        materialID: req.query.materialID,
+      };
+
+      const { rowCount, rows } = await dao.deleteBatchesByMaterialID(params);
+      if (rowCount === 0) return t.res404("Batch cannot be deleted", res);
+      t.res200msg(
+        `Deleted all batches of materialID: ${req.query.materialID} successfully.`,
+        res
+      );
+    } catch (err) {
+      t.res500(err, res);
+    }
+  },
 };

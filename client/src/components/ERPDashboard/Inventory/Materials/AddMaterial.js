@@ -27,6 +27,8 @@ import {
   sendBatch,
 } from "../../../lib/form";
 
+import { TopBorderCard } from "../../../lib/Cards";
+
 export default function AddMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -133,230 +135,256 @@ export default function AddMaterial(props) {
   };
 
   return (
-    <Paper variant="customPaper" sx={{ padding: "30px" }}>
-      <TextField
-        select
-        value={firstBatch.supplier.name}
-        required
-        fullWidth
-        onChange={(e, child) => {
-          firstBatchDispatch({
-            type: "onchange-firstBatch-supplier",
-            payload: { id: child.props.id, name: e.target.value },
-          });
-          if (errorFirstBatch.supplier.error) {
-            utils.resetError("error-supplier", errorFirstBatchDispatch);
-          }
-        }}
-        label="Supplier name"
-        error={errorFirstBatch.supplier.error}
-        helperText={errorFirstBatch.supplier.msg}
-        size="small"
-        sx={{ marginBottom: "30px" }}
-      >
-        {supplier.map((option) => (
-          <MenuItem
-            id={option.supplier_id}
-            key={option.supplier_id}
-            value={option.name}
+    <>
+      {supplier.length === 0 ? (
+        <TopBorderCard
+          text="You currently don't have any supplier registered. Add supplier to get
+    started."
+        />
+      ) : (
+        <Paper variant="customPaper" sx={{ padding: "30px" }}>
+          <TextField
+            select
+            value={firstBatch.supplier.name}
+            required
+            fullWidth
+            onChange={(e, child) => {
+              firstBatchDispatch({
+                type: "onchange-firstBatch-supplier",
+                payload: { id: child.props.id, name: e.target.value },
+              });
+              if (errorFirstBatch.supplier.error) {
+                utils.resetError("error-supplier", errorFirstBatchDispatch);
+              }
+            }}
+            label="Supplier name"
+            error={errorFirstBatch.supplier.error}
+            helperText={errorFirstBatch.supplier.msg}
+            size="small"
+            sx={{ marginBottom: "30px" }}
           >
-            {option.name}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        value={material.name}
-        label="Material name"
-        variant="outlined"
-        color="black"
-        required
-        fullWidth
-        onChange={(e) => {
-          materialDispatch({
-            type: "onchange-material-name",
-            payload: { name: e.target.value },
-          });
-          if (errorMaterial.name.error) {
-            utils.resetError("error-name", errorMaterialDispatch);
-          }
-        }}
-        error={errorMaterial.name.error}
-        helperText={errorMaterial.name.msg}
-        size="small"
-        sx={{ marginBottom: "30px" }}
-      />
-      <Stack direction="row" sx={{ marginBottom: "30px" }} columnGap="30px">
-        <TextField
-          value={firstBatch.qty}
-          label="Qty"
-          variant="outlined"
-          color="black"
-          required
-          onChange={(e) => {
-            firstBatchDispatch({
-              type: "onchange-firstBatch-qty",
-              payload: { qty: e.target.value },
-            });
-            if (errorFirstBatch.qty.error) {
-              utils.resetError("error-qty", errorFirstBatchDispatch);
-            }
-          }}
-          error={errorFirstBatch.qty.error}
-          helperText={errorFirstBatch.qty.msg}
-          sx={{ flexGrow: 50 }}
-          size="small"
-        />
-        <TextField
-          select
-          value={material.measurement.name}
-          onChange={(e, child) => {
-            materialDispatch({
-              type: "onchange-material-measurement",
-              payload: { id: child.props.id, name: e.target.value },
-            });
-            if (errorMaterial.measurement.error) {
-              utils.resetError("error-measurement", errorMaterialDispatch);
-            }
-          }}
-          error={errorMaterial.measurement.error}
-          helperText={errorMaterial.measurement.msg}
-          label="Measurement"
-          sx={{ flexGrow: 40 }}
-          size="small"
-        >
-          {measurement.map((option) => (
-            <MenuItem
-              id={option.measurement_id}
-              key={option.measurement_id}
-              value={option.name}
+            {supplier.map((option) => (
+              <MenuItem
+                id={option.supplier_id}
+                key={option.supplier_id}
+                value={option.name}
+              >
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            value={material.name}
+            label="Material name"
+            variant="outlined"
+            color="black"
+            required
+            fullWidth
+            onChange={(e) => {
+              materialDispatch({
+                type: "onchange-material-name",
+                payload: { name: e.target.value },
+              });
+              if (errorMaterial.name.error) {
+                utils.resetError("error-name", errorMaterialDispatch);
+              }
+            }}
+            error={errorMaterial.name.error}
+            helperText={errorMaterial.name.msg}
+            size="small"
+            sx={{ marginBottom: "30px" }}
+          />
+          <Stack direction="row" sx={{ marginBottom: "30px" }} columnGap="30px">
+            <TextField
+              value={firstBatch.qty}
+              label="Qty"
+              variant="outlined"
+              color="black"
+              required
+              onChange={(e) => {
+                firstBatchDispatch({
+                  type: "onchange-firstBatch-qty",
+                  payload: { qty: e.target.value },
+                });
+                if (errorFirstBatch.qty.error) {
+                  utils.resetError("error-qty", errorFirstBatchDispatch);
+                }
+              }}
+              error={errorFirstBatch.qty.error}
+              helperText={errorFirstBatch.qty.msg}
+              sx={{ flexGrow: 50 }}
+              size="small"
+            />
+            <TextField
+              select
+              value={material.measurement.name}
+              onChange={(e, child) => {
+                materialDispatch({
+                  type: "onchange-material-measurement",
+                  payload: { id: child.props.id, name: e.target.value },
+                });
+                if (errorMaterial.measurement.error) {
+                  utils.resetError("error-measurement", errorMaterialDispatch);
+                }
+              }}
+              error={errorMaterial.measurement.error}
+              helperText={errorMaterial.measurement.msg}
+              label="Measurement"
+              sx={{ flexGrow: 40 }}
+              size="small"
             >
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Stack>
-      <TextField
-        value={firstBatch.purchasePrice}
-        label="Purchase Price"
-        variant="outlined"
-        color="black"
-        required
-        fullWidth
-        onChange={(e) => {
-          firstBatchDispatch({
-            type: "onchange-firstBatch-purchasePrice",
-            payload: { purchasePrice: e.target.value },
-          });
-          if (errorFirstBatch.purchasePrice.error) {
-            utils.resetError("error-purchasePrice", errorFirstBatchDispatch);
-          }
-        }}
-        error={errorFirstBatch.purchasePrice.error}
-        helperText={errorFirstBatch.purchasePrice.msg}
-        size="small"
-        sx={{ marginBottom: "30px" }}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">IDR</InputAdornment>,
-        }}
-      />
-      <TextField
-        value={firstBatch.purchaseDate}
-        label="Purchase Date"
-        variant="outlined"
-        color="black"
-        required
-        fullWidth
-        onChange={(e) => {
-          firstBatchDispatch({
-            type: "onchange-firstBatch-purchaseDate",
-            payload: { purchaseDate: e.target.value },
-          });
-          if (errorFirstBatch.purchaseDate.error) {
-            utils.resetError("error-purchaseDate", errorFirstBatchDispatch);
-          }
-        }}
-        error={errorFirstBatch.purchaseDate.error}
-        helperText={errorFirstBatch.purchaseDate.msg}
-        size="small"
-        sx={{ marginBottom: "30px" }}
-        type="date"
-        InputLabelProps={{ shrink: true }}
-      />
-      <TextField
-        value={firstBatch.expiryDate}
-        label="Expiry Date"
-        variant="outlined"
-        color="black"
-        required
-        fullWidth
-        onChange={(e) => {
-          firstBatchDispatch({
-            type: "onchange-firstBatch-expiryDate",
-            payload: { expiryDate: e.target.value },
-          });
-          if (errorFirstBatch.expiryDate.error) {
-            utils.resetError("error-expiryDate", errorFirstBatchDispatch);
-          }
-        }}
-        error={errorFirstBatch.expiryDate.error}
-        helperText={errorFirstBatch.expiryDate.msg}
-        size="small"
-        sx={{ marginBottom: "20px" }}
-        type="date"
-        InputLabelProps={{ shrink: true }}
-      />
-      <Stack direction="row" alignItems="center" sx={{ marginBottom: "20px" }}>
-        <Checkbox
-          defaultChecked
-          color="black"
-          size="small"
-          onChange={() => {
-            setIsSafetyStockEnabled(!isSafetyStockEnabled);
-            if (errorMaterial.safetyStockQty.error) {
-              utils.resetError("error-safetyStockQty", errorMaterialDispatch);
-            }
-          }}
-        />
-        <span css={{ fontSize: "13px" }}>Enable safety stock</span>
-      </Stack>
-      <Stack direction="row" sx={{ marginBottom: "30px" }} columnGap="30px">
-        <TextField
-          value={material.safetyStockQty}
-          label="Qty"
-          variant="outlined"
-          color="black"
-          required={isSafetyStockEnabled}
-          onChange={(e) => {
-            materialDispatch({
-              type: "onchange-material-safetyStockQty",
-              payload: { safetyStockQty: e.target.value },
-            });
-            if (errorMaterial.safetyStockQty.error) {
-              utils.resetError("error-safetyStockQty", errorMaterialDispatch);
-            }
-          }}
-          error={errorMaterial.safetyStockQty.error}
-          helperText={errorMaterial.safetyStockQty.msg}
-          sx={{ flexGrow: 50 }}
-          size="small"
-          disabled={!isSafetyStockEnabled}
-        />
-        <TextField
-          value={material.measurement.name}
-          disabled
-          label="Measurement"
-          sx={{ flexGrow: 40 }}
-          size="small"
-          InputLabelProps={{ shrink: material.measurement.name ? true : false }}
-        />
-      </Stack>
-      <Button
-        onClick={addMaterial}
-        variant="containedBlue"
-        sx={{ width: "100%", padding: "10px 0" }}
-      >
-        Add material
-      </Button>
-    </Paper>
+              {measurement.map((option) => (
+                <MenuItem
+                  id={option.measurement_id}
+                  key={option.measurement_id}
+                  value={option.name}
+                >
+                  {option.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
+          <TextField
+            value={firstBatch.purchasePrice}
+            label="Purchase Price"
+            variant="outlined"
+            color="black"
+            required
+            fullWidth
+            onChange={(e) => {
+              firstBatchDispatch({
+                type: "onchange-firstBatch-purchasePrice",
+                payload: { purchasePrice: e.target.value },
+              });
+              if (errorFirstBatch.purchasePrice.error) {
+                utils.resetError(
+                  "error-purchasePrice",
+                  errorFirstBatchDispatch
+                );
+              }
+            }}
+            error={errorFirstBatch.purchasePrice.error}
+            helperText={errorFirstBatch.purchasePrice.msg}
+            size="small"
+            sx={{ marginBottom: "30px" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">IDR</InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            value={firstBatch.purchaseDate}
+            label="Purchase Date"
+            variant="outlined"
+            color="black"
+            required
+            fullWidth
+            onChange={(e) => {
+              firstBatchDispatch({
+                type: "onchange-firstBatch-purchaseDate",
+                payload: { purchaseDate: e.target.value },
+              });
+              if (errorFirstBatch.purchaseDate.error) {
+                utils.resetError("error-purchaseDate", errorFirstBatchDispatch);
+              }
+            }}
+            error={errorFirstBatch.purchaseDate.error}
+            helperText={errorFirstBatch.purchaseDate.msg}
+            size="small"
+            sx={{ marginBottom: "30px" }}
+            type="date"
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            value={firstBatch.expiryDate}
+            label="Expiry Date"
+            variant="outlined"
+            color="black"
+            required
+            fullWidth
+            onChange={(e) => {
+              firstBatchDispatch({
+                type: "onchange-firstBatch-expiryDate",
+                payload: { expiryDate: e.target.value },
+              });
+              if (errorFirstBatch.expiryDate.error) {
+                utils.resetError("error-expiryDate", errorFirstBatchDispatch);
+              }
+            }}
+            error={errorFirstBatch.expiryDate.error}
+            helperText={errorFirstBatch.expiryDate.msg}
+            size="small"
+            sx={{ marginBottom: "20px" }}
+            type="date"
+            InputLabelProps={{ shrink: true }}
+          />
+          <Stack
+            direction="row"
+            alignItems="center"
+            sx={{ marginBottom: "20px" }}
+          >
+            <Checkbox
+              defaultChecked
+              color="black"
+              size="small"
+              onChange={() => {
+                setIsSafetyStockEnabled(!isSafetyStockEnabled);
+                if (errorMaterial.safetyStockQty.error) {
+                  utils.resetError(
+                    "error-safetyStockQty",
+                    errorMaterialDispatch
+                  );
+                }
+              }}
+            />
+            <span css={{ fontSize: "13px" }}>Enable safety stock</span>
+          </Stack>
+          <Stack direction="row" sx={{ marginBottom: "30px" }} columnGap="30px">
+            <TextField
+              value={material.safetyStockQty}
+              label="Qty"
+              variant="outlined"
+              color="black"
+              required={isSafetyStockEnabled}
+              onChange={(e) => {
+                materialDispatch({
+                  type: "onchange-material-safetyStockQty",
+                  payload: { safetyStockQty: e.target.value },
+                });
+                if (errorMaterial.safetyStockQty.error) {
+                  utils.resetError(
+                    "error-safetyStockQty",
+                    errorMaterialDispatch
+                  );
+                }
+              }}
+              error={errorMaterial.safetyStockQty.error}
+              helperText={errorMaterial.safetyStockQty.msg}
+              sx={{ flexGrow: 50 }}
+              size="small"
+              disabled={!isSafetyStockEnabled}
+            />
+            <TextField
+              value={material.measurement.name}
+              disabled
+              label="Measurement"
+              sx={{ flexGrow: 40 }}
+              size="small"
+              InputLabelProps={{
+                shrink: material.measurement.name ? true : false,
+              }}
+            />
+          </Stack>
+          <Button
+            onClick={addMaterial}
+            variant="containedBlue"
+            sx={{ width: "100%", padding: "10px 0" }}
+          >
+            Add material
+          </Button>
+        </Paper>
+      )}
+    </>
   );
 }

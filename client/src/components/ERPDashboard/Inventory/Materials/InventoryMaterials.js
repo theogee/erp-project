@@ -15,6 +15,7 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
+import { TopBorderCard } from "../../../lib/Cards";
 
 function TransitionLeft(props) {
   return <Slide {...props} direction="right" />;
@@ -32,15 +33,20 @@ export default function InventoryMaterials() {
   const [snackBar, setSnackBar] = React.useState({});
 
   const getMaterials = async () => {
-    const { data } = await axios.get(
-      SERVER_URL + `/api/material?businessID=${params.businessID}`,
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const { data } = await axios.get(
+        SERVER_URL + `/api/material?businessID=${params.businessID}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-    setTableData(data.data);
-    setInspectedMaterialID(data.data[0].material_id);
+      setTableData(data.data);
+      setInspectedMaterialID(data.data[0].material_id);
+    } catch (err) {
+      if (err.response.status === 401) navigate("/unauthorized");
+      else console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -71,26 +77,35 @@ export default function InventoryMaterials() {
     >
       <Box>
         <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>Materials</h1>
-        <GeeTable
-          tableData={tableData}
-          headCells={headCells}
-          checkedID="material_id"
-          onChecked={(checkedID) => {
-            setInspectedMaterialID(checkedID);
-            setIsAdding(false);
-          }}
-          minWidth="504px"
-          tableButton={{
-            label: "Add material",
-            onClick: (newState) => setIsAdding(newState),
-          }}
-        />
+        {tableData.length === 0 ? (
+          <TopBorderCard
+            text="You currently don't have any material registered. Add material to get
+        started."
+          />
+        ) : (
+          <GeeTable
+            tableData={tableData}
+            headCells={headCells}
+            checkedID="material_id"
+            onChecked={(checkedID) => {
+              setInspectedMaterialID(checkedID);
+              setIsAdding(false);
+            }}
+            minWidth="504px"
+            tableButton={{
+              label: "Add material",
+              onClick: (newState) => setIsAdding(newState),
+            }}
+          />
+        )}
       </Box>
       <Box sx={{ width: "600px" }}>
         <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-          {isAdding ? "Adding Material..." : "Inspecting Material..."}
+          {isAdding || tableData.length === 0
+            ? "Adding Material..."
+            : "Inspecting Material..."}
         </h1>
-        {isAdding ? (
+        {isAdding || tableData.length === 0 ? (
           <AddMaterial
             closeView={() => {
               setSnackBar(snackBar);

@@ -52,6 +52,7 @@ export default function InspectedSupplier(props) {
     } catch (err) {
       // there exist batches which depends on the supplierID
       if (err.response.data.msg.code === "23503") setIsErrorDialogOpen(true);
+      else console.log(err);
     }
   };
 

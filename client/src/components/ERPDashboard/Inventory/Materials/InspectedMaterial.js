@@ -194,6 +194,10 @@ export default function InspectedMaterial(props) {
             inspectedBatches.find((batch) => batch.batch_id === batchID)
           )
         }
+        tableButton={{
+          label: "Refill material",
+          onClick: null,
+        }}
       />
       <Paper sx={{ marginTop: "34px" }} variant="customPaper" code="inspect">
         <p>Supplier: {supplier.name}</p>

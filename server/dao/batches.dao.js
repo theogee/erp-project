@@ -30,6 +30,8 @@ module.exports = {
       const sql =
         "INSERT INTO batches VALUES (default, $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
 
+      console.log(params);
+
       return await pool.query(sql, [
         params.materialID,
         params.supplierID,

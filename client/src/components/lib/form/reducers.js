@@ -1,3 +1,6 @@
+// need to implement "reset" action, since MUI dialog component will NOT dismount after onClose
+import { batchModel } from "./models";
+
 const REGEX_NUMBER_ONLY = /^[0-9]*$/;
 const REGEX_NUMBER_DOTS = /^[0-9]*\.?[0-9]*$/;
 
@@ -151,6 +154,8 @@ export const batchReducer = {
           ...prevFirstBatch,
           supplier: { id: action.payload.id, name: action.payload.name },
         };
+      case "reset":
+        return batchModel.inputs;
       default:
         break;
     }
@@ -189,6 +194,8 @@ export const batchReducer = {
           ...prevErrorFirstBatch,
           supplier: { error: action.payload.error, msg: action.payload.msg },
         };
+      case "reset":
+        return batchModel.errors;
       default:
         break;
     }

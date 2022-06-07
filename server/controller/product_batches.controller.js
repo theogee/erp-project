@@ -4,11 +4,16 @@ const t = require("../template/response.template");
 module.exports = {
   getProductBatches: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductBatches(
+      const { status } = req.query;
+
+      let { rowCount, rows } = await dao.getProductBatches(
         req.params.productID
       );
 
       if (rowCount === 0) return t.res404("Resource not found", res);
+
+      if (status === "green" || status === "yellow" || status === "red")
+        rows = rows.filter((r) => r.status === status);
 
       t.res200payload(rows, res);
     } catch (err) {
@@ -17,7 +22,9 @@ module.exports = {
   },
   getProductBatchesByBusinessID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductBatchesByBusinessID(req.query);
+      const { rowCount, rows } = await dao.getProductBatchesByBusinessID(
+        req.query
+      );
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 
@@ -28,7 +35,9 @@ module.exports = {
   },
   getProductBatchesByProductBatchID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductBatchesByProductBatchID(req.params.productBatchID);
+      const { rowCount, rows } = await dao.getProductBatchesByProductBatchID(
+        req.params.productBatchID
+      );
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 

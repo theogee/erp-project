@@ -4,7 +4,13 @@ const t = require("../template/response.template");
 module.exports = {
   getProduct: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProduct(req.query.businessID);
+      let rowCount, rows;
+
+      if (req.query.withQty === "true")
+        ({ rowCount, rows } = await dao.getProductWithQty(
+          req.query.businessID
+        ));
+      else ({ rowCount, rows } = await dao.getProduct(req.query.businessID));
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 

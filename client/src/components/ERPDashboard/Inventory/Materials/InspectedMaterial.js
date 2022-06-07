@@ -17,6 +17,8 @@ import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
 
 import { AlertDialog, ErrorDialog } from "../../../lib/Dialog";
 
+import { formatDate, formatPrice } from "../../../lib/utils";
+
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -91,17 +93,6 @@ export default function InspectedMaterial(props) {
       }
     })();
   }, [inspectedBatch]);
-
-  const formatDate = (dateData) => {
-    const date = new Date(dateData);
-    return (
-      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-    );
-  };
-
-  const formatPrice = (priceData) => {
-    return "IDR " + priceData.toLocaleString("id-ID");
-  };
 
   const calcTotalQty = () => {
     return inspectedBatches.reduce(

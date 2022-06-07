@@ -3,8 +3,6 @@ const router = express.Router();
 
 const passport = require("passport");
 
-const { isAuth } = require("../middleware");
-
 router.get(
   "/",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -25,7 +23,7 @@ router.get("/failure", (req, res) => {
   res.json({ success: false, msg: "Authentication failed" });
 });
 
-router.get("/logout", isAuth, (req, res) => {
+router.get("/logout", (req, res) => {
   req.logout();
   req.session.destroy((err) => {
     res.clearCookie("connect.sid");

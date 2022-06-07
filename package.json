@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.8.0",
+    "framer-motion": "^6.3.10",
+    "react-icons": "^4.4.0",
+    "react-intersection-observer": "^9.2.2",
+    "react-slick": "^0.29.0",
+    "sass": "^1.52.2",
+    "styled-components": "^5.3.5",
+    "validator": "^13.7.0"
+  }
+}

@@ -9,6 +9,7 @@ import { GeeTable } from "../../GeeComponents";
 
 import InspectedSupplier from "./InspectedSupplier";
 import AddSupplier from "./AddSupplier";
+import { TopBorderCard } from "../../lib/Cards";
 
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -32,15 +33,20 @@ export default function Supplier() {
   const navigate = useNavigate();
 
   const getSuppliers = async () => {
-    const { data } = await axios.get(
-      SERVER_URL + `/api/supplier?businessID=${params.businessID}`,
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const { data } = await axios.get(
+        SERVER_URL + `/api/supplier?businessID=${params.businessID}`,
+        {
+          withCredentials: true,
+        }
+      );
 
-    setTableData(data.data);
-    setInspectedSupplierID(data.data[0].supplier_id);
+      setTableData(data.data);
+      setInspectedSupplierID(data.data[0].supplier_id);
+    } catch (err) {
+      if (err.response.status === 401) navigate("/unauthorized");
+      else console.log(err);
+    }
   };
 
   React.useEffect(() => {
@@ -68,23 +74,32 @@ export default function Supplier() {
     >
       <Box>
         <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>Supplier</h1>
-        <GeeTable
-          tableData={tableData}
-          headCells={headCells}
-          checkedID="supplier_id"
-          onChecked={setInspectedSupplierID}
-          minWidth="504px"
-          tableButton={{
-            label: "Add supplier",
-            onClick: (newState) => setIsAdding(newState),
-          }}
-        />
+        {tableData.length === 0 ? (
+          <TopBorderCard
+            text="You currently doesn't have any supplier registered. Add supplier to get
+        started."
+          />
+        ) : (
+          <GeeTable
+            tableData={tableData}
+            headCells={headCells}
+            checkedID="supplier_id"
+            onChecked={setInspectedSupplierID}
+            minWidth="504px"
+            tableButton={{
+              label: "Add supplier",
+              onClick: (newState) => setIsAdding(newState),
+            }}
+          />
+        )}
       </Box>
       <Box sx={{ width: "600px" }}>
         <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-          {isAdding ? "Adding Supplier..." : "Inspecting Supplier..."}
+          {isAdding || tableData.length === 0
+            ? "Adding Supplier..."
+            : "Inspecting Supplier..."}
         </h1>
-        {isAdding ? (
+        {isAdding || tableData.length === 0 ? (
           <AddSupplier
             closeView={(snackBar) => {
               setSnackBar(snackBar);

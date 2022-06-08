@@ -16,6 +16,7 @@ export default function GeeCircleStatus(props) {
 
   const determineColorStatus = (status) => {
     if (status === "yellow") return "yellow";
+    else if (status === "red") return "red";
     else return "signatureGreen";
   };
   if (type === "status") color = determineColorStatus(status);

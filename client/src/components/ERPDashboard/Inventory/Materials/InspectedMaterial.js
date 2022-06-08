@@ -11,10 +11,13 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RefillBatchDialog from "./RefillBatchDialog";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
 
 import { AlertDialog, ErrorDialog } from "../../../lib/Dialog";
+
+import { formatDate, formatPrice } from "../../../lib/utils";
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -25,10 +28,33 @@ export default function InspectedMaterial(props) {
   const [supplier, setSupplier] = React.useState({});
   const [isAlertDialogOpen, setIsAlertDialogOpen] = React.useState(false);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = React.useState(false);
+  const [isRefilling, setIsRefilling] = React.useState(false);
 
   const navigate = useNavigate();
 
   const { inspectedMaterialID } = props;
+
+  const getBatches = async () => {
+    try {
+      const { data: batchesData } = await axios.get(
+        SERVER_URL + `/api/batches?materialID=${inspectedMaterialID}`,
+        { withCredentials: true }
+      );
+
+      batchesData.data.forEach((data) => {
+        data.purchase_date = formatDate(data.purchase_date);
+        data.expiry_date = formatDate(data.expiry_date);
+        data.purchase_price = formatPrice(data.purchase_price);
+        data.price_per_unit = formatPrice(data.price_per_unit);
+      });
+
+      setInspectedBatches(batchesData.data);
+      setInspectedBatch(batchesData.data[0]);
+    } catch (err) {
+      if (err.response.status === 401) navigate("/unauthorized");
+      else console.log(err);
+    }
+  };
 
   React.useEffect(() => {
     (async () => {
@@ -42,20 +68,7 @@ export default function InspectedMaterial(props) {
 
         setInspectedMaterial(materialData.data);
 
-        const { data: batchesData } = await axios.get(
-          SERVER_URL + `/api/batches?materialID=${inspectedMaterialID}`,
-          { withCredentials: true }
-        );
-
-        batchesData.data.forEach((data) => {
-          data.purchase_date = formatDate(data.purchase_date);
-          data.expiry_date = formatDate(data.expiry_date);
-          data.purchase_price = formatPrice(data.purchase_price);
-          data.price_per_unit = formatPrice(data.price_per_unit);
-        });
-
-        setInspectedBatches(batchesData.data);
-        setInspectedBatch(batchesData.data[0]);
+        getBatches();
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -80,17 +93,6 @@ export default function InspectedMaterial(props) {
       }
     })();
   }, [inspectedBatch]);
-
-  const formatDate = (dateData) => {
-    const date = new Date(dateData);
-    return (
-      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
-    );
-  };
-
-  const formatPrice = (priceData) => {
-    return "IDR " + priceData.toLocaleString("id-ID");
-  };
 
   const calcTotalQty = () => {
     return inspectedBatches.reduce(
@@ -168,11 +170,7 @@ export default function InspectedMaterial(props) {
           justifyContent="space-between"
         >
           <Paper variant="elevatedButton" component={Button}>
-            <ModeEditRoundedIcon
-              color="primary"
-              sx={{ fontSize: "20px" }}
-              onClick={() => navigate(`${inspectedMaterialID}/edit`)}
-            />
+            <ModeEditRoundedIcon color="primary" sx={{ fontSize: "20px" }} />
           </Paper>
           <Paper
             variant="elevatedButton"
@@ -194,6 +192,10 @@ export default function InspectedMaterial(props) {
             inspectedBatches.find((batch) => batch.batch_id === batchID)
           )
         }
+        tableButton={{
+          label: "Refill material",
+          onClick: () => setIsRefilling(true),
+        }}
       />
       <Paper sx={{ marginTop: "34px" }} variant="customPaper" code="inspect">
         <p>Supplier: {supplier.name}</p>
@@ -222,6 +224,16 @@ export default function InspectedMaterial(props) {
         title="Can not delete material data."
         text="There exist one or more product data which rely on this material data. Remove this material from products which use it and try again."
         onCancel={() => setIsErrorDialogOpen(false)}
+      />
+      <RefillBatchDialog
+        isOpen={isRefilling}
+        title="Refilling batch..."
+        onCancel={() => setIsRefilling(false)}
+        refresh={() => {
+          getBatches();
+          props.refresh();
+        }}
+        inspectedMaterial={inspectedMaterial}
       />
     </Box>
   );

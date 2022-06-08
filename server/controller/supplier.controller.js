@@ -7,8 +7,8 @@ module.exports = {
     try {
       const { rowCount, rows } = await dao.getSupplier(req.query.businessID);
 
-      if (rowCount === 0)
-        return tmplt.res404("Suppliers cannot be retrieved", res);
+      // if (rowCount === 0)
+      //   return tmplt.res404("Suppliers cannot be retrieved", res);
       return tmplt.res200payload(rows, res);
     } catch (err) {
       return tmplt.res500(err, res);

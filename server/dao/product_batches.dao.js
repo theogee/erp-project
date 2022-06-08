@@ -27,7 +27,6 @@ module.exports = {
   },
   getProductBatchesByProductBatchID: async (id) => {
     try {
-
       const sql = `select pb.*, pr.name from product_batches pb, product pr
       where pb.product_id = pr.product_id AND pb.product_batch_id = $1`;
 

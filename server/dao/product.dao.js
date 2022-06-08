@@ -1,14 +1,27 @@
 const pool = require("./pool");
 
 module.exports = {
-  getProduct: async (productID) => {
+  getProduct: async (businessID) => {
     const sql = `
     SELECT *
     FROM product p
     WHERE business_id = $1`;
 
     try {
-      return await pool.query(sql, [productID]);
+      return await pool.query(sql, [businessID]);
+    } catch (err) {
+      throw err;
+    }
+  },
+  getProductWithQty: async (businessID) => {
+    const sql = `
+    SELECT p.*, SUM(pb.qty) AS cummulative_qty
+    FROM product p, product_batches pb
+    WHERE p.product_id = pb.product_id and pb.status = 'green' and p.business_id = $1
+    GROUP BY p.product_id`;
+
+    try {
+      return await pool.query(sql, [businessID]);
     } catch (err) {
       throw err;
     }

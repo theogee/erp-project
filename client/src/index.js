@@ -43,11 +43,7 @@ import {
   EditSupplier,
 } from "./components/ERPDashboard/";
 
-<<<<<<< HEAD
-import Unauthorized from "./components/Unauthorized";
-=======
 import Unauthorized from "./pages/Unauthorized";
->>>>>>> 7d3ebf9319798bae615e2eeadad1e0cbe452f3f0
 
 const rootElement = document.getElementById("root");
 
@@ -55,17 +51,12 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
-<<<<<<< HEAD
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
-=======
-	  	<Route path="/" element={<App />}>
-          <Route path="home" element={<Homepage />} />
-          <Route path="pricing" element={<Pricing />} />
-		  <Route path="login" element={<Login />} />
-		  <Route index element={<Navigate replace to="/home" />} />
+	  	  <Route path="/" element={<App />}>
+           <Route path="home" element={<Homepage />} />
+           <Route path="pricing" element={<Pricing />} />
+		       <Route path="login" element={<Login />} />
+		       <Route index element={<Navigate replace to="/home" />} />
         </Route>
->>>>>>> 7d3ebf9319798bae615e2eeadad1e0cbe452f3f0
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="business" element={<Business />} />
           <Route path="business/create" element={<AddBusiness />} />

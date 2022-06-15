@@ -14,6 +14,23 @@ module.exports = {
     } catch (err) {
       throw err;
     }
+  },
+  postAllMaterialOfProductID: async (params) => {
+    const { materials } = params;
+
+    const values = materials.map(
+      (m) => `(${m.productID}, ${m.materialID}, ${m.measurementID}, ${m.qty})`
+    );
+
+    const sql = `INSERT INTO product_material VALUES ${values.join(",")}`;
+
+    console.log(sql);
+
+    try {
+      return await pool.query(sql);
+    } catch (err) {
+      throw err;
+    }
   } /*
   postProductMaterial: async (params) => {
     const { productID, materialID, measurementID, qty } = params;

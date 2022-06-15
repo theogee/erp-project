@@ -2,6 +2,9 @@ module.exports = {
   res200msg: (msg, res) => {
     res.status(200).json({ success: true, msg: msg });
   },
+  res201msg: (msg, res) => {
+    res.status(201).json({ success: true, msg: msg });
+  },
   res200payload: (payload, res) => {
     res.status(200).json({ success: true, data: payload });
   },

@@ -4,17 +4,17 @@ export const validateBusiness = (payload) => {
   const errorMsg = { name: "", address: "" };
 
   if (payload.name) {
-    if (!isAlphanumeric(payload.name, "en-US", { ignore: " /.,&()" }))
+    if (!isAlphanumeric(payload.name, "en-US", { ignore: " /.,&()'" }))
       errorMsg.name =
-        "Business name can only consist of a-z, 0-9, spaces, and /.,&().";
+        "Business name can only consist of a-z, 0-9, spaces, and /.,&()'.";
   } else {
     errorMsg.name = "Business name can't be empty.";
   }
 
   if (payload.address) {
-    if (!isAlphanumeric(payload.address, "en-US", { ignore: " /.,&()" }))
+    if (!isAlphanumeric(payload.address, "en-US", { ignore: " /.,&()'" }))
       errorMsg.address =
-        "Address can only consist of a-z, 0-9, spaces, and /.,&().";
+        "Address can only consist of a-z, 0-9, spaces, and /.,&()'.";
   } else {
     errorMsg.address = "Address can't be empty.";
   }
@@ -26,17 +26,17 @@ export const validateSupplier = (payload) => {
   const errorMsg = { name: "", address: "", telp: "" };
 
   if (payload.name) {
-    if (!isAlphanumeric(payload.name, "en-US", { ignore: " /.,&()" }))
+    if (!isAlphanumeric(payload.name, "en-US", { ignore: " /.,&()'" }))
       errorMsg.name =
-        "Supplier name can only consist of a-z, 0-9, spaces, and /.,&().";
+        "Supplier name can only consist of a-z, 0-9, spaces, and /.,&()'.";
   } else {
     errorMsg.name = "Supplier name can't be empty.";
   }
 
   if (payload.address) {
-    if (!isAlphanumeric(payload.address, "en-US", { ignore: " /.,&()" }))
+    if (!isAlphanumeric(payload.address, "en-US", { ignore: " /.,&()'" }))
       errorMsg.address =
-        "Address can only consist of a-z, 0-9, spaces, and /.,&().";
+        "Address can only consist of a-z, 0-9, spaces, and /.,&()'.";
   } else {
     errorMsg.address = "Address can't be empty.";
   }
@@ -67,7 +67,7 @@ export const validateMaterial = (payload, isSafetyStockEnabled) => {
 
   if (isSafetyStockEnabled) {
     if (payload.safetyStockQty) {
-      if (!isDecimal(payload.safetyStockQty))
+      if (!isDecimal(payload.safetyStockQty, { force_decimal: true }))
         errorMsg.safetyStockQty = "Qty can only consist 0-9, and dots.";
     } else {
       errorMsg.safetyStockQty = "Qty can't be empty.";
@@ -127,9 +127,51 @@ export const validateProductMaterial = (payload) => {
 
   if (payload.qty) {
     if (!isDecimal(payload.qty))
-      errorMsg.qty = "Qty can only consist 0-9, and dots.";
+      errorMsg.qty =
+        "Qty must be valid number and can only consist 0-9, and dots.";
   } else {
     errorMsg.qty = "Qty can't be empty.";
+  }
+
+  return errorMsg;
+};
+
+export const validateProduct = (payload) => {
+  const errorMsg = {
+    name: "",
+    price: "",
+    productionProcess: "",
+  };
+
+  if (payload.name) {
+    if (
+      !isAlphanumeric(payload.name, "en-US", {
+        ignore: " /.,&()'",
+      })
+    )
+      errorMsg.name =
+        "Product name can only consist of a-z, 0-9, spaces, and /.,&()'.";
+  } else {
+    errorMsg.name = "Product name can't be empty.";
+  }
+
+  if (payload.price) {
+    if (!isDecimal(payload.price))
+      errorMsg.price = "Price can only consist 0-9, and dots.";
+  } else {
+    errorMsg.price = "Product price can't be empty.";
+  }
+
+  if (payload.productionProcess) {
+    if (
+      !isAlphanumeric(payload.productionProcess, "en-US", {
+        ignore: " /.,&()'\n",
+      })
+    )
+      errorMsg.productionProcess =
+        "Process can only consist of a-z, 0-9, spaces, and /.,&()'.";
+  } else {
+    errorMsg.productionProcess = "Production process can't be empty.";
   }
 
   return errorMsg;

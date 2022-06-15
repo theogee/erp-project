@@ -246,3 +246,55 @@ export const productMaterialReducer = {
     return prevErrorProductMaterial;
   },
 };
+
+export const productReducer = {
+  inputs: (prevProduct, action) => {
+    switch (action.type) {
+      case "onchange-product-name":
+        return {
+          ...prevProduct,
+          name: action.payload.name,
+        };
+      case "onchange-product-price":
+        if (action.payload.price.match(REGEX_NUMBER_ONLY))
+          return {
+            ...prevProduct,
+            price: action.payload.price,
+          };
+        break;
+      case "onchange-product-productionProcess":
+        return {
+          ...prevProduct,
+          productionProcess: action.payload.productionProcess,
+        };
+      default:
+        break;
+    }
+    return prevProduct;
+  },
+  errors: (prevErrorProduct, action) => {
+    switch (action.type) {
+      case "error-name":
+        return {
+          ...prevErrorProduct,
+          name: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-price":
+        return {
+          ...prevErrorProduct,
+          price: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-productionProcess":
+        return {
+          ...prevErrorProduct,
+          productionProcess: {
+            error: action.payload.error,
+            msg: action.payload.msg,
+          },
+        };
+      default:
+        break;
+    }
+    return prevErrorProduct;
+  },
+};

@@ -26,6 +26,7 @@ import {
   ERPDashboard,
   Inventory,
   InventoryMaterials,
+  EditMaterial,
   InventoryProducts,
   Production,
   AddProduct,
@@ -57,6 +58,10 @@ ReactDOM.render(
         </Route>
         <Route path="/b/:businessID/dashboard" element={<ERPDashboard />}>
           <Route path="inventory/materials" element={<InventoryMaterials />} />
+          <Route
+            path="inventory/materials/:materialID/edit"
+            element={<EditMaterial />}
+          />
           <Route path="inventory/products" element={<InventoryProducts />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="production" element={<Production />} />

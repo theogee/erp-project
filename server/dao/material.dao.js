@@ -63,7 +63,7 @@ module.exports = {
       arrParam.push(measurementID);
     }
 
-    if (safetyStockQty) {
+    if (safetyStockQty !== 0) {
       sqlParam.push(`safety_stock_qty = $${i++}`);
       arrParam.push(safetyStockQty);
     }

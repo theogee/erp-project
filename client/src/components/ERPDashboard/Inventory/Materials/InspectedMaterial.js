@@ -169,7 +169,11 @@ export default function InspectedMaterial(props) {
           }}
           justifyContent="space-between"
         >
-          <Paper variant="elevatedButton" component={Button}>
+          <Paper
+            variant="elevatedButton"
+            component={Button}
+            onClick={() => navigate(`${inspectedMaterialID}/edit`)}
+          >
             <ModeEditRoundedIcon color="primary" sx={{ fontSize: "20px" }} />
           </Paper>
           <Paper

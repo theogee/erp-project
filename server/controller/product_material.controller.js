@@ -2,9 +2,9 @@ const dao = require("../dao/product_material.dao");
 const t = require("../template/response.template");
 
 module.exports = {
-  getProductMaterial: async (req, res) => {
+  getAllMaterialOfProductID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductMaterial(req.params);
+      const { rowCount, rows } = await dao.getAllMaterialOfProductID(req.query);
 
       if (rowCount === 0) return t.res404("Resource not found", res);
 
@@ -12,7 +12,7 @@ module.exports = {
     } catch (err) {
       t.res500(err, res);
     }
-  },/*
+  } /*
   getProductParams: async (req, res) => {
     try {
       const { rowCount, rows } = await dao.getProductParams({
@@ -67,5 +67,5 @@ module.exports = {
     } catch (err) {
       t.res500(err, res);
     }
-  },*/
+  },*/,
 };

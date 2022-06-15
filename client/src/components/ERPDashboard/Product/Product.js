@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
 
 import axios from "axios";
@@ -46,11 +47,11 @@ export default function Product() {
 
     console.log(data.data);
     data.data.forEach((data) => {
-      data.price =  formatPrice(data.price);
+      data.price = formatPrice(data.price);
     });
 
     setTableData(data.data);
-    setInspectedProductID(data.data[0].product_id)
+    setInspectedProductID(data.data[0].product_id);
   };
 
   const formatPrice = (priceData) => {

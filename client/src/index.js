@@ -27,6 +27,8 @@ import {
   Inventory,
   InventoryMaterials,
   InventoryProducts,
+  Production,
+  AddProduct,
   Product,
   Pos,
   Supplier,
@@ -57,7 +59,8 @@ ReactDOM.render(
           <Route path="inventory/materials" element={<InventoryMaterials />} />
           <Route path="inventory/products" element={<InventoryProducts />} />
           <Route path="inventory" element={<Inventory />} />
-          <Route path="production" element={<Product />} />
+          <Route path="production" element={<Production />} />
+          <Route path="production/add" element={<AddProduct />} />
           <Route path="production/jobs" element={<QueuedJob />} />
           <Route path="pos" element={<Pos />} />
           <Route path="supplier" element={<Supplier />} />

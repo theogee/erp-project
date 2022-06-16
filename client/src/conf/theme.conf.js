@@ -37,6 +37,18 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "containedPurple" },
+          style: {
+            backgroundColor: "#8f37b8",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#8f37b8",
+            },
+          },
+        },
+        {
           props: { variant: "containedBlue" },
           style: {
             backgroundColor: "#0048D9",
@@ -103,9 +115,7 @@ export default createTheme({
             backgroundColor: "#ffffff",
             borderRadius: "5px",
             padding: "15px 30px",
-            boxShadow: `0px 0px 0px 0.637838px rgba(152, 161, 178, 0.1),
-            0px 0.637838px 2.55135px rgba(69, 75, 87, 0.12),
-            0px 0px 1.27568px rgba(0, 0, 0, 0.08)`,
+            boxShadow: `0px 0px 0px 0.637838px rgb(152 161 178 / 10%), 0px 0.637838px 2.55135px rgb(69 75 87 / 12%), 0px 0px 1.27568px rgb(0 0 0 / 8%)`,
           },
         },
         {

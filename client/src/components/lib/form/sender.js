@@ -42,6 +42,16 @@ export const sendBatch = async (payload) => {
   return data.success;
 };
 
+export const sendProduct = async (payload) => {
+  const { data } = await axios.post(SERVER_URL + "/api/product", payload, {
+    withCredentials: true,
+  });
+
+  if (!data.success) throw new Error("Something went wrong.");
+
+  return data.data.product_id;
+};
+
 export const sendProductMaterial = async (payload) => {
   const { data } = await axios.post(
     SERVER_URL + "/api/product_material",

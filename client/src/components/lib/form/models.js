@@ -57,3 +57,16 @@ export const productMaterialModel = {
     measurement: { error: false, msg: "" },
   },
 };
+
+export const productModel = {
+  inputs: {
+    name: "",
+    price: "",
+    productionProcess: "",
+  },
+  errors: {
+    name: { error: false, msg: "" },
+    price: { error: false, msg: "" },
+    productionProcess: { error: false, msg: "" },
+  },
+};

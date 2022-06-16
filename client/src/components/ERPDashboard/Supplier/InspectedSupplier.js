@@ -66,12 +66,12 @@ export default function InspectedSupplier(props) {
         sx={{ width: "90px", position: "absolute", right: "10px", top: "10px" }}
         justifyContent="space-between"
       >
-        <Paper variant="elevatedButton" component={Button}>
-          <ModeEditRoundedIcon
-            color="primary"
-            sx={{ fontSize: "20px" }}
-            onClick={() => navigate(`${inspectedSupplierID}/edit`)}
-          />
+        <Paper
+          variant="elevatedButton"
+          onClick={() => navigate(`${inspectedSupplierID}/edit`)}
+          component={Button}
+        >
+          <ModeEditRoundedIcon color="primary" sx={{ fontSize: "20px" }} />
         </Paper>
         <Paper
           variant="elevatedButton"

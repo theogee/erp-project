@@ -50,3 +50,12 @@ export const getProductMaterialPayload = (productMaterial, product_id) => {
     qty: productMaterial.qty,
   };
 };
+
+export const getProductPayload = (product, businessID) => {
+  return {
+    businessID: businessID,
+    name: product.name,
+    price: product.price,
+    productionProcess: product.productionProcess,
+  };
+};

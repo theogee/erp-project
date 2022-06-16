@@ -67,7 +67,7 @@ export const validateMaterial = (payload, isSafetyStockEnabled) => {
 
   if (isSafetyStockEnabled) {
     if (payload.safetyStockQty) {
-      if (!isDecimal(payload.safetyStockQty, { force_decimal: true }))
+      if (!isDecimal(payload.safetyStockQty))
         errorMsg.safetyStockQty = "Qty can only consist 0-9, and dots.";
     } else {
       errorMsg.safetyStockQty = "Qty can't be empty.";

@@ -12,12 +12,14 @@ import Button from "@mui/material/Button";
 import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RefillBatchDialog from "./RefillBatchDialog";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
 
 import { AlertDialog, ErrorDialog } from "../../../lib/Dialog";
 
 import { formatDate, formatPrice } from "../../../lib/utils";
+import Check from "@mui/icons-material/Check";
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -184,6 +186,18 @@ export default function InspectedMaterial(props) {
             <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
           </Paper>
         </Stack>
+        <Button
+          variant="GeeTableButton"
+          startIcon={<CheckIcon />}
+          sx={{
+            padding: "5px 10px",
+            position: "absolute",
+            top: "-40px",
+            right: "10px",
+          }}
+        >
+          check stock
+        </Button>
       </Paper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
       <GeeTable

@@ -37,6 +37,18 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "containedPurple" },
+          style: {
+            backgroundColor: "#8f37b8",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#8f37b8",
+            },
+          },
+        },
+        {
           props: { variant: "containedBlue" },
           style: {
             backgroundColor: "#0048D9",

@@ -12,9 +12,9 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
-import { GeeTable } from "../../../GeeComponents";
+import { GeeTable } from "../../../../GeeComponents";
 
-import { TopBorderCard } from "../../../lib/Cards";
+import { TopBorderCard } from "../../../../lib/Cards";
 
 import {
   productMaterialReducer,
@@ -22,7 +22,7 @@ import {
   getProductMaterialPayload,
   validateProductMaterial,
   utils,
-} from "../../../lib/form";
+} from "../../../../lib/form";
 
 export default function MaterialsPerUnit(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;

@@ -93,13 +93,29 @@ create table product_material (
 );
 
 create table product_batches (
-	product_batch_id serial not null,
+	product_batch_id serial primary key,
 	product_id int not null,
 	production_date date not null,
 	expiry_date date not null,
 	qty int not null,
-	status varchar not null
+	status varchar not null,
+	constraint fk_product_id
+		foreign key(product_id)
+			references product(product_id) 
 );
+
+create table in_use_batch (
+	product_batch_id int not null,
+	material_batch_id int not null,
+	qty real not null,
+	primary key (product_batch_id, material_batch_id),
+	constraint fk_product_batch_id
+		foreign key(product_batch_id)
+			references product_batches(product_batch_id),
+	constraint fk_material_batch_id
+		foreign key(material_batch_id)
+			references batches(batch_id)
+)
 
 create table "order" (
 	order_id serial primary key,

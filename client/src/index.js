@@ -28,12 +28,11 @@ import {
   InventoryMaterials,
   EditMaterial,
   InventoryProducts,
-  Production,
+  ProductionCatalog,
   AddProduct,
-  Product,
+  ProductionQueuedJob,
   Pos,
   Supplier,
-  QueuedJob,
   EditSupplier,
 } from "./components/ERPDashboard/";
 
@@ -64,9 +63,9 @@ ReactDOM.render(
           />
           <Route path="inventory/products" element={<InventoryProducts />} />
           <Route path="inventory" element={<Inventory />} />
-          <Route path="production" element={<Production />} />
+          <Route path="production" element={<ProductionCatalog />} />
           <Route path="production/add" element={<AddProduct />} />
-          <Route path="production/jobs" element={<QueuedJob />} />
+          <Route path="production/jobs" element={<ProductionQueuedJob />} />
           <Route path="pos" element={<Pos />} />
           <Route path="supplier" element={<Supplier />} />
           <Route path="supplier/:supplierID/edit" element={<EditSupplier />} />

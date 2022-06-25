@@ -38,10 +38,12 @@ export default function InspectedMaterial(props) {
 
   const getBatches = async () => {
     try {
-      const { data: batchesData } = await axios.get(
+      let { data: batchesData } = await axios.get(
         SERVER_URL + `/api/batches?materialID=${inspectedMaterialID}`,
         { withCredentials: true }
       );
+
+      // batchesData = batchesData.data.filter((b) => b.current_qty !== 0);
 
       batchesData.data.forEach((data) => {
         data.purchase_date = formatDate(data.purchase_date);

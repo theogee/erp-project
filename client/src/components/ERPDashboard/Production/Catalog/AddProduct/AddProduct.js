@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 
-import { ErrorDialog } from "../../../lib/Dialog";
+import { ErrorDialog } from "../../../../lib/Dialog";
 
 import {
   productReducer,
@@ -20,7 +20,7 @@ import {
   sendProduct,
   sendProductMaterial,
   utils,
-} from "../../../lib/form";
+} from "../../../../lib/form";
 
 export default function AddProduct(props) {
   const params = useParams();

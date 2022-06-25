@@ -59,3 +59,12 @@ export const getProductPayload = (product, businessID) => {
     productionProcess: product.productionProcess,
   };
 };
+
+export const getJobPayload = (job) => {
+  return {
+    productID: job.product.id,
+    productionDate: job.productionDate,
+    expiryDate: job.expiryDate,
+    qty: job.qty,
+  };
+};

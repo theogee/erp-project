@@ -7,7 +7,8 @@ module.exports = {
 
       console.log(materialID);
 
-      const sql = "SELECT * FROM batches WHERE material_id = $1";
+      const sql =
+        "SELECT * FROM batches WHERE material_id = $1 ORDER BY purchase_date ASC";
 
       return await pool.query(sql, [materialID]);
     } catch (err) {
@@ -75,7 +76,7 @@ module.exports = {
         arrParam.push(purchaseQty);
       }
 
-      if (currentQty) {
+      if (currentQty || currentQty === 0) {
         sqlParam.push(`current_qty = $${i++}`);
         arrParam.push(currentQty);
       }

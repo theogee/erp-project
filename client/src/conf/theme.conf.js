@@ -61,6 +61,18 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "containedRed" },
+          style: {
+            backgroundColor: "#FA6868",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#FA6868",
+            },
+          },
+        },
+        {
           props: { variant: "containedYellow" },
           style: {
             backgroundColor: "#FFF2CC",

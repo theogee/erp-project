@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import { GeeTable } from "../../GeeComponents";
+import { GeeTable } from "../../../GeeComponents";
 
 export default function ProductsTable(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;

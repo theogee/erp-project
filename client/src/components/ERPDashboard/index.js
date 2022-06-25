@@ -8,4 +8,8 @@ export {
 } from "./Inventory";
 export { Pos } from "./pos";
 export { Supplier, EditSupplier } from "./Supplier";
-export { Production, AddProduct } from "./Production";
+export {
+  ProductionCatalog,
+  AddProduct,
+  ProductionQueuedJob,
+} from "./Production";

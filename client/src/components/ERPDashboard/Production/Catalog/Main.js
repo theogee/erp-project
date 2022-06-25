@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import ProductsTable from "./ProductsTable";
 import InspectedProduct from "./InspectedProduct";
 
-export default function InventoryProducts() {
+export default function Main() {
   const [inspectedProductID, setInspectedProductID] = React.useState(0);
 
   return (

@@ -298,3 +298,65 @@ export const productReducer = {
     return prevErrorProduct;
   },
 };
+
+export const jobReducer = {
+  inputs: (prevJob, action) => {
+    switch (action.type) {
+      case "onchange-job-product":
+        return {
+          ...prevJob,
+          product: { id: action.payload.id, name: action.payload.name },
+        };
+      case "onchange-job-qty":
+        if (action.payload.qty.match(REGEX_NUMBER_DOTS))
+          return {
+            ...prevJob,
+            qty: action.payload.qty,
+          };
+        break;
+      case "onchange-job-productionDate":
+        return {
+          ...prevJob,
+          productionDate: action.payload.productionDate,
+        };
+      case "onchange-job-expiryDate":
+        return {
+          ...prevJob,
+          expiryDate: action.payload.expiryDate,
+        };
+      default:
+        break;
+    }
+    return prevJob;
+  },
+  errors: (prevErrorJob, action) => {
+    switch (action.type) {
+      case "error-product":
+        return {
+          ...prevErrorJob,
+          product: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-qty":
+        return {
+          ...prevErrorJob,
+          qty: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-productionDate":
+        return {
+          ...prevErrorJob,
+          productionDate: {
+            error: action.payload.error,
+            msg: action.payload.msg,
+          },
+        };
+      case "error-expiryDate":
+        return {
+          ...prevErrorJob,
+          expiryDate: { error: action.payload.error, msg: action.payload.msg },
+        };
+      default:
+        break;
+    }
+    return prevErrorJob;
+  },
+};

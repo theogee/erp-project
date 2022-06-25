@@ -70,3 +70,18 @@ export const productModel = {
     productionProcess: { error: false, msg: "" },
   },
 };
+
+export const jobModel = {
+  inputs: {
+    product: { id: "", name: "" },
+    qty: "",
+    productionDate: "",
+    expiryDate: "",
+  },
+  errors: {
+    product: { error: false, msg: "" },
+    qty: { error: false, msg: "" },
+    productionDate: { error: false, msg: "" },
+    expiryDate: { error: false, msg: "" },
+  },
+};

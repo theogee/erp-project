@@ -65,3 +65,13 @@ export const sendProductMaterial = async (payload) => {
 
   return data.success;
 };
+
+export const sendJob = async (payload) => {
+  const { data } = await axios.post(SERVER_URL + "/api/job", payload, {
+    withCredentials: true,
+  });
+
+  if (!data.success) throw new Error("Something went wrong.");
+
+  return data.success;
+};

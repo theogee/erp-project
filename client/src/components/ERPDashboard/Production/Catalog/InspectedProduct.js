@@ -13,9 +13,9 @@ import ModeEditRoundedIcon from "@mui/icons-material/ModeEditRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 
-import { formatPrice } from "../../lib/utils";
+import { formatPrice } from "../../../lib/utils";
 
-import { GeeTable } from "../../GeeComponents";
+import { GeeTable } from "../../../GeeComponents";
 
 export default function InspectedProduct(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -115,7 +115,7 @@ export default function InspectedProduct(props) {
             readOnly: true,
           }}
         />
-        <p css={{ marginBottom: "10px" }}>Material/Unit</p>
+        <p css={{ marginBottom: "10px" }}>Materials/Unit</p>
         <GeeTable
           tableData={inspectedProductMaterials}
           headCells={headCells}

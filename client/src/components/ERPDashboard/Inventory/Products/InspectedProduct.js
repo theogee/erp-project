@@ -7,12 +7,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { GeeTable } from "../../../GeeComponents";
 
-import { TopBorderCard } from "../../../lib/Cards";
-
 import { formatDate, formatPrice } from "../../../lib/utils";
+import { TopBorderCard2 } from "../../../lib/Cards";
 
 export default function InspectedProduct(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -48,15 +49,16 @@ export default function InspectedProduct(props) {
 
         setInspectedProduct(product.data);
 
+        productBatches.data = productBatches.data.filter((b) => b.qty !== 0);
+
         productBatches.data.forEach((pb) => {
           pb.production_date = formatDate(pb.production_date);
           pb.expiry_date = formatDate(pb.expiry_date);
         });
 
         setInspectedProductBatches(productBatches.data);
-        props.setInspectedProductID(productBatches.data[0].product_id);
       } catch (err) {
-        if (err.response.status === 401) navigate("/unauthorized");
+        if (err.response?.status === 401) navigate("/unauthorized");
         else console.log(err);
       }
     })();
@@ -83,25 +85,60 @@ export default function InspectedProduct(props) {
           <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
             Inspecting Product...
           </h1>
-          <Paper variant="customPaper" code="inspect">
-            <p>Name: {inspectedProduct.name}</p>
+          <Paper
+            variant="customPaper"
+            code="inspect"
+            sx={{ position: "relative" }}
+          >
+            <p>Name: {inspectedProduct?.name}</p>
             <p>Total Qty: {calcTotalQty()}</p>
-            <p>Price/Unit: {formatPrice(inspectedProduct.price || 0)}</p>
+            <p>Price/Unit: {formatPrice(inspectedProduct?.price || 0)}</p>
+            {inspectedProductBatches.length !== 0 && (
+              <Button
+                variant="GeeTableButton"
+                startIcon={<CheckIcon />}
+                sx={{
+                  padding: "5px 10px",
+                  position: "absolute",
+                  top: "-40px",
+                  right: "10px",
+                }}
+                onClick={() => navigate(`${inspectedProductID}/checkstock`)}
+              >
+                check stock
+              </Button>
+            )}
           </Paper>
           <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
-          <GeeTable
-            tableData={inspectedProductBatches}
-            headCells={headCells}
-            minWidth="100%"
-            checkedID="product_batch_id"
-            onChecked={(productBatchID) => {}}
-            tableButton={{
-              label: "Refill product",
-              onClick: () => {
-                navigate(`/b/${params.businessID}/dashboard/production/jobs`);
-              },
-            }}
-          />
+          {inspectedProductBatches.length === 0 ? (
+            <TopBorderCard2
+              variant="topBorderYellow"
+              text="Currently there are no stock available for this product. Refill this product to use."
+            >
+              <Button
+                variant="containedYellow"
+                onClick={() =>
+                  navigate(`/b/${params.businessID}/dashboard/production/jobs`)
+                }
+              >
+                Refill product
+              </Button>
+            </TopBorderCard2>
+          ) : (
+            <GeeTable
+              tableData={inspectedProductBatches}
+              headCells={headCells}
+              minWidth="100%"
+              checkedID="product_batch_id"
+              onChecked={(productBatchID) => {}}
+              tableButton={{
+                label: "Refill product",
+                onClick: () => {
+                  navigate(`/b/${params.businessID}/dashboard/production/jobs`);
+                },
+              }}
+            />
+          )}
         </>
       )}
     </Box>

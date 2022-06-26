@@ -10,7 +10,7 @@ module.exports = {
         req.params.productID
       );
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      // if (rowCount === 0) return t.res404("Resource not found", res);
 
       if (status === "green" || status === "yellow" || status === "red")
         rows = rows.filter((r) => r.status === status);

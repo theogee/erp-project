@@ -19,7 +19,7 @@ import { GeeCircleStatus, GeeTable } from "../../../GeeComponents";
 import { AlertDialog, ErrorDialog } from "../../../lib/Dialog";
 
 import { formatDate, formatPrice } from "../../../lib/utils";
-import Check from "@mui/icons-material/Check";
+import { TopBorderCard2 } from "../../../lib/Cards";
 
 export default function InspectedMaterial(props) {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -74,6 +74,7 @@ export default function InspectedMaterial(props) {
 
         getBatches();
       } catch (err) {
+        console.log(err);
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
       }
@@ -83,14 +84,16 @@ export default function InspectedMaterial(props) {
   React.useEffect(() => {
     (async () => {
       try {
-        const { data: supplierData } = await axios.get(
-          SERVER_URL + `/api/supplier/${inspectedBatch.supplier_id}`,
-          {
-            withCredentials: true,
-          }
-        );
+        if (inspectedBatch.supplier_id) {
+          const { data: supplierData } = await axios.get(
+            SERVER_URL + `/api/supplier/${inspectedBatch.supplier_id}`,
+            {
+              withCredentials: true,
+            }
+          );
 
-        setSupplier(supplierData.data[0]);
+          setSupplier(supplierData.data[0]);
+        }
       } catch (err) {
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
@@ -112,7 +115,7 @@ export default function InspectedMaterial(props) {
     { label: "QTY", map: "current_qty", width: "50px" },
     {
       label: "MEAS.",
-      forcedValue: inspectedMaterial.measurement_name,
+      forcedValue: inspectedMaterial?.measurement_name,
       width: "70px",
     },
     { label: "PRICE/UNIT", map: "price_per_unit", width: "60px" },
@@ -143,22 +146,22 @@ export default function InspectedMaterial(props) {
   return (
     <Box>
       <Paper variant="customPaper" code="inspect" sx={{ position: "relative" }}>
-        <p>Name: {inspectedMaterial.name}</p>
+        <p>Name: {inspectedMaterial?.name}</p>
         <p>
-          Total Qty: {calcTotalQty()} {inspectedMaterial.measurement_name}
+          Total Qty: {calcTotalQty()} {inspectedMaterial?.measurement_name}
         </p>
-        {inspectedMaterial.safety_stock_qty && (
+        {inspectedMaterial?.safety_stock_qty && (
           <>
             <p>
-              Safety Stock: {inspectedMaterial.safety_stock_qty}{" "}
-              {inspectedMaterial.measurement_name}
+              Safety Stock: {inspectedMaterial?.safety_stock_qty}{" "}
+              {inspectedMaterial?.measurement_name}
             </p>
             <Stack component="p" direction="row" alignItems="center">
               <p css={{ marginRight: "10px" }}>Status:</p>
               <GeeCircleStatus
                 type="stock"
-                cummulativeQty={inspectedMaterial.cummulative_qty}
-                safetyStockQty={inspectedMaterial.safety_stock_qty}
+                cummulativeQty={inspectedMaterial?.cummulative_qty}
+                safetyStockQty={inspectedMaterial?.safety_stock_qty}
               />
             </Stack>
           </>
@@ -188,50 +191,73 @@ export default function InspectedMaterial(props) {
             <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
           </Paper>
         </Stack>
-        <Button
-          variant="GeeTableButton"
-          startIcon={<CheckIcon />}
-          sx={{
-            padding: "5px 10px",
-            position: "absolute",
-            top: "-40px",
-            right: "10px",
-          }}
-        >
-          check stock
-        </Button>
+        {inspectedBatches.length !== 0 && (
+          <Button
+            variant="GeeTableButton"
+            startIcon={<CheckIcon />}
+            sx={{
+              padding: "5px 10px",
+              position: "absolute",
+              top: "-40px",
+              right: "10px",
+            }}
+            onClick={() => navigate(`${inspectedMaterialID}/checkstock`)}
+          >
+            check stock
+          </Button>
+        )}
       </Paper>
       <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
-      <GeeTable
-        tableData={inspectedBatches}
-        headCells={headCells}
-        minWidth="100%"
-        checkedID="batch_id"
-        onChecked={(batchID) =>
-          setInspectedBatch(
-            inspectedBatches.find((batch) => batch.batch_id === batchID)
-          )
-        }
-        tableButton={{
-          label: "Refill material",
-          onClick: () => setIsRefilling(true),
-        }}
-      />
-      <Paper sx={{ marginTop: "34px" }} variant="customPaper" code="inspect">
-        <p>Supplier: {supplier.name}</p>
-        <p>
-          Purchase Qty: {inspectedBatch.purchase_qty}{" "}
-          {inspectedMaterial.measurement_name}
-        </p>
-        <p>
-          Current Qty: {inspectedBatch.current_qty}{" "}
-          {inspectedMaterial.measurement_name}
-        </p>
-        <p>Price/Unit: {inspectedBatch.price_per_unit}</p>
-        <p>Purchase Price: {inspectedBatch.purchase_price}</p>
-        <p>Purchase Date: {inspectedBatch.purchase_date}</p>
-        <p>Expiry Date: {inspectedBatch.expiry_date}</p>
-      </Paper>
+      {inspectedBatches.length === 0 ? (
+        <TopBorderCard2
+          variant="topBorderYellow"
+          text="Currently there are no stock available for this material. Refill this material to use."
+        >
+          <Button
+            variant="containedYellow"
+            onClick={() => setIsRefilling(true)}
+          >
+            Refill material
+          </Button>
+        </TopBorderCard2>
+      ) : (
+        <>
+          <GeeTable
+            tableData={inspectedBatches}
+            headCells={headCells}
+            minWidth="100%"
+            checkedID="batch_id"
+            onChecked={(batchID) =>
+              setInspectedBatch(
+                inspectedBatches.find((batch) => batch.batch_id === batchID)
+              )
+            }
+            tableButton={{
+              label: "Refill material",
+              onClick: () => setIsRefilling(true),
+            }}
+          />
+          <Paper
+            sx={{ marginTop: "34px" }}
+            variant="customPaper"
+            code="inspect"
+          >
+            <p>Supplier: {supplier?.name}</p>
+            <p>
+              Purchase Qty: {inspectedBatch?.purchase_qty}{" "}
+              {inspectedMaterial?.measurement_name}
+            </p>
+            <p>
+              Current Qty: {inspectedBatch?.current_qty}{" "}
+              {inspectedMaterial?.measurement_name}
+            </p>
+            <p>Price/Unit: {inspectedBatch?.price_per_unit}</p>
+            <p>Purchase Price: {inspectedBatch?.purchase_price}</p>
+            <p>Purchase Date: {inspectedBatch?.purchase_date}</p>
+            <p>Expiry Date: {inspectedBatch?.expiry_date}</p>
+          </Paper>
+        </>
+      )}
       <AlertDialog
         isOpen={isAlertDialogOpen}
         title="Delete the selected material data?"

@@ -25,7 +25,7 @@ module.exports = {
         productID: req.params.productID,
       });
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      // if (rowCount === 0) return t.res404("Resource not found", res);
 
       t.res200payload(rows[0], res);
     } catch (err) {

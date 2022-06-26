@@ -122,6 +122,13 @@ export default createTheme({
           },
         },
         {
+          props: { variant: "topBorderYellow" },
+          style: {
+            border: "1px solid rgba(0, 0, 0, 0.12)",
+            borderTop: "5px solid #f4cc4a",
+          },
+        },
+        {
           props: { variant: "customPaper" },
           style: {
             backgroundColor: "#ffffff",

@@ -13,7 +13,7 @@ import App from "./App";
 import NotFound from "./pages/NotFound";
 import Homepage from "./pages/Home";
 import Pricing from "./pages/PricingPage";
-import Login from "./components/Form/LoginPage";
+import Login from "./components/LandingPage/Form/LoginPage";
 
 import {
   Dashboard,

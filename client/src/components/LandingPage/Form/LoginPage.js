@@ -1,6 +1,6 @@
 import React from "react";
 
-import { isAuth } from "../lib/utils";
+import { isAuth } from "../../lib/utils";
 
 import {
   FormColumn,
@@ -9,8 +9,8 @@ import {
   FormTitle,
   FormButton,
 } from "./FormStyles";
-import { Container } from "../../globalStyles";
-import googleIcon from "../../images/google.png";
+import { Container } from "../../../globalStyles";
+import googleIcon from "../images/google.png";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";

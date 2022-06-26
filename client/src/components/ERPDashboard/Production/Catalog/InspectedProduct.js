@@ -67,84 +67,92 @@ export default function InspectedProduct(props) {
 
   return (
     <Box sx={{ minWidht: "600px", maxWidth: "40vw" }}>
-      <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-        Inspecting Product...
-      </h1>
-      <Paper
-        variant="customPaper"
-        sx={{ padding: "30px", position: "relative" }}
-      >
-        <TextField
-          value={inspectedProduct.name}
-          label="Name"
-          size="small"
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProduct.name ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          value={formatPrice(inspectedProduct.price || 0)}
-          label="Price"
-          size="small"
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProduct.price ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          value={inspectedProduct.production_process}
-          label="Production Process"
-          size="small"
-          multiline
-          minRows={3}
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProduct.production_process ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <p css={{ marginBottom: "10px" }}>Materials/Unit</p>
-        <GeeTable
-          tableData={inspectedProductMaterials}
-          headCells={headCells}
-          checkedID="material_id"
-          onChecked={() => {}}
-          minWidth="100%"
-        />
-        <Stack
-          direction="row"
-          sx={{
-            width: "90px",
-            position: "absolute",
-            right: "10px",
-            top: "-50px",
-          }}
-          justifyContent="space-between"
-        >
-          <Paper variant="elevatedButton" component={Button}>
-            <ModeEditRoundedIcon
-              color="primary"
-              sx={{ fontSize: "20px" }}
-              onClick={() => {}}
+      {inspectedProductID !== 0 && (
+        <>
+          <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
+            Inspecting Product...
+          </h1>
+          <Paper
+            variant="customPaper"
+            sx={{ padding: "30px", position: "relative" }}
+          >
+            <TextField
+              value={inspectedProduct.name}
+              label="Name"
+              size="small"
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProduct.name ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
             />
+            <TextField
+              value={formatPrice(inspectedProduct.price || 0)}
+              label="Price"
+              size="small"
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProduct.price ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              value={inspectedProduct.production_process}
+              label="Production Process"
+              size="small"
+              multiline
+              minRows={3}
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProduct.production_process ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <p css={{ marginBottom: "10px" }}>Materials/Unit</p>
+            <GeeTable
+              tableData={inspectedProductMaterials}
+              headCells={headCells}
+              checkedID="material_id"
+              onChecked={() => {}}
+              minWidth="100%"
+            />
+            <Stack
+              direction="row"
+              sx={{
+                width: "90px",
+                position: "absolute",
+                right: "10px",
+                top: "-50px",
+              }}
+              justifyContent="space-between"
+            >
+              <Paper variant="elevatedButton" component={Button}>
+                <ModeEditRoundedIcon
+                  color="primary"
+                  sx={{ fontSize: "20px" }}
+                  onClick={() => {}}
+                />
+              </Paper>
+              <Paper
+                variant="elevatedButton"
+                component={Button}
+                onClick={() => {}}
+              >
+                <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
+              </Paper>
+            </Stack>
           </Paper>
-          <Paper variant="elevatedButton" component={Button} onClick={() => {}}>
-            <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
-          </Paper>
-        </Stack>
-      </Paper>
+        </>
+      )}
     </Box>
   );
 }

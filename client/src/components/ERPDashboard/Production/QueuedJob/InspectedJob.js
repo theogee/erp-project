@@ -107,77 +107,81 @@ export default function InspectedJob(props) {
 
   return (
     <Box sx={{ minWidht: "600px", maxWidth: "40vw" }}>
-      <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-        Inspecting Job...
-      </h1>
-      <Paper
-        variant="customPaper"
-        sx={{ padding: "30px", position: "relative" }}
-      >
-        <TextField
-          value={inspectedProduct.name}
-          label="Name"
-          size="small"
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProduct.name ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          value={inspectedProductBatch.qty}
-          label="Unit"
-          size="small"
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProductBatch.qty ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          value={inspectedProduct.production_process}
-          label="Production Process"
-          size="small"
-          multiline
-          minRows={3}
-          fullWidth
-          InputLabelProps={{
-            shrink: inspectedProduct.production_process ? true : false,
-          }}
-          css={{ marginBottom: "30px" }}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <p css={{ marginBottom: "10px" }}>Materials/Unit</p>
-        <GeeTable
-          tableData={inspectedProductMaterials}
-          headCells={headCells}
-          checkedID="material_id"
-          onChecked={() => {}}
-          minWidth="100%"
-        />
-        <Button
-          onClick={verifyJob}
-          variant="containedBlue"
-          sx={{ width: "100%", padding: "10px 0", marginTop: "35px" }}
-        >
-          Verify Done
-        </Button>
-        <Button
-          onClick={cancelJob}
-          variant="containedRed"
-          sx={{ width: "100%", padding: "10px 0", marginTop: "16px" }}
-        >
-          Cancel
-        </Button>
-      </Paper>
+      {inspectedJobID !== 0 && (
+        <>
+          <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
+            Inspecting Job...
+          </h1>
+          <Paper
+            variant="customPaper"
+            sx={{ padding: "30px", position: "relative" }}
+          >
+            <TextField
+              value={inspectedProduct.name}
+              label="Name"
+              size="small"
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProduct.name ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              value={inspectedProductBatch.qty}
+              label="Unit"
+              size="small"
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProductBatch.qty ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              value={inspectedProduct.production_process}
+              label="Production Process"
+              size="small"
+              multiline
+              minRows={3}
+              fullWidth
+              InputLabelProps={{
+                shrink: inspectedProduct.production_process ? true : false,
+              }}
+              css={{ marginBottom: "30px" }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <p css={{ marginBottom: "10px" }}>Materials/Unit</p>
+            <GeeTable
+              tableData={inspectedProductMaterials}
+              headCells={headCells}
+              checkedID="material_id"
+              onChecked={() => {}}
+              minWidth="100%"
+            />
+            <Button
+              onClick={verifyJob}
+              variant="containedBlue"
+              sx={{ width: "100%", padding: "10px 0", marginTop: "35px" }}
+            >
+              Verify Done
+            </Button>
+            <Button
+              onClick={cancelJob}
+              variant="containedRed"
+              sx={{ width: "100%", padding: "10px 0", marginTop: "16px" }}
+            >
+              Cancel
+            </Button>
+          </Paper>
+        </>
+      )}
     </Box>
   );
 }

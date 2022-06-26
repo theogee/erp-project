@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 
 import { GeeTable } from "../../../GeeComponents";
 
+import { TopBorderCard } from "../../../lib/Cards";
+
 import { formatDate, formatPrice } from "../../../lib/utils";
 
 export default function InspectedProduct(props) {
@@ -76,28 +78,32 @@ export default function InspectedProduct(props) {
 
   return (
     <Box sx={{ minWidth: "600px" }}>
-      <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
-        Inspecting Product...
-      </h1>
-      <Paper variant="customPaper" code="inspect">
-        <p>Name: {inspectedProduct.name}</p>
-        <p>Total Qty: {calcTotalQty()}</p>
-        <p>Price/Unit: {formatPrice(inspectedProduct.price || 0)}</p>
-      </Paper>
-      <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
-      <GeeTable
-        tableData={inspectedProductBatches}
-        headCells={headCells}
-        minWidth="100%"
-        checkedID="product_batch_id"
-        onChecked={(productBatchID) => {}}
-        tableButton={{
-          label: "Refill product",
-          onClick: () => {
-            navigate(`/b/${params.businessID}/dashboard/production/jobs`);
-          },
-        }}
-      />
+      {inspectedProductID !== 0 && (
+        <>
+          <h1 css={{ fontSize: "20px", marginBottom: "20px" }}>
+            Inspecting Product...
+          </h1>
+          <Paper variant="customPaper" code="inspect">
+            <p>Name: {inspectedProduct.name}</p>
+            <p>Total Qty: {calcTotalQty()}</p>
+            <p>Price/Unit: {formatPrice(inspectedProduct.price || 0)}</p>
+          </Paper>
+          <h2 css={{ fontSize: "15px", margin: "20px 0" }}>Refill Batches</h2>
+          <GeeTable
+            tableData={inspectedProductBatches}
+            headCells={headCells}
+            minWidth="100%"
+            checkedID="product_batch_id"
+            onChecked={(productBatchID) => {}}
+            tableButton={{
+              label: "Refill product",
+              onClick: () => {
+                navigate(`/b/${params.businessID}/dashboard/production/jobs`);
+              },
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 }

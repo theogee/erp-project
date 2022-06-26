@@ -1,6 +1,9 @@
 import React from "react";
+
+import { isAuth } from "../components/lib/utils";
+
 import { styled } from "@mui/material/styles";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,6 +14,14 @@ import googleIcon from "../images/google.png";
 
 export default function Login() {
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    (async () => {
+      const authenticated = await isAuth();
+      if (authenticated) navigate("/dashboard");
+    })();
+  }, []);
 
   const LoginButton = styled(Button)(({ theme }) => ({
     textTransform: "none",
@@ -26,7 +37,6 @@ export default function Login() {
   };
 
   return (
-    
     <main
       style={{
         textAlign: "center",
@@ -37,7 +47,6 @@ export default function Login() {
         flexDirection: "column",
       }}
     >
-      
       <Box>
         <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
           Login to access your account.
@@ -63,7 +72,6 @@ export default function Login() {
       >
         Back to Home
       </Link>
-   
     </main>
   );
 }

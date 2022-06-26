@@ -42,8 +42,8 @@ export default function InspectedMaterial(props) {
         SERVER_URL + `/api/batches?materialID=${inspectedMaterialID}`,
         { withCredentials: true }
       );
-
-      // batchesData = batchesData.data.filter((b) => b.current_qty !== 0);
+      // hides batches with 0 qty
+      batchesData.data = batchesData.data.filter((b) => b.current_qty !== 0);
 
       batchesData.data.forEach((data) => {
         data.purchase_date = formatDate(data.purchase_date);

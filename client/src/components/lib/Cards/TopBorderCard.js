@@ -15,6 +15,7 @@ export default function TopBorderCard(props) {
       <p css={{ marginBottom: "35px", fontFamily: "Roboto, sans-serif" }}>
         {props.text}
       </p>
+      {props.children}
     </Paper>
   );
 }

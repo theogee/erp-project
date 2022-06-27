@@ -76,9 +76,9 @@ module.exports = {
     const { orderID } = params;
 
     const sql = `
-    SELECT *
-    FROM order_product
-    WHERE order_id = $1`;
+    SELECT op.*, p.price, p.name, op.qty * p.price as total
+    FROM order_product op, product p
+    WHERE op.order_id = $1 and op.product_id = p.product_id`;
 
     try {
       return await pool.query(sql, [orderID]);

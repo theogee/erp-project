@@ -68,3 +68,12 @@ export const getJobPayload = (job) => {
     qty: job.qty,
   };
 };
+
+export const getOrderPayload = (order, businessID) => {
+  return {
+    businessID: businessID,
+    orderDate: order.orderDate,
+    clientName: order.clientName,
+    orderItems: order.orderItems,
+  };
+};

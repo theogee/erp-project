@@ -20,6 +20,9 @@ export default createTheme({
     white: {
       main: "#FFFFFF",
     },
+    blue: {
+      main: "#2264E5",
+    },
   },
   components: {
     MuiButton: {

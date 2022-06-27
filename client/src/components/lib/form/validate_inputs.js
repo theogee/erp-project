@@ -207,3 +207,21 @@ export const validateJob = (payload) => {
 
   return errorMsg;
 };
+
+export const validateOrder = (payload) => {
+  const errorMsg = {
+    clientName: "",
+    orderDate: "",
+    orderItems: "",
+  };
+
+  if (!payload.orderDate) {
+    errorMsg.orderDate = "Order date can't be empty.";
+  }
+
+  if (payload.orderItems.length === 0) {
+    errorMsg.orderItems = "Order items can't be empty.";
+  }
+
+  return errorMsg;
+};

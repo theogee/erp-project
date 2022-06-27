@@ -10,9 +10,9 @@ import { ThemeProvider } from "@mui/material/styles";
 
 // Pages
 import App from "./App";
-import NotFound from "./pages/NotFound";
-import Homepage from "./pages/Home";
-import Pricing from "./pages/PricingPage";
+import NotFound from "./components/LandingPage/pages/NotFound";
+import Homepage from "./components/LandingPage/pages/Home";
+import Pricing from "./components/LandingPage/pages/PricingPage";
 import Login from "./components/LandingPage/Form/LoginPage";
 
 import {
@@ -33,12 +33,13 @@ import {
   ProductionCatalog,
   AddProduct,
   ProductionQueuedJob,
-  Pos,
   Supplier,
   EditSupplier,
+  POS,
+  Cashier,
 } from "./components/ERPDashboard/";
 
-import Unauthorized from "./pages/Unauthorized";
+import Unauthorized from "./components/LandingPage/pages/Unauthorized";
 
 const rootElement = document.getElementById("root");
 
@@ -76,7 +77,8 @@ ReactDOM.render(
           <Route path="production" element={<ProductionCatalog />} />
           <Route path="production/add" element={<AddProduct />} />
           <Route path="production/jobs" element={<ProductionQueuedJob />} />
-          <Route path="pos" element={<Pos />} />
+          <Route path="pos" element={<POS />} />
+          <Route path="pos/cashier" element={<Cashier />} />
           <Route path="supplier" element={<Supplier />} />
           <Route path="supplier/:supplierID/edit" element={<EditSupplier />} />
         </Route>

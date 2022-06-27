@@ -360,3 +360,50 @@ export const jobReducer = {
     return prevErrorJob;
   },
 };
+
+export const orderReducer = {
+  inputs: (prevOrder, action) => {
+    switch (action.type) {
+      case "onchange-order-clientName":
+        return {
+          ...prevOrder,
+          clientName: action.payload.clientName,
+        };
+      case "onchange-order-orderDate":
+        return {
+          ...prevOrder,
+          orderDate: action.payload.orderDate,
+        };
+      case "onchange-order-orderItems":
+        return {
+          ...prevOrder,
+          orderItems: action.payload.orderItems,
+        };
+      default:
+        break;
+    }
+    return prevOrder;
+  },
+  errors: (prevErrorOrder, action) => {
+    switch (action.type) {
+      case "error-clientName":
+        return {
+          ...prevErrorOrder,
+          clientName: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-orderDate":
+        return {
+          ...prevErrorOrder,
+          orderDate: { error: action.payload.error, msg: action.payload.msg },
+        };
+      case "error-orderItems":
+        return {
+          ...prevErrorOrder,
+          orderItems: { error: action.payload.error, msg: action.payload.msg },
+        };
+      default:
+        break;
+    }
+    return prevErrorOrder;
+  },
+};

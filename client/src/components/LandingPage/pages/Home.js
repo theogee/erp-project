@@ -1,9 +1,9 @@
 import React from "react";
 
-import Carousel from "../components/Carousel/Carousel";
-import { Content } from "../components/Content/Content";
-import Features from "../components/Features/Features";
-import Hero from "../components/Hero/Hero";
+import Carousel from "../Carousel/Carousel";
+import { Content } from "../Content/Content";
+import Features from "../Features/Features";
+import Hero from "../Hero/Hero";
 import { heroOne, heroTwo, heroThree } from "../data/HeroData";
 
 // Hero Feature Content Carousel

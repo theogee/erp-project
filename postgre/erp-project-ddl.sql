@@ -121,6 +121,7 @@ create table "order" (
 	order_id serial primary key,
 	business_id int not null,
 	order_date date not null,
+	client_name varchar,
 	constraint fk_business
 		foreign key(business_id)
 			references business(business_id)

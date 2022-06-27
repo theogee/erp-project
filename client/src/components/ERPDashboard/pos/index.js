@@ -1,1 +1,2 @@
-export { default as Pos } from "./Pos";
+export { default as POS } from "./Main";
+export { Cashier } from "./Cashier";

@@ -85,3 +85,16 @@ export const jobModel = {
     expiryDate: { error: false, msg: "" },
   },
 };
+
+export const orderModel = {
+  inputs: {
+    clientName: "",
+    orderDate: "",
+    orderItems: [],
+  },
+  errors: {
+    clientName: { error: false, msg: "" },
+    orderDate: { error: false, msg: "" },
+    orderItems: { error: false, msg: "" },
+  },
+};

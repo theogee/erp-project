@@ -169,7 +169,7 @@ export default function InspectedProduct(props) {
                     setErrorDialog({
                       isOpen: true,
                       title: "Can not edit product data.",
-                      text: "This product have on going processes. Finish or cancel the process first to edit this product.",
+                      text: "This product has on going processes. Finish or cancel the process first to edit this product.",
                     });
                 }}
               >
@@ -188,7 +188,7 @@ export default function InspectedProduct(props) {
                     setErrorDialog({
                       isOpen: true,
                       title: "Can not delete product data.",
-                      text: "This product have on going processes. Finish or cancel the process first to delete this product.",
+                      text: "This product has on going processes. Finish or cancel the process first to delete this product.",
                     });
                   }
                 }}

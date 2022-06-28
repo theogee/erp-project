@@ -35,6 +35,17 @@ module.exports = {
       throw err;
     }
   },
+  deleteAllProductBatchByProductID: async (params) => {
+    try {
+      const { productID } = params;
+
+      const sql = "DELETE FROM product_batches WHERE product_id = $1";
+
+      return await pool.query(sql, [productID]);
+    } catch (err) {
+      throw err;
+    }
+  },
   deleteProductBatch: async (params) => {
     const { productBatchID, businessID } = params;
 

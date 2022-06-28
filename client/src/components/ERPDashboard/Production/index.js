@@ -1,2 +1,2 @@
-export { ProductionCatalog, AddProduct } from "./Catalog";
+export { ProductionCatalog, AddProduct, EditProduct } from "./Catalog";
 export { ProductionQueuedJob } from "./QueuedJob";

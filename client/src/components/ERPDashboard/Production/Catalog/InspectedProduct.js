@@ -14,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 
 import { formatPrice } from "../../../lib/utils";
-
+import { ErrorDialog, AlertDialog } from "../../../lib/Dialog";
 import { GeeTable } from "../../../GeeComponents";
 
 export default function InspectedProduct(props) {
@@ -23,31 +23,44 @@ export default function InspectedProduct(props) {
   const { inspectedProductID } = props;
 
   const navigate = useNavigate();
-  const params = useParams();
 
   const [inspectedProduct, setInspectedProduct] = React.useState({});
   const [inspectedProductMaterials, setInspectedProductMaterials] =
     React.useState([]);
 
+  const [hasOngoingProcess, setHasOnGoingProcess] = React.useState(false);
+  const [errorDialog, setErrorDialog] = React.useState({
+    isOpen: false,
+    title: "",
+    text: "",
+  });
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = React.useState(false);
+
   React.useEffect(() => {
     (async () => {
       try {
-        const getProduct = () =>
+        const [
+          { data: product },
+          { data: productMaterials },
+          { data: productBatches },
+        ] = await Promise.all([
           axios.get(SERVER_URL + `/api/product/${inspectedProductID}`, {
             withCredentials: true,
-          });
-
-        const getProductMaterials = () =>
+          }),
           axios.get(
             SERVER_URL +
               `/api/product_material?productID=${inspectedProductID}`,
             { withCredentials: true }
-          );
+          ),
+          axios.get(
+            SERVER_URL +
+              `/api/product_batches/p/${inspectedProductID}?status=yellow`,
+            { withCredentials: true }
+          ),
+        ]);
 
-        const [{ data: product }, { data: productMaterials }] =
-          await Promise.all([getProduct(), getProductMaterials()]);
-
-        console.log(product);
+        if (productBatches.data.length !== 0) setHasOnGoingProcess(true);
+        else setHasOnGoingProcess(false);
 
         setInspectedProduct(product.data);
         setInspectedProductMaterials(productMaterials.data);
@@ -64,6 +77,17 @@ export default function InspectedProduct(props) {
     { label: "QTY", map: "qty" },
     { label: "MEA.", map: "measurement_name" },
   ];
+
+  const deleteProduct = async () => {
+    try {
+      await axios.delete(SERVER_URL + `/api/product/${inspectedProductID}`, {
+        withCredentials: true,
+      });
+      props.refresh();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Box sx={{ minWidht: "600px", maxWidth: "40vw" }}>
@@ -135,22 +159,59 @@ export default function InspectedProduct(props) {
               }}
               justifyContent="space-between"
             >
-              <Paper variant="elevatedButton" component={Button}>
+              <Paper
+                variant="elevatedButton"
+                component={Button}
+                onClick={() => {
+                  if (!hasOngoingProcess)
+                    navigate(`${inspectedProductID}/edit`);
+                  else
+                    setErrorDialog({
+                      isOpen: true,
+                      title: "Can not edit product data.",
+                      text: "This product have on going processes. Finish or cancel the process first to edit this product.",
+                    });
+                }}
+              >
                 <ModeEditRoundedIcon
                   color="primary"
                   sx={{ fontSize: "20px" }}
-                  onClick={() => {}}
                 />
               </Paper>
               <Paper
                 variant="elevatedButton"
                 component={Button}
-                onClick={() => {}}
+                onClick={() => {
+                  if (!hasOngoingProcess) {
+                    setIsAlertDialogOpen(true);
+                  } else {
+                    setErrorDialog({
+                      isOpen: true,
+                      title: "Can not delete product data.",
+                      text: "This product have on going processes. Finish or cancel the process first to delete this product.",
+                    });
+                  }
+                }}
               >
                 <DeleteIcon color="red" sx={{ fontSize: "20px" }} />
               </Paper>
             </Stack>
           </Paper>
+          <ErrorDialog
+            isOpen={errorDialog.isOpen}
+            title={errorDialog.title}
+            text={errorDialog.text}
+            onCancel={() =>
+              setErrorDialog((prevState) => ({ ...prevState, isOpen: false }))
+            }
+          />
+          <AlertDialog
+            isOpen={isAlertDialogOpen}
+            title="Delete the selected product data?"
+            text="You will not be able to recover this data!"
+            onDelete={deleteProduct}
+            onCancel={() => setIsAlertDialogOpen(false)}
+          />
         </>
       )}
     </Box>

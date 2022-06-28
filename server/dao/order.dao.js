@@ -17,9 +17,9 @@ module.exports = {
       const { orderID } = params;
 
       const sql = `
-      SELECT o.*, SUM(op.qty * p.price) AS grand_total
-      FROM "order" o, order_product op, product p 
-      WHERE o.order_id = op.order_id AND op.product_id = p.product_id AND o.order_id = $1
+      SELECT o.*, SUM(op.qty * op.product_price) AS grand_total
+      FROM "order" o, order_product op
+      WHERE o.order_id = op.order_id AND o.order_id = $1
       GROUP BY o.order_id`;
 
       return await pool.query(sql, [orderID]);

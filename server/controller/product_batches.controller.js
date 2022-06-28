@@ -77,10 +77,11 @@ module.exports = {
       t.res500(err, res);
     }
   },
+
   deleteProductBatch: async (req, res) => {
     try {
       const params = {
-        productID: req.params.productBatchID,
+        productBatchID: req.params.productBatchID,
         userID: req.user.user_id,
       };
 

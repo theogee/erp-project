@@ -11,6 +11,7 @@ export { Supplier, EditSupplier } from "./Supplier";
 export {
   ProductionCatalog,
   AddProduct,
+  EditProduct,
   ProductionQueuedJob,
 } from "./Production";
 export { POS, Cashier } from "./POS";

@@ -77,7 +77,7 @@ module.exports = {
   },
 
   updateProduct: async (params) => {
-    const { name, price, productID, userID } = params;
+    const { name, price, productionProcess, productID, userID } = params;
 
     let i = 1;
 
@@ -92,6 +92,11 @@ module.exports = {
     if (price) {
       sqlParam.push(`price = $${i++}`);
       arrParam.push(price);
+    }
+
+    if (productionProcess) {
+      sqlParam.push(`production_process = $${i++}`);
+      arrParam.push(productionProcess);
     }
 
     const sql = `

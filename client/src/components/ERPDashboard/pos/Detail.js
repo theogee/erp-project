@@ -29,13 +29,14 @@ export default function Detail(props) {
           );
 
           transactionData.data.order_items.forEach((i) => {
-            i.price = formatPrice(i.price);
+            i.product_price = formatPrice(i.product_price);
             i.total = formatPrice(i.total);
           });
 
           setInspectedTransaction(transactionData.data);
         }
       } catch (err) {
+        console.log(err);
         if (err.response.status === 401) navigate("/unauthorized");
         else console.log(err);
       }
@@ -44,9 +45,9 @@ export default function Detail(props) {
 
   const headCells = [
     { label: "NO", map: "definedIndex", width: "35px" },
-    { label: "ITEM", map: "name" },
+    { label: "ITEM", map: "product_name" },
     { label: "QTY", map: "qty" },
-    { label: "PRICE/UNIT", map: "price" },
+    { label: "PRICE/UNIT", map: "product_price" },
     { label: "TOTAL", map: "total" },
   ];
 

@@ -1,13 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import GlobalStyle from "./globalStyles";
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/LandingPage/Navbar/Navbar";
+import Footer from "./components/LandingPage/Footer/Footer";
 
-export default function App() {
+function App() {
   return (
-    <main>
-      <h1>Hello World!</h1>
-      <nav>
-        <Link to="/login">Login</Link>
-      </nav>
-    </main>
+    <>
+      <GlobalStyle />
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }
+
+export default App;

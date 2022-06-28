@@ -20,6 +20,9 @@ export default createTheme({
     white: {
       main: "#FFFFFF",
     },
+    blue: {
+      main: "#2264E5",
+    },
   },
   components: {
     MuiButton: {
@@ -57,6 +60,18 @@ export default createTheme({
             fontWeight: 400,
             "&:hover": {
               backgroundColor: "#0048D9",
+            },
+          },
+        },
+        {
+          props: { variant: "containedRed" },
+          style: {
+            backgroundColor: "#FA6868",
+            color: "white",
+            textTransform: "none",
+            fontWeight: 400,
+            "&:hover": {
+              backgroundColor: "#FA6868",
             },
           },
         },
@@ -107,6 +122,13 @@ export default createTheme({
           style: {
             border: "1px solid rgba(0, 0, 0, 0.12)",
             borderTop: "5px solid #4af48e",
+          },
+        },
+        {
+          props: { variant: "topBorderYellow" },
+          style: {
+            border: "1px solid rgba(0, 0, 0, 0.12)",
+            borderTop: "5px solid #f4cc4a",
           },
         },
         {

@@ -1,2 +1,2 @@
-export { default as Production } from "./Production";
-export { AddProduct } from "./AddProduct";
+export { ProductionCatalog, AddProduct, EditProduct } from "./Catalog";
+export { ProductionQueuedJob } from "./QueuedJob";

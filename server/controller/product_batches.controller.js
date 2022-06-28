@@ -10,7 +10,7 @@ module.exports = {
         req.params.productID
       );
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      // if (rowCount === 0) return t.res404("Resource not found", res);
 
       if (status === "green" || status === "yellow" || status === "red")
         rows = rows.filter((r) => r.status === status);
@@ -22,11 +22,16 @@ module.exports = {
   },
   getProductBatchesByBusinessID: async (req, res) => {
     try {
-      const { rowCount, rows } = await dao.getProductBatchesByBusinessID(
+      const { status } = req.query;
+
+      let { rowCount, rows } = await dao.getProductBatchesByBusinessID(
         req.query
       );
 
       if (rowCount === 0) return t.res404("Resource not found", res);
+
+      if (status === "green" || status === "yellow" || status === "red")
+        rows = rows.filter((r) => r.status === status);
 
       t.res200payload(rows, res);
     } catch (err) {
@@ -72,10 +77,11 @@ module.exports = {
       t.res500(err, res);
     }
   },
+
   deleteProductBatch: async (req, res) => {
     try {
       const params = {
-        productID: req.params.productBatchID,
+        productBatchID: req.params.productBatchID,
         userID: req.user.user_id,
       };
 

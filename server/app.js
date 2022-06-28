@@ -19,6 +19,7 @@ const productRouter = require("./routes/product.router");
 const productMaterialRouter = require("./routes/product_material.router");
 const productBatchesRouter = require("./routes/product_batches.router");
 const measurementRouter = require("./routes/measurement.router");
+const jobRouter = require("./routes/job.router");
 
 const { isAuth } = require("./middleware");
 
@@ -49,5 +50,6 @@ app.use("/api/product", isAuth, productRouter);
 app.use("/api/product_material", isAuth, productMaterialRouter);
 app.use("/api/measurement", isAuth, measurementRouter);
 app.use("/api/product_batches", isAuth, productBatchesRouter);
+app.use("/api/job", isAuth, jobRouter);
 
 app.listen(5000, () => console.log("http://localhost:5000"));

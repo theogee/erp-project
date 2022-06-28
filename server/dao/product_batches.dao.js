@@ -35,6 +35,17 @@ module.exports = {
       throw err;
     }
   },
+  deleteAllProductBatchByProductID: async (params) => {
+    try {
+      const { productID } = params;
+
+      const sql = "DELETE FROM product_batches WHERE product_id = $1";
+
+      return await pool.query(sql, [productID]);
+    } catch (err) {
+      throw err;
+    }
+  },
   deleteProductBatch: async (params) => {
     const { productBatchID, businessID } = params;
 
@@ -52,13 +63,13 @@ module.exports = {
   },
 
   postProductBatch: async (params) => {
-    const { productID, productionDate, expiryDate, quantity } = params;
+    const { productID, productionDate, expiryDate, qty, status } = params;
 
     const sql = `
     INSERT
     INTO product_batches
     VALUES
-    (default, $1, $2, $3, $4)
+    (default, $1, $2, $3, $4, $5)
     RETURNING *`;
 
     try {
@@ -66,7 +77,8 @@ module.exports = {
         productID,
         productionDate,
         expiryDate,
-        quantity,
+        qty,
+        status,
       ]);
     } catch (err) {
       throw err;
@@ -74,8 +86,14 @@ module.exports = {
   },
 
   updateProductBatch: async (params) => {
-    const { productionDate, expiryDate, quantity, productBatchID, businessID } =
-      params;
+    const {
+      productionDate,
+      expiryDate,
+      qty,
+      productBatchID,
+      status,
+      businessID,
+    } = params;
 
     let i = 1;
 
@@ -92,9 +110,15 @@ module.exports = {
       arrParam.push(expiryDate);
     }
 
-    if (quantity) {
+    if (qty || qty === 0) {
       sqlParam.push(`qty = $${i++}`);
-      arrParam.push(quantity);
+      arrParam.push(qty);
+    }
+
+    if (status) {
+      sqlParam.push(`status = $${i++}`);
+      arrParam.push(status);
+      console.log(status);
     }
 
     const sql = `

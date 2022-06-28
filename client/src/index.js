@@ -10,10 +10,10 @@ import { ThemeProvider } from "@mui/material/styles";
 
 // Pages
 import App from "./App";
-import NotFound from "./pages/NotFound";
-import Homepage from "./pages/Home";
-import Pricing from "./pages/PricingPage";
-import Login from "./components/Form/LoginPage";
+import NotFound from "./components/LandingPage/pages/NotFound";
+import Homepage from "./components/LandingPage/pages/Home";
+import Pricing from "./components/LandingPage/pages/PricingPage";
+import Login from "./components/LandingPage/Form/LoginPage";
 
 import {
   Dashboard,
@@ -26,18 +26,21 @@ import {
   ERPDashboard,
   Inventory,
   InventoryMaterials,
+  CheckStockMaterial,
+  CheckStockProduct,
   EditMaterial,
   InventoryProducts,
-  Production,
+  ProductionCatalog,
   AddProduct,
-  Product,
-  Pos,
+  EditProduct,
+  ProductionQueuedJob,
   Supplier,
-  QueuedJob,
   EditSupplier,
+  POS,
+  Cashier,
 } from "./components/ERPDashboard/";
 
-import Unauthorized from "./pages/Unauthorized";
+import Unauthorized from "./components/LandingPage/pages/Unauthorized";
 
 const rootElement = document.getElementById("root");
 
@@ -62,12 +65,22 @@ ReactDOM.render(
             path="inventory/materials/:materialID/edit"
             element={<EditMaterial />}
           />
+          <Route
+            path="inventory/materials/:materialID/checkstock"
+            element={<CheckStockMaterial />}
+          />
           <Route path="inventory/products" element={<InventoryProducts />} />
+          <Route
+            path="inventory/products/:productID/checkstock"
+            element={<CheckStockProduct />}
+          />
           <Route path="inventory" element={<Inventory />} />
-          <Route path="production" element={<Production />} />
+          <Route path="production" element={<ProductionCatalog />} />
           <Route path="production/add" element={<AddProduct />} />
-          <Route path="production/jobs" element={<QueuedJob />} />
-          <Route path="pos" element={<Pos />} />
+          <Route path="production/:productID/edit" element={<EditProduct />} />
+          <Route path="production/jobs" element={<ProductionQueuedJob />} />
+          <Route path="pos" element={<POS />} />
+          <Route path="pos/cashier" element={<Cashier />} />
           <Route path="supplier" element={<Supplier />} />
           <Route path="supplier/:supplierID/edit" element={<EditSupplier />} />
         </Route>

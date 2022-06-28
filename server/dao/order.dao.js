@@ -16,7 +16,11 @@ module.exports = {
     try {
       const { orderID } = params;
 
-      const sql = 'SELECT * FROM "order" WHERE order_id = $1';
+      const sql = `
+      SELECT o.*, SUM(op.qty * op.product_price) AS grand_total
+      FROM "order" o, order_product op
+      WHERE o.order_id = op.order_id AND o.order_id = $1
+      GROUP BY o.order_id`;
 
       return await pool.query(sql, [orderID]);
     } catch (err) {
@@ -25,12 +29,12 @@ module.exports = {
   },
   postOrder: async (params) => {
     try {
-      const { businessID, orderDate } = params;
+      const { businessID, orderDate, clientName } = params;
 
       const sql =
-        'INSERT INTO "order" VALUES (default, $1, $2) RETURNING order_id';
+        'INSERT INTO "order" VALUES (default, $1, $2, $3) RETURNING order_id';
 
-      return await pool.query(sql, [businessID, orderDate]);
+      return await pool.query(sql, [businessID, orderDate, clientName]);
     } catch (err) {
       throw err;
     }

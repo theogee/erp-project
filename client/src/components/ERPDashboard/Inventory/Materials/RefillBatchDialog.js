@@ -124,7 +124,7 @@ export default function RefillBatchDialog(props) {
             ))}
           </TextField>
           <TextField
-            value={props.inspectedMaterial.name}
+            value={props.inspectedMaterial?.name}
             label="Material name"
             variant="outlined"
             color="black"
@@ -157,7 +157,7 @@ export default function RefillBatchDialog(props) {
               size="small"
             />
             <TextField
-              value={props.inspectedMaterial.measurement_name}
+              value={props.inspectedMaterial?.measurement_name}
               disabled
               label="Measurement"
               sx={{ flexGrow: 40 }}

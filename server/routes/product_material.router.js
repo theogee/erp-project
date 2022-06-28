@@ -5,7 +5,7 @@ const productMaterialController = require("../controller/product_material.contro
 router.get("/", productMaterialController.getAllMaterialOfProductID);
 //router.get("/:productID", productMaterialController.getProductParams);
 router.post("/", productMaterialController.postAllMaterialOfProductID);
-//router.put("/:productID", productMaterialController.updateProduct);
+router.put("/", productMaterialController.putAllMaterialOfProductID);
 //router.delete("/:productID", productMaterialController.deleteProduct);
 
 module.exports = router;

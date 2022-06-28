@@ -72,6 +72,8 @@ const determineValue = (cell, data, i, page) => {
         status={data.status}
       />
     );
+  } else if (cell.map === "customComponent") {
+    return cell.customComponent(data);
   } else return data[cell.map];
 };
 
@@ -118,6 +120,7 @@ export default function GeeTable(props) {
     tableButton,
     minWidth,
     maxWidth,
+    withCheckbox,
   } = props;
 
   const [page, setPage] = React.useState(0);
@@ -147,13 +150,15 @@ export default function GeeTable(props) {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <Stack
-              component={StyledTableCell}
-              alignItems="center"
-              justifyItems="center"
-            >
-              <InfoIcon sx={{ width: "17px" }} />
-            </Stack>
+            {withCheckbox !== false && (
+              <Stack
+                component={StyledTableCell}
+                alignItems="center"
+                justifyItems="center"
+              >
+                <InfoIcon sx={{ width: "17px" }} />
+              </Stack>
+            )}
             {headCells.map((cell) => (
               <StyledTableCell
                 key={cell.label}
@@ -176,19 +181,21 @@ export default function GeeTable(props) {
                   key={data.name}
                   id={i === selected ? "selected" : ""}
                 >
-                  <StyledTableCell
-                    sx={{ width: "30px", padding: 0 }}
-                    align="center"
-                  >
-                    <CustomCheckbox
-                      value={i}
-                      selected={selected}
-                      onChange={(newState) => {
-                        setSelected(newState);
-                        onChecked(data[checkedID]);
-                      }}
-                    />
-                  </StyledTableCell>
+                  {withCheckbox !== false && (
+                    <StyledTableCell
+                      sx={{ width: "30px", padding: 0 }}
+                      align="center"
+                    >
+                      <CustomCheckbox
+                        value={i}
+                        selected={selected}
+                        onChange={(newState) => {
+                          setSelected(newState);
+                          onChecked(data[checkedID]);
+                        }}
+                      />
+                    </StyledTableCell>
+                  )}
                   {headCells.map((cell) => (
                     <StyledTableCell>
                       {determineValue(cell, data, i, page)}

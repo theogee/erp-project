@@ -1,4 +1,6 @@
 const dao = require("../dao/product.dao");
+const daoPorductBatches = require("../dao/product_batches.dao");
+const daoProductMaterial = require("../dao/product_material.dao");
 const t = require("../template/response.template");
 
 module.exports = {
@@ -25,7 +27,7 @@ module.exports = {
         productID: req.params.productID,
       });
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
+      // if (rowCount === 0) return t.res404("Resource not found", res);
 
       t.res200payload(rows[0], res);
     } catch (err) {
@@ -60,16 +62,26 @@ module.exports = {
   },
   deleteProduct: async (req, res) => {
     try {
+      // 1. delete all product_batches data of the product
+      // 2. delete all product_material data of the product
+      // 3. delete the product
       const params = {
         productID: req.params.productID,
         userID: req.user.user_id,
       };
 
-      const { rowCount, rows } = await dao.deleteProduct(params);
+      await daoPorductBatches.deleteAllProductBatchByProductID({
+        productID: req.params.productID,
+      });
+      await daoProductMaterial.deleteAllMaterialOfProductID({
+        productID: req.params.productID,
+      });
+      await dao.deleteProduct(params);
 
-      if (rowCount === 0) return t.res404("Resource not found", res);
-
-      t.res200payload(rows[0], res);
+      t.res200msg(
+        `product id: ${req.params.productID} deleted successfully`,
+        res
+      );
     } catch (err) {
       t.res500(err, res);
     }

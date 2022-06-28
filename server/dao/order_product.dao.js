@@ -76,9 +76,9 @@ module.exports = {
     const { orderID } = params;
 
     const sql = `
-    SELECT *
-    FROM order_product
-    WHERE order_id = $1`;
+    SELECT op.*, op.qty * op.product_price as total
+    FROM order_product op
+    WHERE op.order_id = $1`;
 
     try {
       return await pool.query(sql, [orderID]);
@@ -90,14 +90,19 @@ module.exports = {
     try {
       const { orderID, orderItems } = params;
 
+      console.log(orderItems);
+
       const values = orderItems.map(
-        (item) => `(${orderID}, ${item.productID}, ${item.qty})`
+        (item) =>
+          `(default, ${orderID}, '${item.productName}', ${item.productPrice}, ${item.qty})`
       );
 
       const sql = `
       INSERT INTO order_product
       VALUES
       ${values.join(",")}`;
+
+      console.log(sql);
 
       return await pool.query(sql);
     } catch (err) {

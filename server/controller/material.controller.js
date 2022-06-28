@@ -20,8 +20,8 @@ module.exports = {
         materialID: req.params.materialID,
       });
 
-      if (rowCount === 0)
-        return tmplt.res404("Material cannot be retrieved", res);
+      // if (rowCount === 0)
+      //   return tmplt.res404("Material cannot be retrieved", res);
       return tmplt.res200payload(rows[0], res);
     } catch (err) {
       return tmplt.res500(err, res);

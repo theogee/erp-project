@@ -176,3 +176,52 @@ export const validateProduct = (payload) => {
 
   return errorMsg;
 };
+
+export const validateJob = (payload) => {
+  const errorMsg = {
+    product: "",
+    qty: "",
+    productionDate: "",
+    expiryDate: "",
+  };
+
+  if (!payload.productID) {
+    errorMsg.product = "Product can't be empty.";
+  }
+
+  if (!payload.productionDate) {
+    errorMsg.productionDate = "Production date can't be empty.";
+  }
+
+  if (!payload.expiryDate) {
+    errorMsg.expiryDate = "Expiry date can't be empty.";
+  }
+
+  if (payload.qty) {
+    if (!isDecimal(payload.qty))
+      errorMsg.qty =
+        "Qty must be valid number and can only consist 0-9, and dots.";
+  } else {
+    errorMsg.qty = "Qty can't be empty.";
+  }
+
+  return errorMsg;
+};
+
+export const validateOrder = (payload) => {
+  const errorMsg = {
+    clientName: "",
+    orderDate: "",
+    orderItems: "",
+  };
+
+  if (!payload.orderDate) {
+    errorMsg.orderDate = "Order date can't be empty.";
+  }
+
+  if (payload.orderItems.length === 0) {
+    errorMsg.orderItems = "Order items can't be empty.";
+  }
+
+  return errorMsg;
+};

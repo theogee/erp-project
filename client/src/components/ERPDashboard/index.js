@@ -14,4 +14,4 @@ export {
   EditProduct,
   ProductionQueuedJob,
 } from "./Production";
-export { POS, Cashier } from "./POS";
+export { POS, Cashier } from "./pos";

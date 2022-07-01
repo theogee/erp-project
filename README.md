@@ -24,3 +24,5 @@ Step-by-step:
 ## ARCHITECTURE
 <img style="height:400px" alt="architecture" src="https://user-images.githubusercontent.com/85065433/165529722-254cd1aa-75ad-4ca1-b30d-5b739cb7f944.png"/>
 
+## SCREENSHOT EXAMPLE
+<img style="" alt="erp dashboard: inventory materials" src="https://user-images.githubusercontent.com/85065433/176886226-06287d16-d19e-4722-a886-8ddab914bf5f.PNG"/>

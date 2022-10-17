@@ -7,7 +7,8 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 
-import { formatPrice, formatDate } from "../../lib/utils";
+import formatDate from "../../lib/utils";
+import formatPrice from "../../lib/utils";
 
 import { GeeTable } from "../../GeeComponents";
 

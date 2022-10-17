@@ -12,7 +12,9 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import { GeeTable } from "../../../GeeComponents";
 
-import { formatDate, formatPrice } from "../../../lib/utils";
+import formatDate from "../../../lib/utils";
+import formatPrice from "../../../lib/utils";
+
 import { TopBorderCard2 } from "../../../lib/Cards";
 
 export default function InspectedProduct(props) {

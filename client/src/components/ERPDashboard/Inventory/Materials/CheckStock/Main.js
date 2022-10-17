@@ -11,7 +11,8 @@ import Paper from "@mui/material/Paper";
 
 import { GeeCircleStatus, GeeTable } from "../../../../GeeComponents";
 
-import { formatDate, formatPrice } from "../../../../lib/utils";
+import formatDate from "../../../../lib/utils";
+import formatPrice from "../../../../lib/utils";
 
 import UpdateStock from "./UpdateStock";
 

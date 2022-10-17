@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 
 import { GeeTable } from "../../GeeComponents";
 
-import { formatDate } from "../../lib/utils";
+import formatDate from "../../lib/utils";
 
 import Detail from "./Detail";
 import { TopBorderCard2 } from "../../lib/Cards";
